@@ -214,6 +214,7 @@ const GeneralInfoMenu = () => {
                     <div className={s.generalInfoMenuForm__errors}>
                       <ErrorMessage name="status" />
                     </div>
+                    <div className={s.generalInfoMenuForm__input_gray}></div>
                   </div>
                 </div>
                 <div>
