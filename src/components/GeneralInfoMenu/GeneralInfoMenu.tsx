@@ -2,6 +2,13 @@ import React, { useState } from "react"
 import s from "./GeneralInfoMenu.module.scss"
 import { Formik, Form, Field, ErrorMessage, FormikState } from "formik"
 import { orderGeneralInfoSchema } from "../../libs/yup/createNewOrderGeneralInfo.schema"
+import UserIcon from "src/images/svg/UserIcon"
+import EmailIcon from "src/images/svg/EmailIcon"
+import PhoneIcon from "src/images/svg/PhoneIcon"
+import MapMarkerIcon from "src/images/svg/MapMarkerIcon"
+import DeliveryIcon from "src/images/svg/DeliveryIcon"
+import CreditCardIcon from "src/images/svg/CreditCardIcon"
+import CommentIcon from "src/images/svg/CommentIcon"
 
 interface initialStateType {
   name: string
@@ -66,6 +73,9 @@ const GeneralInfoMenu = () => {
                     <div className={s.generalInfoMenuForm__errors}>
                       <ErrorMessage name="name" />
                     </div>
+                    <div className={s.generalInfoMenuForm__icon}>
+                      <UserIcon />
+                    </div>
                   </div>
                   <div className={s.generalInfoMenuForm__input_wrapper}>
                     <Field
@@ -75,6 +85,9 @@ const GeneralInfoMenu = () => {
                     />
                     <div className={s.generalInfoMenuForm__errors}>
                       <ErrorMessage name="email" />
+                    </div>
+                    <div className={s.generalInfoMenuForm__icon}>
+                      <EmailIcon />
                     </div>
                   </div>
                   <div className={s.generalInfoMenuForm__input_wrapper}>
@@ -86,6 +99,9 @@ const GeneralInfoMenu = () => {
                     <div className={s.generalInfoMenuForm__errors}>
                       <ErrorMessage name="phone" />
                     </div>
+                    <div className={s.generalInfoMenuForm__icon}>
+                      <PhoneIcon />
+                    </div>
                   </div>
                   <div className={s.generalInfoMenuForm__input_wrapper}>
                     <Field
@@ -96,11 +112,14 @@ const GeneralInfoMenu = () => {
                     <div className={s.generalInfoMenuForm__errors}>
                       <ErrorMessage name="adress" />
                     </div>
+                    <div className={s.generalInfoMenuForm__icon}>
+                      <MapMarkerIcon />
+                    </div>
                   </div>
                 </div>
                 <div>
                   <p className={s.generalInfoMenuForm__title}>Доставка та оплата</p>
-                  <div className={s.generalInfoMenuForm__input_wrapper}>
+                  <div className={s.generalInfoMenuForm__select_wrapper}>
                     <Field
                       as="select"
                       name="delivery"
@@ -121,8 +140,11 @@ const GeneralInfoMenu = () => {
                     <div className={s.generalInfoMenuForm__errors}>
                       <ErrorMessage name="delivery" />
                     </div>
+                    <div className={s.generalInfoMenuForm__icon}>
+                      <DeliveryIcon />
+                    </div>
                   </div>
-                  <div className={s.generalInfoMenuForm__input_wrapper}>
+                  <div className={s.generalInfoMenuForm__select_wrapper}>
                     <Field
                       as="select"
                       name="payment"
@@ -143,6 +165,9 @@ const GeneralInfoMenu = () => {
                     <div className={s.generalInfoMenuForm__errors}>
                       <ErrorMessage name="payment" />
                     </div>
+                    <div className={s.generalInfoMenuForm__icon}>
+                      <CreditCardIcon />
+                    </div>
                   </div>
                   <div className={s.generalInfoMenuForm__input_wrapper}>
                     <Field
@@ -159,13 +184,16 @@ const GeneralInfoMenu = () => {
                     <div className={s.generalInfoMenuForm__errors}>
                       <ErrorMessage name="comment" />
                     </div>
+                    <div className={s.generalInfoMenuForm__icon}>
+                      <CommentIcon />
+                    </div>
                   </div>
                 </div>
               </div>
               <div className={s.generalInfoMenuForm__wrapper}>
                 <div>
                   <p className={s.generalInfoMenuForm__title}>Статус замовлення</p>
-                  <div className={s.generalInfoMenuForm__input_wrapper}>
+                  <div className={s.generalInfoMenuForm__select_wrapper}>
                     <Field
                       as="select"
                       name="status"
