@@ -1,0 +1,90 @@
+@import "/src/styles/variables.scss";
+@import "/src/styles/mixins.scss";
+
+.orderCompositMenu__container {
+  display: flex;
+  flex-direction: column;
+  margin-top: -8px;
+  margin-bottom: 50px;
+}
+
+.orderCompositMenu__buttons_addGoods {
+  margin-right: 20px;
+  margin-bottom: 24px;
+  padding: 12px 0;
+  width: 197px;
+  height: 43px;
+  border-radius: 8px;
+  background-color: $main-color;
+  align-self: flex-end;
+
+  @include text($color: $second-text-color, $font-size: 16px, $font-weight: 600);
+  line-height: 18.75px;
+}
+
+.table__container {
+  display: flex;
+  flex-direction: column;
+  width: 1015px;
+  min-height: 360px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 54px;
+}
+
+.table__header {
+  display: grid;
+  grid-template-columns: 7fr 1.5fr 1.5fr 1fr 1fr 1fr;
+
+  padding: 12px 24px;
+
+  width: 1015px;
+  height: 44px;
+
+  background-color: $second-color;
+}
+
+.table__header_text {
+  @include text();
+  line-height: 18.75px;
+}
+
+.list__item_group {
+  display: flex;
+}
+
+.list {
+  margin-bottom: 32px;
+}
+
+.list__item {
+  display: grid;
+  grid-template-columns: 7fr 1.5fr 1.5fr 1fr 1fr 1fr;
+
+  padding: 12px 24px;
+
+  border-bottom: $default-border;
+}
+
+.list__item_img {
+  margin-right: 22px;
+}
+
+.list__item_text {
+  @include text();
+  line-height: 18.75px;
+}
+
+.table__total_wrapper {
+  align-self: flex-end;
+  margin-right: 12px;
+}
+
+.table__total_text {
+  @include text($font-size: 20px, $font-weight: 500);
+  line-height: 23.44px;
+
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+}

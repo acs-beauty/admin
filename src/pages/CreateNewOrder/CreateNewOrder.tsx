@@ -6,6 +6,7 @@ import ArrowToLeft from "src/images/svg/ArrowToLeft"
 import ArrowToBottomIcon from "src/images/svg/ArrowToBottomIcon"
 import GeneralInfoMenu from "src/components/GeneralInfoMenu/GeneralInfoMenu"
 import ArrowToTopFlatIcon from "src/images/svg/ArrowToTopFlatIcon"
+import OrderCompositMenu from "src/components/OrderCompositMenu/OrderCompositMenu"
 
 const CreateNewOrder = () => {
   const [isGeneralInfoMenuOpen, setIsGeneralInfoMenuOpen] = useState<boolean>(false)
@@ -55,7 +56,7 @@ const CreateNewOrder = () => {
                   <ArrowToBottomIcon size={32} />
                 )}
               </div>
-              {isOrderCompositMenuOpen && <GeneralInfoMenu />}
+              {isOrderCompositMenuOpen && <OrderCompositMenu />}
               <div
                 className={s.orderBlockToFill__list_item}
                 onClick={() => setIsOrderHistoryMenuOpen(!isOrderHistoryMenuOpen)}
