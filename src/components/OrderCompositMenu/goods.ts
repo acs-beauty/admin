@@ -9,6 +9,7 @@ interface IGood {
   price: string
   discount: string
   total: string
+  checked: boolean
 }
 
 export const goods: IGood[] = [
@@ -21,6 +22,7 @@ export const goods: IGood[] = [
     price: "387 грн",
     discount: "64 грн",
     total: "323 грн",
+    checked: false,
   },
   {
     id: "2",
@@ -31,6 +33,7 @@ export const goods: IGood[] = [
     price: "387 грн",
     discount: "64 грн",
     total: "323 грн",
+    checked: false,
   },
   {
     id: "3",
@@ -41,6 +44,7 @@ export const goods: IGood[] = [
     price: "387 грн",
     discount: "64 грн",
     total: "323 грн",
+    checked: false,
   },
   {
     id: "4",
@@ -51,6 +55,7 @@ export const goods: IGood[] = [
     price: "387 грн",
     discount: "64 грн",
     total: "323 грн",
+    checked: false,
   },
   {
     id: "5",
@@ -61,5 +66,6 @@ export const goods: IGood[] = [
     price: "387 грн",
     discount: "64 грн",
     total: "323 грн",
+    checked: false,
   },
 ]

@@ -1,6 +1,5 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import s from "./OrderCompositMenu.module.scss"
-// import goodImg from "../../images/photo/good.png"
 import { goods } from "./goods"
 import AddGoodsModal from "../AddGoodsModal/AddGoodsModal"
 
@@ -15,45 +14,25 @@ interface IGood {
   total: string
 }
 
-// const goods: IGood[] = [
-//   {
-//     id: "1",
-//     photoUrl: goodImg,
-//     title: "Спрей-тонер з пантенолом Geek & Gorgeous Liquid Hydration",
-//     goodId: "56780",
-//     quantity: "1 шт",
-//     price: "387 грн",
-//     discount: "64 грн",
-//     total: "323 грн",
-//   },
-//   {
-//     id: "2",
-//     photoUrl: goodImg,
-//     title: "Спрей-тонер з пантенолом Geek & Gorgeous Liquid Hydration",
-//     goodId: "56780",
-//     quantity: "1 шт",
-//     price: "387 грн",
-//     discount: "64 грн",
-//     total: "323 грн",
-//   },
-//   {
-//     id: "3",
-//     photoUrl: goodImg,
-//     title: "Спрей-тонер з пантенолом Geek & Gorgeous Liquid Hydration",
-//     goodId: "56780",
-//     quantity: "1 шт",
-//     price: "387 грн",
-//     discount: "64 грн",
-//     total: "323 грн",
-//   },
-// ]
-
 const OrderCompositMenu = () => {
   const [isAddGoodsModalOpen, setIsAddGoodsModalOpen] = useState<boolean>(false)
+  const [checkedGoodsIds, setCheckedGoodsIds] = useState<string[]>([])
+  const [goodsArrayToRender, setGoodsArrayToRender] = useState<(IGood | undefined)[]>([])
 
   const handleAddGoodsModalToggle = () => {
     setIsAddGoodsModalOpen(!isAddGoodsModalOpen)
   }
+
+  const getCheckedgoodsIds = (arrayIds: string[]) => {
+    setCheckedGoodsIds(arrayIds)
+  }
+
+  useEffect(() => {
+    const foundGoods = checkedGoodsIds.map((goodId: string) =>
+      goods.find(good => good?.id === goodId)
+    )
+    if (foundGoods) setGoodsArrayToRender(foundGoods)
+  }, [checkedGoodsIds])
 
   return (
     <div className={s.orderCompositMenu__container}>
@@ -73,34 +52,42 @@ const OrderCompositMenu = () => {
           <p className={s.table__header_text}>Знижка</p>
           <p className={s.table__header_text}>Всього</p>
         </div>
-        {goods.length > 0 ? (
+        {goodsArrayToRender.length > 0 ? (
           <ul className={s.list}>
-            {goods.map((good: IGood) => (
-              <li key={good.id} className={s.list__item}>
-                <div className={s.list__item_group}>
-                  <img src={good.photoUrl} alt="good" className={s.list__item_img} />
-                  <p className={s.list__item_text}>{good.title}</p>
-                </div>
-                <p className={s.list__item_text}>{good.goodId}</p>
-                <p className={s.list__item_text}>{good.quantity}</p>
-                <p className={s.list__item_text}>{good.price}</p>
-                <p className={s.list__item_text}>{good.discount}</p>
-                <p className={s.list__item_text}>{good.total}</p>
-              </li>
-            ))}
+            {goodsArrayToRender.map(
+              (good: IGood | undefined) =>
+                good && (
+                  <li key={good.id} className={s.list__item}>
+                    <div className={s.list__item_group}>
+                      <img src={good.photoUrl} alt="good" className={s.list__item_img} />
+                      <p className={s.list__item_text}>{good.title}</p>
+                    </div>
+                    <p className={s.list__item_text}>{good.goodId}</p>
+                    <p className={s.list__item_text}>{good.quantity}</p>
+                    <p className={s.list__item_text}>{good.price}</p>
+                    <p className={s.list__item_text}>{good.discount}</p>
+                    <p className={s.list__item_text}>{good.total}</p>
+                  </li>
+                )
+            )}
           </ul>
         ) : (
           <div className={s.list__notification}>
             <p className={s.table__total_text}>Додайте товари до замовлення</p>
           </div>
         )}
-        {goods.length > 0 && (
+        {goodsArrayToRender.length > 0 && (
           <div className={s.table__total_wrapper}>
-            <p className={s.table__total_text}>Всього товарів: {goods.length} шт</p>
+            <p className={s.table__total_text}>Всього товарів: {goodsArrayToRender.length} шт</p>
             <p className={s.table__total_text}>Загальна сума: 1260 грн</p>
           </div>
         )}
-        {isAddGoodsModalOpen && <AddGoodsModal onClose={handleAddGoodsModalToggle} />}
+        {isAddGoodsModalOpen && (
+          <AddGoodsModal
+            onClose={handleAddGoodsModalToggle}
+            getCheckedgoodsIds={getCheckedgoodsIds}
+          />
+        )}
       </div>
     </div>
   )

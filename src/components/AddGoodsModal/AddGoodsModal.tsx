@@ -9,6 +9,7 @@ const modalRoot = document.querySelector("#modal-root") as HTMLElement
 
 interface IProps {
   onClose: () => void
+  getCheckedgoodsIds: (checkedIds: string[]) => void
 }
 
 interface IGood {
@@ -22,8 +23,9 @@ interface IGood {
   total: string
 }
 
-const AddGoodsModal = ({ onClose }: IProps) => {
+const AddGoodsModal = ({ onClose, getCheckedgoodsIds }: IProps) => {
   const [searchValue, setSearchValue] = useState<string>("")
+  const [checkedIds, setCheckedIds] = useState<string[]>([])
 
   const filteredGoods = goods.filter((good: IGood) =>
     good.title.toLowerCase().includes(searchValue.toLowerCase())
@@ -45,10 +47,10 @@ const AddGoodsModal = ({ onClose }: IProps) => {
     if (e.currentTarget === e.target) onClose()
   }
 
-  //   const handleSubmit = () => {
-  //     onSubmit(values)
-  //     onClose()
-  //   }
+  const handleSubmit = () => {
+    getCheckedgoodsIds(checkedIds)
+    onClose()
+  }
 
   return createPortal(
     <div className={s.backdrop} onClick={handleBackdropClick}>
@@ -72,7 +74,17 @@ const AddGoodsModal = ({ onClose }: IProps) => {
         <ul className={s.modalWindow__list}>
           {filteredGoods.map((good: IGood) => (
             <li className={s.modalWindow__list_item} key={good.id}>
-              <input type="checkbox" className={s.modalWindow__list_itemCheck} />
+              <input
+                type="checkbox"
+                className={s.modalWindow__list_itemCheck}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  if (e.target.checked) {
+                    setCheckedIds([...checkedIds, good.id])
+                  } else {
+                    setCheckedIds(checkedIds.filter((id: string) => id !== good.id))
+                  }
+                }}
+              />
               <img src={good.photoUrl} alt="good" className={s.modalWindow__list_itemImg} />
               <div>
                 <p className={s.modalWindow__list_itemTitle}>{good.title}</p>
@@ -86,7 +98,9 @@ const AddGoodsModal = ({ onClose }: IProps) => {
         </ul>
         <div className={s.modalWindow__buttonsWrapper}>
           <button className={s.modalWindow__cancelBtn}>Скасувати</button>
-          <button className={s.modalWindow__addBtn}>ДОДАТИ</button>
+          <button className={s.modalWindow__addBtn} onClick={handleSubmit}>
+            ДОДАТИ
+          </button>
         </div>
       </div>
     </div>,
