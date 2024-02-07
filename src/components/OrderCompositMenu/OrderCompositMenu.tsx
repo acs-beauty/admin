@@ -61,25 +61,33 @@ const OrderCompositMenu = () => {
           <p className={s.table__header_text}>Знижка</p>
           <p className={s.table__header_text}>Всього</p>
         </div>
-        <ul className={s.list}>
-          {goods.map((good: IGood) => (
-            <li key={good.id} className={s.list__item}>
-              <div className={s.list__item_group}>
-                <img src={good.photoUrl} alt="good" className={s.list__item_img} />
-                <p className={s.list__item_text}>{good.title}</p>
-              </div>
-              <p className={s.list__item_text}>{good.goodId}</p>
-              <p className={s.list__item_text}>{good.quantity}</p>
-              <p className={s.list__item_text}>{good.price}</p>
-              <p className={s.list__item_text}>{good.discount}</p>
-              <p className={s.list__item_text}>{good.total}</p>
-            </li>
-          ))}
-        </ul>
-        <div className={s.table__total_wrapper}>
-          <p className={s.table__total_text}>Всього товарів: {goods.length} шт</p>
-          <p className={s.table__total_text}>Загальна сума: 1260 грн</p>
-        </div>
+        {goods.length > 0 ? (
+          <ul className={s.list}>
+            {goods.map((good: IGood) => (
+              <li key={good.id} className={s.list__item}>
+                <div className={s.list__item_group}>
+                  <img src={good.photoUrl} alt="good" className={s.list__item_img} />
+                  <p className={s.list__item_text}>{good.title}</p>
+                </div>
+                <p className={s.list__item_text}>{good.goodId}</p>
+                <p className={s.list__item_text}>{good.quantity}</p>
+                <p className={s.list__item_text}>{good.price}</p>
+                <p className={s.list__item_text}>{good.discount}</p>
+                <p className={s.list__item_text}>{good.total}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className={s.list__notification}>
+            <p className={s.table__total_text}>Додайте товари до замовлення</p>
+          </div>
+        )}
+        {goods.length > 0 && (
+          <div className={s.table__total_wrapper}>
+            <p className={s.table__total_text}>Всього товарів: {goods.length} шт</p>
+            <p className={s.table__total_text}>Загальна сума: 1260 грн</p>
+          </div>
+        )}
       </div>
     </div>
   )
