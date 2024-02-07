@@ -1,0 +1,138 @@
+@import "/src/styles/variables.scss";
+@import "/src/styles/mixins.scss";
+
+.backdrop {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(5px);
+  overflow: scroll;
+  z-index: 100;
+}
+
+.modalWindow {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  overflow: auto;
+  transform: translate(-50%, -50%);
+  max-height: 95%;
+  background-color: white;
+  border-radius: 4px;
+  padding: 24px 32px;
+  width: 628px;
+  height: 690px;
+}
+
+.modalWindow__closeIconWrapper {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  cursor: pointer;
+}
+
+.modalWindow__title {
+  @include text($font-size: 16px, $font-weight: 700);
+  line-height: 18.75px;
+
+  margin-bottom: 20px;
+}
+
+.modalWindow__searchInput_wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.modalWindow__searchInput {
+  @include border($radius: 0);
+
+  padding: 10px 8px;
+  padding-left: 40px;
+  width: 100%;
+  height: 44px;
+  margin-bottom: 46px;
+}
+
+.modalWindow__searchInput_icon {
+  position: absolute;
+  top: 10px;
+  left: 8px;
+}
+
+.modalWindow__list {
+  margin-bottom: 14px;
+  align-self: flex-start;
+  max-height: 438px;
+  overflow-y: scroll;
+}
+
+.modalWindow__list_item {
+  display: flex;
+
+  padding-right: 30px;
+
+  &:not(:last-child) {
+    margin-bottom: 32px;
+  }
+}
+
+.modalWindow__list_itemCheck {
+  margin-right: 16px;
+  align-self: flex-start;
+}
+
+.modalWindow__list_itemImg {
+  margin-right: 24px;
+}
+
+.modalWindow__list_itemTitle {
+  margin-bottom: 8px;
+
+  @include text($font-size: 16px, $font-weight: 500);
+  line-height: 18.75px;
+}
+
+.modalWindow__list_itemText {
+  @include text();
+}
+
+.priceWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalWindow__buttonsWrapper {
+  display: flex;
+  justify-content: end;
+  padding: 16px 32px;
+  border-top: $default-border;
+  width: 100%;
+}
+
+.modalWindow__cancelBtn {
+  margin-right: 24px;
+
+  @include text($color: $blue-text-color);
+  line-height: 18.75px;
+}
+
+.modalWindow__addBtn {
+  padding: 12px 37px;
+  width: 140px;
+  border-radius: 8px;
+
+  @include text($color: white, $font-size: 16px, $font-weight: 600);
+  line-height: 18.75px;
+
+  background-color: $main-color;
+}

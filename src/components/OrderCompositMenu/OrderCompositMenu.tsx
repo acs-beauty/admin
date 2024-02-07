@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import s from "./OrderCompositMenu.module.scss"
-import goodImg from "../../images/photo/good.png"
+// import goodImg from "../../images/photo/good.png"
+import { goods } from "./goods"
+import AddGoodsModal from "../AddGoodsModal/AddGoodsModal"
 
 interface IGood {
   id: string
@@ -13,43 +15,53 @@ interface IGood {
   total: string
 }
 
-const goods: IGood[] = [
-  {
-    id: "1",
-    photoUrl: goodImg,
-    title: "Спрей-тонер з пантенолом Geek & Gorgeous Liquid Hydration",
-    goodId: "56780",
-    quantity: "1 шт",
-    price: "387 грн",
-    discount: "64 грн",
-    total: "323 грн",
-  },
-  {
-    id: "2",
-    photoUrl: goodImg,
-    title: "Спрей-тонер з пантенолом Geek & Gorgeous Liquid Hydration",
-    goodId: "56780",
-    quantity: "1 шт",
-    price: "387 грн",
-    discount: "64 грн",
-    total: "323 грн",
-  },
-  {
-    id: "3",
-    photoUrl: goodImg,
-    title: "Спрей-тонер з пантенолом Geek & Gorgeous Liquid Hydration",
-    goodId: "56780",
-    quantity: "1 шт",
-    price: "387 грн",
-    discount: "64 грн",
-    total: "323 грн",
-  },
-]
+// const goods: IGood[] = [
+//   {
+//     id: "1",
+//     photoUrl: goodImg,
+//     title: "Спрей-тонер з пантенолом Geek & Gorgeous Liquid Hydration",
+//     goodId: "56780",
+//     quantity: "1 шт",
+//     price: "387 грн",
+//     discount: "64 грн",
+//     total: "323 грн",
+//   },
+//   {
+//     id: "2",
+//     photoUrl: goodImg,
+//     title: "Спрей-тонер з пантенолом Geek & Gorgeous Liquid Hydration",
+//     goodId: "56780",
+//     quantity: "1 шт",
+//     price: "387 грн",
+//     discount: "64 грн",
+//     total: "323 грн",
+//   },
+//   {
+//     id: "3",
+//     photoUrl: goodImg,
+//     title: "Спрей-тонер з пантенолом Geek & Gorgeous Liquid Hydration",
+//     goodId: "56780",
+//     quantity: "1 шт",
+//     price: "387 грн",
+//     discount: "64 грн",
+//     total: "323 грн",
+//   },
+// ]
 
 const OrderCompositMenu = () => {
+  const [isAddGoodsModalOpen, setIsAddGoodsModalOpen] = useState<boolean>(false)
+
+  const handleAddGoodsModalToggle = () => {
+    setIsAddGoodsModalOpen(!isAddGoodsModalOpen)
+  }
+
   return (
     <div className={s.orderCompositMenu__container}>
-      <button type="button" className={s.orderCompositMenu__buttons_addGoods}>
+      <button
+        type="button"
+        onClick={handleAddGoodsModalToggle}
+        className={s.orderCompositMenu__buttons_addGoods}
+      >
         ДОДАТИ ТОВАРИ
       </button>
       <div className={s.table__container}>
@@ -88,6 +100,7 @@ const OrderCompositMenu = () => {
             <p className={s.table__total_text}>Загальна сума: 1260 грн</p>
           </div>
         )}
+        {isAddGoodsModalOpen && <AddGoodsModal onClose={handleAddGoodsModalToggle} />}
       </div>
     </div>
   )
