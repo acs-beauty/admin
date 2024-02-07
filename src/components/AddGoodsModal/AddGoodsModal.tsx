@@ -25,7 +25,9 @@ interface IGood {
 const AddGoodsModal = ({ onClose }: IProps) => {
   const [searchValue, setSearchValue] = useState<string>("")
 
-  const filteredGoods = goods.filter((good: IGood) => good.title.includes(searchValue))
+  const filteredGoods = goods.filter((good: IGood) =>
+    good.title.toLowerCase().includes(searchValue.toLowerCase())
+  )
 
   useEffect(() => {
     const onEscClick = (e: KeyboardEvent) => {
