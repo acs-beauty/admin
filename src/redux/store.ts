@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit"
-import categories from "./slices/categoriesSlice"
-import { TypedUseSelectorHook, useDispatch } from "react-redux"
-import { useSelector } from "react-redux"
+import categories from "./categories/slice"
 import { brandsReducer } from "./brands/slice"
-import hideBorderReducer from "./hideBorder/hideBorderSlice.ts"
 
-export const store = configureStore({ reducer: { categories, brands: brandsReducer, hideBorder: hideBorderReducer } })
+export const store = configureStore({
+  reducer: { categories, brands: brandsReducer },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+})
 
-export type AppDispatch = typeof store.dispatch
-export type RootState = ReturnType<typeof store.getState>
-
-export const useAppDispatch: () => AppDispatch = useDispatch
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export type IAppDispatch = typeof store.dispatch
+export type IRootState = ReturnType<typeof store.getState>
