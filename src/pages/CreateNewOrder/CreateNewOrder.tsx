@@ -7,7 +7,7 @@ import ArrowToBottomIcon from "src/images/svg/ArrowToBottomIcon"
 import GeneralInfoMenu from "src/components/GeneralInfoMenu/GeneralInfoMenu"
 import ArrowToTopFlatIcon from "src/images/svg/ArrowToTopFlatIcon"
 import OrderCompositMenu from "src/components/OrderCompositMenu/OrderCompositMenu"
-import OrderHistoryMenu from "src/components/OrderHistoryMenu/OrderHistoryMenu"
+// import OrderHistoryMenu from "src/components/OrderHistoryMenu/OrderHistoryMenu"
 
 interface StatusObjType {
   new: string
@@ -19,10 +19,11 @@ interface StatusObjType {
 }
 
 const CreateNewOrder = () => {
-  const [isGeneralInfoMenuOpen, setIsGeneralInfoMenuOpen] = useState<boolean>(false)
-  const [isOrderCompositMenuOpen, setIsOrderCompositMenuOpen] = useState<boolean>(false)
-  const [isOrderHistoryMenuOpen, setIsOrderHistoryMenuOpen] = useState<boolean>(false)
+  const [isGeneralInfoMenuOpen, setIsGeneralInfoMenuOpen] = useState<boolean>(true)
+  const [isOrderCompositMenuOpen, setIsOrderCompositMenuOpen] = useState<boolean>(true)
+  // const [isOrderHistoryMenuOpen, setIsOrderHistoryMenuOpen] = useState<boolean>(false)
   const [orderStatus, setOrderStatus] = useState<string>("")
+  const [ttn, setTtn] = useState<string>("")
 
   const getOrderStatus = (status: string): void => {
     const statusObj: StatusObjType = {
@@ -35,6 +36,12 @@ const CreateNewOrder = () => {
     setOrderStatus(statusObj[status])
   }
 
+  const getTtn = (ttn: string) => {
+    setTtn(ttn)
+  }
+
+  const date = new Date(Date.now()).toLocaleDateString()
+
   return (
     <AdminLayout>
       <main className={s.main}>
@@ -45,11 +52,11 @@ const CreateNewOrder = () => {
           </div>
           <div className={s.createdNewOrderDetails}>
             <div>
-              <p className={s.createdNewOrderDetails__info_text}>Дата створення:</p>
+              <p className={s.createdNewOrderDetails__info_text}>Дата створення: {date}</p>
               <p className={s.createdNewOrderDetails__info_text}>
                 Статус замовлення: {orderStatus}
               </p>
-              <p className={s.createdNewOrderDetails__info_text}>ТТН:</p>
+              <p className={s.createdNewOrderDetails__info_text}>ТТН: {ttn}</p>
             </div>
             {/* <div>
               <CreateNewOrderSwitch />
@@ -68,7 +75,9 @@ const CreateNewOrder = () => {
                   <ArrowToBottomIcon size={32} />
                 )}
               </div>
-              {isGeneralInfoMenuOpen && <GeneralInfoMenu getOrderStatus={getOrderStatus} />}
+              {isGeneralInfoMenuOpen && (
+                <GeneralInfoMenu getOrderStatus={getOrderStatus} getTtn={getTtn} />
+              )}
               <div
                 className={s.orderBlockToFill__list_item}
                 onClick={() => setIsOrderCompositMenuOpen(!isOrderCompositMenuOpen)}
@@ -81,7 +90,7 @@ const CreateNewOrder = () => {
                 )}
               </div>
               {isOrderCompositMenuOpen && <OrderCompositMenu />}
-              <div
+              {/* <div
                 className={s.orderBlockToFill__list_item}
                 onClick={() => setIsOrderHistoryMenuOpen(!isOrderHistoryMenuOpen)}
               >
@@ -92,7 +101,7 @@ const CreateNewOrder = () => {
                   <ArrowToBottomIcon size={32} />
                 )}
               </div>
-              {isOrderHistoryMenuOpen && <OrderHistoryMenu />}
+              {isOrderHistoryMenuOpen && <OrderHistoryMenu />} */}
             </div>
             <div className={s.orderBlockToFill__buttons}>
               <button type="button" className={s.orderBlockToFill__buttons_removeBtn}>

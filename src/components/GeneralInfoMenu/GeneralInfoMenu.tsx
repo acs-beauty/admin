@@ -28,9 +28,10 @@ interface ResetFormProps {
 
 interface GeneralInfoMenuProps {
   getOrderStatus: (status: string) => void
+  getTtn: (ttn: string) => void
 }
 
-const GeneralInfoMenu = ({ getOrderStatus }: GeneralInfoMenuProps) => {
+const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
   const [delivery, setDelivery] = useState<string>("")
   const [payment, setPayment] = useState<string>("")
   const [comment, setComment] = useState<string>("")
@@ -49,6 +50,7 @@ const GeneralInfoMenu = ({ getOrderStatus }: GeneralInfoMenuProps) => {
 
   const handleSubmit = (values: initialStateType, { resetForm }: ResetFormProps) => {
     console.log("VALUES", values)
+    getTtn(values.ttn)
     resetForm()
     setDelivery("")
     setPayment("")
