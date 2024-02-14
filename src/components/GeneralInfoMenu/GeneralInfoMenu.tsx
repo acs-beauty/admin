@@ -26,7 +26,11 @@ interface ResetFormProps {
   resetForm: (nextState?: Partial<FormikState<initialStateType>>) => void
 }
 
-const GeneralInfoMenu = () => {
+interface GeneralInfoMenuProps {
+  getOrderStatus: (status: string) => void
+}
+
+const GeneralInfoMenu = ({ getOrderStatus }: GeneralInfoMenuProps) => {
   const [delivery, setDelivery] = useState<string>("")
   const [payment, setPayment] = useState<string>("")
   const [comment, setComment] = useState<string>("")
@@ -201,6 +205,7 @@ const GeneralInfoMenu = () => {
                       value={delivery}
                       onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                         setDelivery(e.target.value)
+                        getOrderStatus(e.target.value)
                         setFieldValue("status", e.target.value)
                       }}
                     >

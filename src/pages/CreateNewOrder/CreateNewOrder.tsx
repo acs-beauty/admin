@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import AdminLayout from "src/layouts/AdminLayout"
 import s from "./CreateNewOrder.module.scss"
-import CreateNewOrderSwitch from "src/components/CreateNewOrderSwitch/CreateNewOrderSwitch"
+// import CreateNewOrderSwitch from "src/components/CreateNewOrderSwitch/CreateNewOrderSwitch"
 import ArrowToLeft from "src/images/svg/ArrowToLeft"
 import ArrowToBottomIcon from "src/images/svg/ArrowToBottomIcon"
 import GeneralInfoMenu from "src/components/GeneralInfoMenu/GeneralInfoMenu"
@@ -9,10 +9,31 @@ import ArrowToTopFlatIcon from "src/images/svg/ArrowToTopFlatIcon"
 import OrderCompositMenu from "src/components/OrderCompositMenu/OrderCompositMenu"
 import OrderHistoryMenu from "src/components/OrderHistoryMenu/OrderHistoryMenu"
 
+interface StatusObjType {
+  new: string
+  accepted: string
+  paid: string
+  done: string
+  canceled: string
+  [key: string]: string
+}
+
 const CreateNewOrder = () => {
   const [isGeneralInfoMenuOpen, setIsGeneralInfoMenuOpen] = useState<boolean>(false)
   const [isOrderCompositMenuOpen, setIsOrderCompositMenuOpen] = useState<boolean>(false)
   const [isOrderHistoryMenuOpen, setIsOrderHistoryMenuOpen] = useState<boolean>(false)
+  const [orderStatus, setOrderStatus] = useState<string>("")
+
+  const getOrderStatus = (status: string): void => {
+    const statusObj: StatusObjType = {
+      new: "Нове",
+      accepted: "Прийнято",
+      paid: "Оплачено",
+      done: "Виконано",
+      canceled: "Скасовано",
+    }
+    setOrderStatus(statusObj[status])
+  }
 
   return (
     <AdminLayout>
@@ -25,12 +46,14 @@ const CreateNewOrder = () => {
           <div className={s.createdNewOrderDetails}>
             <div>
               <p className={s.createdNewOrderDetails__info_text}>Дата створення:</p>
-              <p className={s.createdNewOrderDetails__info_text}>Статус замовлення:</p>
+              <p className={s.createdNewOrderDetails__info_text}>
+                Статус замовлення: {orderStatus}
+              </p>
               <p className={s.createdNewOrderDetails__info_text}>ТТН:</p>
             </div>
-            <div>
+            {/* <div>
               <CreateNewOrderSwitch />
-            </div>
+            </div> */}
           </div>
           <div className={s.orderBlockToFill}>
             <div className={s.orderBlockToFill__list}>
@@ -45,7 +68,7 @@ const CreateNewOrder = () => {
                   <ArrowToBottomIcon size={32} />
                 )}
               </div>
-              {isGeneralInfoMenuOpen && <GeneralInfoMenu />}
+              {isGeneralInfoMenuOpen && <GeneralInfoMenu getOrderStatus={getOrderStatus} />}
               <div
                 className={s.orderBlockToFill__list_item}
                 onClick={() => setIsOrderCompositMenuOpen(!isOrderCompositMenuOpen)}
