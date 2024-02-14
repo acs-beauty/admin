@@ -1,0 +1,101 @@
+//Drag and Drop
+.drop__section {
+  display: flex;
+  justify-content: space-between;
+}
+.drop__main_img {
+  display: flex;
+  position: relative;
+  //object-fit: cover;
+  width: 400px;
+  height: 400px;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed rgba(0, 0, 0, 0.50);
+  //margin-right: 95px;
+  input {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+}
+.drop_img {
+  object-fit: contain;
+  width: 400px;
+  height: 400px;
+}
+.drop__small_img {
+  display: flex;
+  width: 120px;
+  height: 120px;
+  //object-fit: contain;
+  //padding: 36px;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed rgba(0, 0, 0, 0.50);
+}
+
+.drop__list_img {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 20px 80px;
+
+}
+
+.drop__list_icon {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border: 1px dashed rgba(0, 0, 0, 0.50);
+  input {
+    width: 120px;
+    height: 120px;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    //width: 100%;
+    //height: 100%;
+    cursor: pointer;
+  }
+  img {
+    width: 120px;
+    height: 120px;
+  }
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.icon {
+  color: black;
+}
+
+//.app {
+//  //width: 70vw;
+//  //height: 70vh;
+//  display: flex;
+//  align-items: center;
+//  justify-content: center;
+//
+//  font-size: 40px;
+//}
+
+.drop_area {
+  width: 400px;
+  height: 400px;
+  background-color: rgba(255, 255, 255, 0.96);//delete
+  border: 2px solid #948AD0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,47 @@
+@import "/src/styles/variables.scss";
+@import "/src/styles/mixins.scss";
+
+.main {
+  padding-left: 15px;
+  padding-right: 15px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 260px;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+}
+
+.main__section {
+  padding-top: 37px;
+  padding-left: 20px;
+}
+
+.main__title_text {
+  color: $main-text-color;
+  @include font(24px, 500, 28px);
+}
+
+.products {
+  &_state {
+    width: 100%;
+    background-color: $second-color;
+    display: inline-flex;
+    padding: 32px 23px 28px 24px;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 44px;
+    border-radius: 4px;
+    margin-bottom: 28px;
+  }
+}
+
+.form__section {
+  border-radius: $border-radius;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  padding: 32px $padding-main;
+}
