@@ -4,6 +4,7 @@ import s from "./AddGoodsModal.module.scss"
 import CloseIcon from "src/images/svg/CloseIcon_"
 import { goods } from "../OrderCompositMenu/goods"
 import MagnifyIcon from "src/images/svg/MagnifyIcon"
+import { Scrollbars } from "react-custom-scrollbars-2"
 
 const modalRoot = document.querySelector("#modal-root") as HTMLElement
 
@@ -71,31 +72,39 @@ const AddGoodsModal = ({ onClose, getCheckedgoodsIds }: IProps) => {
             <MagnifyIcon />
           </div>
         </div>
-        <ul className={s.modalWindow__list}>
-          {filteredGoods.map((good: IGood) => (
-            <li className={s.modalWindow__list_item} key={good.id}>
-              <input
-                type="checkbox"
-                className={s.modalWindow__list_itemCheck}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  if (e.target.checked) {
-                    setCheckedIds([...checkedIds, good.id])
-                  } else {
-                    setCheckedIds(checkedIds.filter((id: string) => id !== good.id))
-                  }
-                }}
-              />
-              <img src={good.photoUrl} alt="good" className={s.modalWindow__list_itemImg} />
-              <div>
-                <p className={s.modalWindow__list_itemTitle}>{good.title}</p>
-                <div className={s.priceWrapper}>
-                  <p className={s.modalWindow__list_itemText}>У наявності</p>
-                  <p className={s.modalWindow__list_itemText}>{good.price} ₴</p>
+        <Scrollbars
+          style={{ width: 564, height: 390 }}
+          thumbSize={64}
+          renderThumbVertical={props => (
+            <div {...props} className={s.scroll__thumb} style={{ width: 8 }} />
+          )}
+        >
+          <ul className={s.modalWindow__list}>
+            {filteredGoods.map((good: IGood) => (
+              <li className={s.modalWindow__list_item} key={good.id}>
+                <input
+                  type="checkbox"
+                  className={s.modalWindow__list_itemCheck}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    if (e.target.checked) {
+                      setCheckedIds([...checkedIds, good.id])
+                    } else {
+                      setCheckedIds(checkedIds.filter((id: string) => id !== good.id))
+                    }
+                  }}
+                />
+                <img src={good.photoUrl} alt="good" className={s.modalWindow__list_itemImg} />
+                <div>
+                  <p className={s.modalWindow__list_itemTitle}>{good.title}</p>
+                  <div className={s.priceWrapper}>
+                    <p className={s.modalWindow__list_itemText}>У наявності</p>
+                    <p className={s.modalWindow__list_itemText}>{good.price} ₴</p>
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+        </Scrollbars>
         <div className={s.modalWindow__buttonsWrapper}>
           <button className={s.modalWindow__cancelBtn} onClick={onClose}>
             Скасувати

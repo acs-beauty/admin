@@ -77,7 +77,7 @@
   margin-bottom: 14px;
   align-self: flex-start;
   max-height: 438px;
-  overflow-y: scroll;
+  // overflow-y: scroll;
 }
 
 .modalWindow__list_item {
@@ -139,4 +139,9 @@
   line-height: 18.75px;
 
   background-color: $main-color;
+}
+
+.scroll__thumb {
+  background-color: $main-color;
+  border-radius: 4px;
 }
