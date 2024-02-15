@@ -74,7 +74,7 @@ const AddGoodsModal = ({ onClose, getCheckedgoodsIds }: IProps) => {
         </div>
         <Scrollbars
           style={{ width: 564, height: 390 }}
-          thumbSize={64}
+          // thumbSize={64}
           renderThumbVertical={props => (
             <div {...props} className={s.scroll__thumb} style={{ width: 8 }} />
           )}
