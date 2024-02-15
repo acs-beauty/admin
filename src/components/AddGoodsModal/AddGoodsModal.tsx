@@ -97,7 +97,9 @@ const AddGoodsModal = ({ onClose, getCheckedgoodsIds }: IProps) => {
           ))}
         </ul>
         <div className={s.modalWindow__buttonsWrapper}>
-          <button className={s.modalWindow__cancelBtn}>Скасувати</button>
+          <button className={s.modalWindow__cancelBtn} onClick={onClose}>
+            Скасувати
+          </button>
           <button className={s.modalWindow__addBtn} onClick={handleSubmit}>
             ДОДАТИ
           </button>
