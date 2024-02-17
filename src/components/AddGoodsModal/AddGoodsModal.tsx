@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import s from "./AddGoodsModal.module.scss"
 import CloseIcon from "src/images/svg/CloseIcon_"
-import { goods } from "../OrderCompositMenu/goods"
 import MagnifyIcon from "src/images/svg/MagnifyIcon"
 import { Scrollbars } from "react-custom-scrollbars-2"
+import { goods } from "../OrderCompositMenu/goods"
 
 const modalRoot = document.querySelector("#modal-root") as HTMLElement
 
@@ -48,6 +48,19 @@ const AddGoodsModal = ({ onClose, getCheckedgoodsIds }: IProps) => {
     if (e.currentTarget === e.target) onClose()
   }
 
+  const changeCheckBox = (_id: string, e?: React.ChangeEvent<HTMLInputElement>) => {
+    if (e) e.stopPropagation()
+
+    const checkBox = document.getElementById(`cbox_${_id}`) as HTMLInputElement
+    checkBox.checked = !checkBox.checked
+
+    if (checkBox.checked) {
+      setCheckedIds([...checkedIds, _id])
+    } else {
+      setCheckedIds(checkedIds.filter((id: string) => id !== _id))
+    }
+  }
+
   const handleSubmit = () => {
     getCheckedgoodsIds(checkedIds)
     onClose()
@@ -74,18 +87,23 @@ const AddGoodsModal = ({ onClose, getCheckedgoodsIds }: IProps) => {
         </div>
         <Scrollbars
           style={{ width: 564, height: 390 }}
-          // thumbSize={64}
           renderThumbVertical={props => (
             <div {...props} className={s.scroll__thumb} style={{ width: 8 }} />
           )}
         >
           <ul className={s.modalWindow__list}>
             {filteredGoods.map((good: IGood) => (
-              <li className={s.modalWindow__list_item} key={good.id}>
+              <li
+                className={s.modalWindow__list_item}
+                key={good.id}
+                onClick={() => changeCheckBox(good.id)}
+              >
                 <input
                   type="checkbox"
+                  id={`cbox_${good.id}`}
                   className={s.modalWindow__list_itemCheck}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    changeCheckBox(good.id, e)
                     if (e.target.checked) {
                       setCheckedIds([...checkedIds, good.id])
                     } else {
