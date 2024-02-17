@@ -1,14 +1,14 @@
 import goodImg from "../../images/photo/good.png"
 
-interface IGood {
+export interface IGood {
   id: string
   photoUrl: string
   title: string
   goodId: string
-  quantity: string
-  price: string
-  discount: string
-  total: string
+  quantity: number
+  price: number
+  discount: number
+  total: number
   checked: boolean
 }
 
@@ -18,10 +18,10 @@ export const goods: IGood[] = [
     photoUrl: goodImg,
     title: "Спрей-тонер один з пантенолом Geek & Gorgeous Liquid Hydration",
     goodId: "56780",
-    quantity: "1 шт",
-    price: "387 грн",
-    discount: "64 грн",
-    total: "323 грн",
+    quantity: 1,
+    price: 387,
+    discount: 10,
+    total: 323,
     checked: false,
   },
   {
@@ -29,10 +29,10 @@ export const goods: IGood[] = [
     photoUrl: goodImg,
     title: "Спрей-тонер два з пантенолом Geek & Gorgeous Liquid Hydration",
     goodId: "56780",
-    quantity: "1 шт",
-    price: "387 грн",
-    discount: "64 грн",
-    total: "323 грн",
+    quantity: 1,
+    price: 387,
+    discount: 10,
+    total: 323,
     checked: false,
   },
   {
@@ -40,10 +40,10 @@ export const goods: IGood[] = [
     photoUrl: goodImg,
     title: "Спрей-тонер три з пантенолом Geek & Gorgeous Liquid Hydration",
     goodId: "56780",
-    quantity: "1 шт",
-    price: "387 грн",
-    discount: "64 грн",
-    total: "323 грн",
+    quantity: 1,
+    price: 387,
+    discount: 10,
+    total: 323,
     checked: false,
   },
   {
@@ -51,10 +51,10 @@ export const goods: IGood[] = [
     photoUrl: goodImg,
     title: "Спрей-тонер чотири з пантенолом Geek & Gorgeous Liquid Hydration",
     goodId: "56780",
-    quantity: "1 шт",
-    price: "387 грн",
-    discount: "64 грн",
-    total: "323 грн",
+    quantity: 1,
+    price: 387,
+    discount: 10,
+    total: 323,
     checked: false,
   },
   {
@@ -62,10 +62,10 @@ export const goods: IGood[] = [
     photoUrl: goodImg,
     title: "Спрей-тонер п'ять з пантенолом Geek & Gorgeous Liquid Hydration",
     goodId: "56780",
-    quantity: "1 шт",
-    price: "387 грн",
-    discount: "64 грн",
-    total: "323 грн",
+    quantity: 1,
+    price: 387,
+    discount: 10,
+    total: 323,
     checked: false,
   },
 ]
