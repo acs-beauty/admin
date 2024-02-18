@@ -1,5 +1,4 @@
 import s from "./Orders.module.scss"
-import AdminLayout from "../../layouts/AdminLayout"
 import SearchInput from "../../components/ToolsPanel/SearchInput/SearchInput"
 import { Table } from "../../components/Table/Table"
 import ExportButton from "../../components/ToolsPanel/ExportButton/ExportButton"
@@ -111,7 +110,7 @@ const Orders = () => {
   }
 
   return (
-    <AdminLayout>
+    <>
       <main className={s.main}>
         <section className={s.main__section}>
           <div className={s.main__title}>
@@ -135,7 +134,7 @@ const Orders = () => {
           />
         )}
       </main>
-    </AdminLayout>
+    </>
   )
 }
 

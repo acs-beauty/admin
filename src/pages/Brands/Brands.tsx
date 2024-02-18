@@ -3,7 +3,6 @@ import { useAppDispatch } from "src/redux/hooks"
 import { getBrands } from "src/redux/brands/operations"
 
 import s from "./Brands.module.scss"
-import AdminLayout from "src/layouts/AdminLayout"
 import ExportFileIcon from "src/images/svg/ExportFileIcon"
 import Select from "src/components/ToolsPanel/Select/Select"
 import ModalWindow from "src/components/ModalWindow/ModalWindow"
@@ -31,7 +30,7 @@ const Brands: React.FC = () => {
   }, [page, pageSize, searchName])
 
   return (
-    <AdminLayout>
+    <>
       <main className={s.brand}>
         <section className={s.brand__section}>
           <div className={s.brand__title}>
@@ -65,7 +64,7 @@ const Brands: React.FC = () => {
           <BrandManagementForm onClose={() => setIsOpenModal(false)} />
         </ModalWindow>
       </main>
-    </AdminLayout>
+    </>
   )
 }
 

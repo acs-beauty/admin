@@ -1,0 +1,8 @@
+@import "/src/styles/variables.scss";
+@import "/src/styles/mixins.scss";
+
+.LoginPage__container {
+  width: $page-width - $sidebar-width;
+  padding: 32px 80px 47px 20px;
+  margin-left: $sidebar-width;
+}

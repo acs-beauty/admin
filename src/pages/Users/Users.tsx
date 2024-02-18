@@ -8,7 +8,6 @@ import ActionsIcon from "../../images/svg/ActionsIcon"
 import ExportFileIcon from "../../images/svg/ExportFileIcon"
 import RowListIcon from "../../images/svg/RowListIcon"
 import axios from "axios"
-import AdminLayout from "src/layouts/AdminLayout"
 import { Table } from "src/components/Table/Table"
 import { handleExternalDataUpdate } from "../../components/Table/helpers"
 
@@ -117,7 +116,7 @@ const Users = () => {
   ]
 
   return (
-    <AdminLayout>
+    <>
       <main className={s.main}>
         <section className={s.main__section}>
           <div className={s.main__title}>
@@ -157,7 +156,7 @@ const Users = () => {
           />
         </section>
       </main>
-    </AdminLayout>
+    </>
   )
 }
 

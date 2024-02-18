@@ -1,4 +1,4 @@
-import AdminLayout from "src/layouts/AdminLayout"
+// import AdminLayout from "src/layouts/AdminLayout"
 import VioletButton from "src/components/Buttons/VioletButton"
 import Categories from "src/components/CategoriesComponents/Categories"
 import s from "./Categories.module.scss"
@@ -15,7 +15,7 @@ const CategoriesPage = () => {
   const onCloseModal = () => setIsOpenModal(false)
 
   return (
-    <AdminLayout>
+    <>
       <div className={s.categories}>
         <div className={s.categories__head}>
           <h3 className={s.categories__title}>Категорії</h3>
@@ -27,7 +27,7 @@ const CategoriesPage = () => {
         <Categories />
       </div>
       <ToastContainer position="top-center" autoClose={2500} />
-    </AdminLayout>
+    </>
   )
 }
 
