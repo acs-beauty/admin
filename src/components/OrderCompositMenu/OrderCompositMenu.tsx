@@ -91,11 +91,11 @@ const OrderCompositMenu = () => {
       <div className={s.table__container}>
         <div className={s.table__header}>
           <p className={s.table__header_text}>Назва товару</p>
-          <p className={s.table__header_text}>ID товару</p>
-          <p className={s.table__header_text}>Кількість</p>
-          <p className={s.table__header_text}>Ціна, грн</p>
-          <p className={s.table__header_text}>Знижка, %</p>
-          <p className={s.table__header_text}>Всього, грн</p>
+          <p className={s.table__header_textCenter}>ID товару</p>
+          <p className={s.table__header_textCenter}>Кількість</p>
+          <p className={s.table__header_textCenter}>Ціна, грн</p>
+          <p className={s.table__header_textCenter}>Знижка, %</p>
+          <p className={s.table__header_textCenter}>Всього, грн</p>
         </div>
         {goodsArrayToRender.length > 0 ? (
           <ul className={s.list}>

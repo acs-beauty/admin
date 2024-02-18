@@ -50,6 +50,13 @@
   line-height: 18.75px;
 }
 
+.table__header_textCenter {
+  @include text();
+  line-height: 18.75px;
+
+  text-align: center;
+}
+
 .list__item_group {
   display: flex;
 }
