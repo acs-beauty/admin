@@ -18,10 +18,10 @@ interface IGood {
   photoUrl: string
   title: string
   goodId: string
-  quantity: string
-  price: string
-  discount: string
-  total: string
+  quantity: number
+  price: number
+  discount: number
+  total: number
 }
 
 const AddGoodsModal = ({ onClose, getCheckedgoodsIds }: IProps) => {

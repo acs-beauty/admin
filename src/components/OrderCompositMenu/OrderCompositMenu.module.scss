@@ -34,7 +34,7 @@
 
 .table__header {
   display: grid;
-  grid-template-columns: 7fr 1.5fr 1.5fr 1fr 1fr 1fr;
+  grid-template-columns: 7fr 1.5fr 1fr 1fr 1.5fr 1.5fr;
   gap: 10px;
 
   padding: 12px 24px;
@@ -59,13 +59,22 @@
 }
 
 .list__item {
+  position: relative;
   display: grid;
-  grid-template-columns: 7fr 1.5fr 1.5fr 1fr 1fr 1fr;
+  grid-template-columns: 7fr 1.5fr 1fr 1fr 1.5fr 1.5fr;
   gap: 10px;
+  align-items: flex-start;
 
   padding: 12px 24px;
 
   border-bottom: $default-border;
+}
+
+.list__item_deleteBtn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  padding: 5px;
 }
 
 .list__item_img {
@@ -75,6 +84,21 @@
 .list__item_text {
   @include text();
   line-height: 18.75px;
+}
+
+.list__item_textNumbers {
+  @include text();
+  line-height: 18.75px;
+
+  text-align: center;
+}
+
+.list__item_qty {
+  @include text();
+  line-height: 18.75px;
+  text-align: center;
+
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .list__notification {
