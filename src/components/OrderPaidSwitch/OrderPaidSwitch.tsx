@@ -7,22 +7,22 @@ import s from "./OrderPaidSwitch.module.scss"
 
 interface OrderPaidSwitchProps {
   getOrderStatus: (status: boolean) => void
+  setFieldValue: (field: string, value: boolean) => void
 }
 
-const OrderPaidSwitch = ({ getOrderStatus }: OrderPaidSwitchProps) => {
+const OrderPaidSwitch = ({ getOrderStatus, setFieldValue }: OrderPaidSwitchProps) => {
   const [paidChecked, setPaidChecked] = React.useState<boolean>(false)
   // const [sentChecked, setSentChecked] = React.useState<boolean>(false)
 
   const handlePaidChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPaidChecked(event.target.checked)
     getOrderStatus(event.target.checked)
+    setFieldValue("status", event.target.checked)
   }
 
   // const handleSentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   setSentChecked(event.target.checked)
   // }
-
-  console.log("CHECKED", paidChecked)
 
   return (
     <div className={s.container}>

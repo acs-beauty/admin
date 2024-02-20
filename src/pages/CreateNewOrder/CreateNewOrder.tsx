@@ -9,31 +9,25 @@ import ArrowToTopFlatIcon from "src/images/svg/ArrowToTopFlatIcon"
 import OrderCompositMenu from "src/components/OrderCompositMenu/OrderCompositMenu"
 // import OrderHistoryMenu from "src/components/OrderHistoryMenu/OrderHistoryMenu"
 
-interface StatusObjType {
-  new: string
-  accepted: string
-  paid: string
-  done: string
-  canceled: string
-  [key: string]: string
-}
+// interface StatusObjType {
+//   new: string
+//   accepted: string
+//   paid: string
+//   done: string
+//   canceled: string
+//   [key: string]: string
+// }
 
 const CreateNewOrder = () => {
   const [isGeneralInfoMenuOpen, setIsGeneralInfoMenuOpen] = useState<boolean>(true)
   const [isOrderCompositMenuOpen, setIsOrderCompositMenuOpen] = useState<boolean>(true)
   // const [isOrderHistoryMenuOpen, setIsOrderHistoryMenuOpen] = useState<boolean>(false)
-  const [orderStatus, setOrderStatus] = useState<string>("NotPaid")
+  const [orderStatus, setOrderStatus] = useState<string>("Не оплачено")
   const [ttn, setTtn] = useState<string>("")
 
-  const getOrderStatus = (status: string): void => {
-    const statusObj: StatusObjType = {
-      new: "Нове",
-      accepted: "Прийнято",
-      paid: "Оплачено",
-      done: "Виконано",
-      canceled: "Скасовано",
-    }
-    setOrderStatus(statusObj[status])
+  const getOrderStatus = (status: boolean): void => {
+    const isPaid = status === false ? "Не оплачено" : "Оплачено"
+    setOrderStatus(isPaid)
   }
 
   const getTtn = (ttn: string) => {

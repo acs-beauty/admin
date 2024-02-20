@@ -19,7 +19,7 @@ interface initialStateType {
   delivery: string
   payment: string
   comment: string
-  status: string
+  status: boolean
   ttn: string
 }
 
@@ -45,7 +45,7 @@ const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
     delivery: "",
     payment: "",
     comment: "",
-    status: "",
+    status: false,
     ttn: "",
   }
 
@@ -110,7 +110,7 @@ const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
                       <PhoneIcon />
                     </div>
                   </div>
-                  <div className={s.generalInfoMenuForm__input_wrapper}>
+                  {/* <div className={s.generalInfoMenuForm__input_wrapper}>
                     <Field
                       name="adress"
                       placeholder="Адреси"
@@ -122,7 +122,7 @@ const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
                     <div className={s.generalInfoMenuForm__icon}>
                       <MapMarkerIcon />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div>
                   <p className={s.generalInfoMenuForm__title}>Доставка та оплата</p>
@@ -178,6 +178,20 @@ const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
                   </div>
                   <div className={s.generalInfoMenuForm__input_wrapper}>
                     <Field
+                      name="adress"
+                      placeholder="Адреси"
+                      className={s.generalInfoMenuForm__input}
+                    />
+                    <div className={s.generalInfoMenuForm__errors}>
+                      <ErrorMessage name="adress" />
+                    </div>
+                    <div className={s.generalInfoMenuForm__icon}>
+                      <MapMarkerIcon />
+                    </div>
+                  </div>
+
+                  {/* <div className={s.generalInfoMenuForm__input_wrapper}>
+                    <Field
                       as="textarea"
                       name="comment"
                       placeholder="Коментар"
@@ -194,13 +208,32 @@ const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
                     <div className={s.generalInfoMenuForm__icon}>
                       <CommentIcon />
                     </div>
-                  </div>
+                  </div> */}
+                </div>
+              </div>
+              <div className={s.generalInfoMenuForm__input_wrapper}>
+                <Field
+                  as="textarea"
+                  name="comment"
+                  placeholder="Коментар"
+                  className={s.generalInfoMenuForm__textarea}
+                  value={comment}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                    setComment(e.target.value)
+                    setFieldValue("comment", e.target.value)
+                  }}
+                />
+                <div className={s.generalInfoMenuForm__errors}>
+                  <ErrorMessage name="comment" />
+                </div>
+                <div className={s.generalInfoMenuForm__icon}>
+                  <CommentIcon />
                 </div>
               </div>
               <div className={s.generalInfoMenuForm__wrapper}>
                 <div>
                   <p className={s.generalInfoMenuForm__title_paidStatus}>Статус замовлення</p>
-                  <OrderPaidSwitch getOrderStatus={getOrderStatus} />
+                  <OrderPaidSwitch getOrderStatus={getOrderStatus} setFieldValue={setFieldValue} />
                   {/* <div className={s.generalInfoMenuForm__select_wrapper}>
                     <Field
                       as="select"
