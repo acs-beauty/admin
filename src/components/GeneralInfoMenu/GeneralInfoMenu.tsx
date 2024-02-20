@@ -9,6 +9,7 @@ import MapMarkerIcon from "src/images/svg/MapMarkerIcon"
 import DeliveryIcon from "src/images/svg/DeliveryIcon"
 import CreditCardIcon from "src/images/svg/CreditCardIcon"
 import CommentIcon from "src/images/svg/CommentIcon"
+import OrderPaidSwitch from "../OrderPaidSwitch/OrderPaidSwitch"
 
 interface initialStateType {
   name: string
@@ -27,7 +28,7 @@ interface ResetFormProps {
 }
 
 interface GeneralInfoMenuProps {
-  getOrderStatus: (status: string) => void
+  getOrderStatus: (status: boolean) => void
   getTtn: (ttn: string) => void
 }
 
@@ -198,8 +199,9 @@ const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
               </div>
               <div className={s.generalInfoMenuForm__wrapper}>
                 <div>
-                  <p className={s.generalInfoMenuForm__title}>Статус замовлення</p>
-                  <div className={s.generalInfoMenuForm__select_wrapper}>
+                  <p className={s.generalInfoMenuForm__title_paidStatus}>Статус замовлення</p>
+                  <OrderPaidSwitch getOrderStatus={getOrderStatus} />
+                  {/* <div className={s.generalInfoMenuForm__select_wrapper}>
                     <Field
                       as="select"
                       name="status"
@@ -222,7 +224,7 @@ const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
                       <ErrorMessage name="status" />
                     </div>
                     <div className={s.generalInfoMenuForm__input_gray}></div>
-                  </div>
+                  </div> */}
                 </div>
                 <div>
                   <p className={s.generalInfoMenuForm__title}>Додати ТТН</p>

@@ -22,7 +22,7 @@ const CreateNewOrder = () => {
   const [isGeneralInfoMenuOpen, setIsGeneralInfoMenuOpen] = useState<boolean>(true)
   const [isOrderCompositMenuOpen, setIsOrderCompositMenuOpen] = useState<boolean>(true)
   // const [isOrderHistoryMenuOpen, setIsOrderHistoryMenuOpen] = useState<boolean>(false)
-  const [orderStatus, setOrderStatus] = useState<string>("")
+  const [orderStatus, setOrderStatus] = useState<string>("NotPaid")
   const [ttn, setTtn] = useState<string>("")
 
   const getOrderStatus = (status: string): void => {
