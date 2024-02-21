@@ -9,19 +9,20 @@ import ActionableTable from "src/components/ActionableTable"
 
 import { columns } from "./columns"
 import { deleteBrand } from "src/redux/brands/operations"
-import { selectBrands, selectCount } from "src/redux/brands/selectors"
+import { selectCount } from "src/redux/brands/selectors"
 import { useAppDispatch } from "src/redux/hooks"
+import { IBrand } from "src/types/brands"
 
 interface IProps {
+  brands: IBrand[]
   page: number
   pageSize: number
   setPage: (page: number) => void
   setPageSize: (pageSize: number) => void
 }
 
-const BrandsTable: React.FC<IProps> = ({ page, pageSize, setPage, setPageSize }) => {
+const BrandsTable: React.FC<IProps> = ({ brands, page, pageSize, setPage, setPageSize }) => {
   const dispatch = useAppDispatch()
-  const brands = useSelector(selectBrands)
   const count = useSelector(selectCount)
 
   const [isOpenModal, setIsOpenModal] = useState(false)

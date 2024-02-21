@@ -10,18 +10,19 @@ import ActionableTable from "src/components/ActionableTable"
 
 import { columns } from "./columns"
 import { deleteNews } from "src/redux/news/operations"
-import { selectCount, selectNews } from "src/redux/news/selectors"
+import { selectCount } from "src/redux/news/selectors"
+import { INovelty } from "src/types/news"
 
 interface IProps {
+  novelties: INovelty[]
   page: number
   pageSize: number
   setPage: (page: number) => void
   setPageSize: (pageSize: number) => void
 }
 
-const NewsTable: React.FC<IProps> = ({ page, pageSize, setPage, setPageSize }) => {
+const NewsTable: React.FC<IProps> = ({ novelties, page, pageSize, setPage, setPageSize }) => {
   const dispatch = useAppDispatch()
-  const novelties = useSelector(selectNews)
   const count = useSelector(selectCount)
 
   const [isOpenModal, setIsOpenModal] = useState(false)
@@ -58,7 +59,7 @@ const NewsTable: React.FC<IProps> = ({ page, pageSize, setPage, setPageSize }) =
         isOpenModal={isOpenModal}
       >
         <NewsManagementForm
-          novelty={novelties.find(novelties => novelties.id === selectedNews)}
+          novelty={novelties?.find(novelties => novelties.id === selectedNews)}
           onClose={() => setIsOpenModal(false)}
         />
       </ModalWindow>

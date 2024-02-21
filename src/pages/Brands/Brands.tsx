@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import { useAppDispatch } from "src/redux/hooks"
 import { getBrands } from "src/redux/brands/operations"
+import { selectBrands } from "src/redux/brands/selectors"
+import { columns } from "../../components/BrandsComponents/BrandsTable/columns"
 
 import s from "./Brands.module.scss"
 import AdminLayout from "src/layouts/AdminLayout"
@@ -11,6 +14,7 @@ import BrandManagementForm from "src/components/BrandsComponents/BrandManagement
 
 const Brands: React.FC = () => {
   const dispatch = useAppDispatch()
+  const brands = useSelector(selectBrands)
   const [isOpenModal, setIsOpenModal] = useState(false)
 
   const [page, setPage] = useState(0)
@@ -37,6 +41,8 @@ const Brands: React.FC = () => {
             btnTitle="ДОДАТИ БРЕНД"
             setSearchName={setSearchName}
             setIsOpenModal={setIsOpenModal}
+            rows={brands}
+            columns={columns}
           />
 
           <BrandsTable
@@ -44,6 +50,7 @@ const Brands: React.FC = () => {
             pageSize={pageSize}
             setPage={setPage}
             setPageSize={setPageSize}
+            brands={brands}
           />
         </section>
         <ModalWindow

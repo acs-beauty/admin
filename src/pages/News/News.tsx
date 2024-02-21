@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react"
 
+import { useSelector } from "react-redux"
 import { useAppDispatch } from "src/redux/hooks"
 import { getNews } from "src/redux/news/operations"
+import { selectNews } from "src/redux/news/selectors"
+import { columns } from "../../components/NewsComponents/NewsTable/columns"
 
 import s from "./News.module.scss"
 import AdminLayout from "src/layouts/AdminLayout"
@@ -12,6 +15,7 @@ import NewsManagementForm from "src/components/NewsComponents/NewsManagementForm
 
 const News: React.FC = () => {
   const dispatch = useAppDispatch()
+  const novelties = useSelector(selectNews)
   const [isOpenModal, setIsOpenModal] = useState(false)
 
   const [page, setPage] = useState(0)
@@ -37,9 +41,17 @@ const News: React.FC = () => {
             btnTitle="ДОДАТИ НОВИНУ"
             setSearchName={setSearchName}
             setIsOpenModal={setIsOpenModal}
+            rows={novelties}
+            columns={columns}
           />
 
-          <NewsTable page={page} pageSize={pageSize} setPage={setPage} setPageSize={setPageSize} />
+          <NewsTable
+            page={page}
+            pageSize={pageSize}
+            setPage={setPage}
+            setPageSize={setPageSize}
+            novelties={novelties}
+          />
         </section>
 
         <ModalWindow

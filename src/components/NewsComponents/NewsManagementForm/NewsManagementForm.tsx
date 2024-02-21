@@ -75,7 +75,7 @@ const NewsManagementForm: React.FC<IProps> = ({ novelty, onClose }) => {
       }
     },
     isToggler: false,
-    btnName: novelty && "РЕДАГУВАТИ",
+    btnName: novelty ? "РЕДАГУВАТИ" : "ДОДАТИ",
   }
 
   return <FormGenerator<INoveltyInitialValues> {...addNewsForm} />
