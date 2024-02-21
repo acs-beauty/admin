@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 
-import { useAppDispatch } from "src/redux/store"
+import { useAppDispatch } from "src/redux/hooks"
 import { getNews } from "src/redux/news/operations"
 
 import s from "./News.module.scss"

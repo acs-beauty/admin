@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useSelector } from "react-redux"
 import { GridRowId } from "@mui/x-data-grid"
-import { useAppDispatch } from "src/redux/store"
+import { useAppDispatch } from "src/redux/hooks"
 
 import ModalWindow from "src/components/ModalWindow"
 import NewsManagementForm from "../NewsManagementForm"

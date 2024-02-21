@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { useSelector } from "react-redux"
 import { GridRowId } from "@mui/x-data-grid"
-import { useAppDispatch } from "src/redux/store"
 
 import ModalWindow from "src/components/ModalWindow"
 import ActionsColumn from "src/components/ActionsColumn"
@@ -11,6 +10,7 @@ import ActionableTable from "src/components/ActionableTable"
 import { columns } from "./columns"
 import { deleteBrand } from "src/redux/brands/operations"
 import { selectBrands, selectCount } from "src/redux/brands/selectors"
+import { useAppDispatch } from "src/redux/hooks"
 
 interface IProps {
   page: number

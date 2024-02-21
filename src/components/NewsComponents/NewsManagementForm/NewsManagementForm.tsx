@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { FormikHelpers } from "formik"
 
 import { newsManagerSchema } from "src/libs/yup"
-import { useAppDispatch } from "src/redux/store"
+import { useAppDispatch } from "src/redux/hooks"
 import { INovelty, INoveltyInitialValues } from "src/types/news"
 import { createNewNews, patchNews } from "src/redux/news/operations"
 
