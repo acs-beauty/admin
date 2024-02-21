@@ -1,12 +1,9 @@
 import AdminLayout from "../../layouts/AdminLayout.tsx"
 import ArrowToLeft from "../../images/svg/ArrowToLeft"
 import s from "../Products/Products.module.scss"
-import CheckboxSlide from "../../components/CheckboxSlide/CheckboxSlide"
 import React from "react"
-import AddIcon from "../../images/svg/AddIcon_.tsx"
-import PlusIcon from "../../images/svg/PlusIcon.tsx"
-import { array } from "yup"
 import DragAndDrop from "../../components/DragAndDrop/DragAndDrop.tsx"
+import AddProduct from "../../components/AddProduct/AddProduct.tsx"
 
 const Products = () => {
 
@@ -22,14 +19,15 @@ const Products = () => {
             <ArrowToLeft />
             <h2 className={s.main__title_text}>Створити новий товар</h2>
           </div>
-          <div className={s.products_state}>
-            <CheckboxSlide />
-          </div>
+          {/*<div className={s.products_state}>*/}
+          {/*  <CheckboxSlide />*/}
+          {/*</div>*/}
 
           <div className={s.form__section}>
             <DragAndDrop onFileChange={(files) => onFileChange(files)}/>
           </div>
         </section>
+        <AddProduct />
 
       </main>
 

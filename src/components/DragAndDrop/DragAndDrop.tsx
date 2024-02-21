@@ -9,7 +9,6 @@ interface IDragAndDrop {
 const DragAndDrop: React.FC<IDragAndDrop> = ({ onFileChange }) => {
   const [drag, setDrag] = useState(false)
   const [fileList, setFileList] = useState<File[]>([])
-  console.log(fileList)
 
   const dragStartHandler = (e: any) => {
     e.preventDefault()
@@ -17,7 +16,6 @@ const DragAndDrop: React.FC<IDragAndDrop> = ({ onFileChange }) => {
   }
 
   const dragLeaveHandler = (e: any) => {
-    // e.preventDefault()
     setDrag(false)
   }
 
@@ -33,7 +31,7 @@ const DragAndDrop: React.FC<IDragAndDrop> = ({ onFileChange }) => {
     if (e.target.files) {
       let files = Array.from(e.target.files);
       setFileList(files);
-      onFileChange(files); // Trigger the callback with the new files
+      onFileChange(files);
     }
   };
 
@@ -60,8 +58,6 @@ const DragAndDrop: React.FC<IDragAndDrop> = ({ onFileChange }) => {
           ) : null}
         </div>
 
-
-
         <div >
           <div className={s.drop__list_img}>
             {Array.from({ length: 9 }).map((_, index) => {
@@ -71,8 +67,9 @@ const DragAndDrop: React.FC<IDragAndDrop> = ({ onFileChange }) => {
                 <div
                   className={s.drop__list_icon}
                   draggable={true}
+                  key={index}
                 >
-                  <div key={index} className={s.drop__list_block}> 
+                  <div key={index} className={s.drop__list_block}>
                     {elem ? (
                       <img className="s.drop__small_img" src={URL.createObjectURL(elem)} alt={`file-${index}`} />
                     ) : (
