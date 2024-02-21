@@ -6,6 +6,9 @@ import MagnifyIcon from "src/images/svg/MagnifyIcon"
 import { Scrollbars } from "react-custom-scrollbars-2"
 import { goods } from "../OrderCompositMenu/goods"
 import CheckedIcon from "src/images/svg/CheckedIcon"
+import { useDispatch } from "react-redux"
+import { IAppDispatch } from "../../redux/store"
+import { getProducts } from "src/redux/products/operations"
 
 const modalRoot = document.querySelector("#modal-root") as HTMLElement
 
@@ -28,6 +31,14 @@ interface IGood {
 const AddGoodsModal = ({ onClose, getCheckedgoodsIds }: IProps) => {
   const [searchValue, setSearchValue] = useState<string>("")
   const [checkedIds, setCheckedIds] = useState<string[]>([])
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+
+  const dispatch = useDispatch<IAppDispatch>()
+
+  useEffect(() => {
+    dispatch(getProducts({ page, pageSize }))
+  }, [dispatch, page, pageSize])
 
   const filteredGoods = goods.filter((good: IGood) =>
     good.title.toLowerCase().includes(searchValue.toLowerCase())
