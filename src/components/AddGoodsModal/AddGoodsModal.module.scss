@@ -77,7 +77,6 @@
   margin-bottom: 14px;
   align-self: flex-start;
   max-height: 438px;
-  // overflow-y: scroll;
 }
 
 .modalWindow__list_item {
@@ -91,9 +90,39 @@
   }
 }
 
-.modalWindow__list_itemCheck {
+.modalWindow__list_checkWrapper {
+  position: relative;
   margin-right: 16px;
-  align-self: flex-start;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.modalWindow__list_itemCheck {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.modalWindow__list_checkMark {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  width: 20px;
+  border: 1px solid #5c5e60;
+  border-radius: 2px;
+}
+
+.modalWindow__list_checkWrapper input:checked ~ .modalWindow__list_checkMark {
+  background-color: $main-color;
+  border: none;
 }
 
 .modalWindow__list_itemImg {

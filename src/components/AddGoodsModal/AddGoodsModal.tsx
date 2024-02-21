@@ -5,6 +5,7 @@ import CloseIcon from "src/images/svg/CloseIcon_"
 import MagnifyIcon from "src/images/svg/MagnifyIcon"
 import { Scrollbars } from "react-custom-scrollbars-2"
 import { goods } from "../OrderCompositMenu/goods"
+import CheckedIcon from "src/images/svg/CheckedIcon"
 
 const modalRoot = document.querySelector("#modal-root") as HTMLElement
 
@@ -98,19 +99,24 @@ const AddGoodsModal = ({ onClose, getCheckedgoodsIds }: IProps) => {
                 key={good.id}
                 onClick={() => changeCheckBox(good.id)}
               >
-                <input
-                  type="checkbox"
-                  id={`cbox_${good.id}`}
-                  className={s.modalWindow__list_itemCheck}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    changeCheckBox(good.id, e)
-                    if (e.target.checked) {
-                      setCheckedIds([...checkedIds, good.id])
-                    } else {
-                      setCheckedIds(checkedIds.filter((id: string) => id !== good.id))
-                    }
-                  }}
-                />
+                <div className={s.modalWindow__list_checkWrapper}>
+                  <input
+                    type="checkbox"
+                    id={`cbox_${good.id}`}
+                    className={s.modalWindow__list_itemCheck}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      changeCheckBox(good.id, e)
+                      if (e.target.checked) {
+                        setCheckedIds([...checkedIds, good.id])
+                      } else {
+                        setCheckedIds(checkedIds.filter((id: string) => id !== good.id))
+                      }
+                    }}
+                  />
+                  <span className={s.modalWindow__list_checkMark}>
+                    <CheckedIcon />
+                  </span>
+                </div>
                 <img src={good.photoUrl} alt="good" className={s.modalWindow__list_itemImg} />
                 <div>
                   <p className={s.modalWindow__list_itemTitle}>{good.title}</p>
