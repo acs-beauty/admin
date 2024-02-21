@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react"
+
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "src/redux/hooks"
-import { getBrands } from "src/redux/brands/operations"
-import { selectBrands } from "src/redux/brands/selectors"
-import { columns } from "../../components/BrandsComponents/BrandsTable/columns"
+import { getNews } from "src/redux/news/operations"
+import { selectNews } from "src/redux/news/selectors"
+import { columns } from "../../components/NewsComponents/NewsTable/columns"
 
-import s from "./Brands.module.scss"
+import s from "./News.module.scss"
 import AdminLayout from "src/layouts/AdminLayout"
+import ModalWindow from "src/components/ModalWindow"
 import PageToolsPanel from "src/components/PageControls"
-import ModalWindow from "src/components/ModalWindow/ModalWindow"
-import BrandsTable from "src/components/BrandsComponents/BrandsTable"
-import BrandManagementForm from "src/components/BrandsComponents/BrandManagementForm"
+import NewsTable from "src/components/NewsComponents/NewsTable"
+import NewsManagementForm from "src/components/NewsComponents/NewsManagementForm"
 
-const Brands: React.FC = () => {
+const News: React.FC = () => {
   const dispatch = useAppDispatch()
-  const brands = useSelector(selectBrands)
+  const novelties = useSelector(selectNews)
   const [isOpenModal, setIsOpenModal] = useState(false)
 
   const [page, setPage] = useState(0)
@@ -23,46 +24,46 @@ const Brands: React.FC = () => {
 
   useEffect(() => {
     dispatch(
-      getBrands({
+      getNews({
         lookup: searchName,
         pageSize,
         page: page + 1,
       })
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, pageSize, searchName])
 
   return (
     <AdminLayout>
-      <main className={s.brand}>
-        <section className={s.brand__section}>
+      <main className={s.news}>
+        <section className={s.news__section}>
           <PageToolsPanel
-            title="Бренди"
-            btnTitle="ДОДАТИ БРЕНД"
+            title="Новини"
+            btnTitle="ДОДАТИ НОВИНУ"
             setSearchName={setSearchName}
             setIsOpenModal={setIsOpenModal}
-            rows={brands}
+            rows={novelties}
             columns={columns}
           />
 
-          <BrandsTable
+          <NewsTable
             page={page}
             pageSize={pageSize}
             setPage={setPage}
             setPageSize={setPageSize}
-            brands={brands}
+            novelties={novelties}
           />
         </section>
+
         <ModalWindow
-          title={"ДОДАТИ БРЕНД"}
+          title={"ДОДАТИ НОВИНУ"}
           onClose={() => setIsOpenModal(false)}
           isOpenModal={isOpenModal}
         >
-          <BrandManagementForm onClose={() => setIsOpenModal(false)} />
+          <NewsManagementForm onClose={() => setIsOpenModal(false)} />
         </ModalWindow>
       </main>
     </AdminLayout>
   )
 }
 
-export default Brands
+export default News
