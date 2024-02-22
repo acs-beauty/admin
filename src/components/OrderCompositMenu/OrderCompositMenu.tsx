@@ -55,7 +55,11 @@ const OrderCompositMenu = () => {
 
   // const rows = goodsArrayToRender
 
-  const totalSum = goodsArrayToRender.reduce((total, good) => total + good.total, 0)
+  const totalSum = goodsArrayToRender.reduce(
+    (sum, good, index) =>
+      sum + (good?.price - good?.price * (discounts[index] / 100)) * quantities[index],
+    0
+  )
 
   const handleAddGoodsModalToggle = () => {
     setIsAddGoodsModalOpen(!isAddGoodsModalOpen)
@@ -123,7 +127,9 @@ const OrderCompositMenu = () => {
                       }
                       className={s.list__item_qty}
                     />
-                    <p className={s.list__item_textNumbers}>{good.total}</p>
+                    <p className={s.list__item_textNumbers}>
+                      {Number((good.price - good.price * (discounts[index] / 100)).toFixed(2))}
+                    </p>
                     <button
                       type="button"
                       className={s.list__item_deleteBtn}
