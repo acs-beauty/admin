@@ -1,7 +1,7 @@
 import AuthForm from "src/components/LoginComponents/AuthForm"
-import s from "./Login.module.scss"
+import s from "./Register.module.scss"
 import { FormEventHandler } from "react"
-import { loginUser } from "src/redux/users/operations"
+import { registerUser } from "src/redux/users/operations"
 import { IUserAuth } from "src/types/users"
 import { useAppDispatch } from "src/redux/hooks"
 import { Link, useNavigate } from "react-router-dom"
@@ -16,7 +16,7 @@ const loginFields = [
   },
 ]
 
-const Login = () => {
+const Register = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -26,27 +26,27 @@ const Login = () => {
     const form = e.target as HTMLFormElement
     const userData: IUserAuth = { email: form.email.value, password: form.password.value }
     try {
-      await dispatch(loginUser(userData)).unwrap()
+      await dispatch(registerUser(userData)).unwrap()
       navigate("/")
     } catch (error) {
       console.log(error)
     }
   }
   return (
-    <div className={s.LoginPage__container}>
-      <div className={s.LoginPage__formWrap}>
+    <div className={s.RegisterPage__container}>
+      <div className={s.RegisterPage__formWrap}>
         <AuthForm
-          title="ВХІД ДО АДМІНПАНЕЛІ"
-          btnTitle="УВІЙТИ"
+          title="РЕЄСТРАЦІЯ"
+          btnTitle="ЗАРЕЄСТРУВАТИСЯ"
           fields={loginFields}
           onSubmit={onSubmit}
         />
-        <Link to="/register" className={s.LoginPage__link}>
-          Зареєструватись
+        <Link to="/login" className={s.RegisterPage__link}>
+          Увійти
         </Link>
       </div>
     </div>
   )
 }
 
-export default Login
+export default Register

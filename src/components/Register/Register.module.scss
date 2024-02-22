@@ -1,7 +1,7 @@
 @import "/src/styles/variables.scss";
 @import "/src/styles/mixins.scss";
 
-.LoginPage__container {
+.RegisterPage__container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,12 +9,12 @@
   height: 100vh;
   background: #948ad0;
 }
-.LoginPage__formWrap {
+.RegisterPage__formWrap {
   width: 414px;
   padding: 32px 38px;
   background: #ffffff;
 }
-.LoginPage__link {
+.RegisterPage__link {
   display: block;
   margin-top: 10px;
   font-weight: 400;

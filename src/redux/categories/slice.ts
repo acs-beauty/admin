@@ -10,13 +10,12 @@ import {
   patchSubCategory,
 } from "./operations"
 
-interface IState {
+interface ICategoryState {
   categories: ICategory[]
   status: "pending" | "fulfilled" | "rejected"
-  // error: string
 }
 
-const initialState: IState = {
+const initialState: ICategoryState = {
   categories: [],
   status: "pending",
 }
