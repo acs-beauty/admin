@@ -128,7 +128,8 @@ const OrderCompositMenu = () => {
                       className={s.list__item_qty}
                     />
                     <p className={s.list__item_textNumbers}>
-                      {Number((good.price - good.price * (discounts[index] / 100)).toFixed(2))}
+                      {Number((good.price - good.price * (discounts[index] / 100)).toFixed(2)) *
+                        quantities[index]}
                     </p>
                     <button
                       type="button"
@@ -160,7 +161,7 @@ const OrderCompositMenu = () => {
         {goodsArrayToRender.length > 0 && (
           <div className={s.table__total_wrapper}>
             <p className={s.table__total_text}>Всього товарів: {goodsArrayToRender.length} шт</p>
-            <p className={s.table__total_text}>Загальна сума: {totalSum} грн</p>
+            <p className={s.table__total_text}>Загальна сума: {Number(totalSum.toFixed(2))} грн</p>
           </div>
         )}
         {isAddGoodsModalOpen && (
