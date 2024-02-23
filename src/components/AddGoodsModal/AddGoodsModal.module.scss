@@ -127,6 +127,15 @@
 
 .modalWindow__list_itemImg {
   margin-right: 24px;
+  width: 60px;
+  height: 60px;
+}
+
+.modalWindow__list_textWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .modalWindow__list_itemTitle {

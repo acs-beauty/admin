@@ -4,33 +4,23 @@ import s from "./AddGoodsModal.module.scss"
 import CloseIcon from "src/images/svg/CloseIcon_"
 import MagnifyIcon from "src/images/svg/MagnifyIcon"
 import { Scrollbars } from "react-custom-scrollbars-2"
-import { goods } from "../OrderCompositMenu/goods"
 import CheckedIcon from "src/images/svg/CheckedIcon"
+import { IProduct } from "../OrderCompositMenu/OrderCompositMenu"
 
 const modalRoot = document.querySelector("#modal-root") as HTMLElement
 
 interface IProps {
   onClose: () => void
   getCheckedgoodsIds: (checkedIds: string[]) => void
+  goods: IProduct[]
 }
 
-interface IGood {
-  id: string
-  photoUrl: string
-  title: string
-  goodId: string
-  quantity: number
-  price: number
-  discount: number
-  total: number
-}
-
-const AddGoodsModal = ({ onClose, getCheckedgoodsIds }: IProps) => {
+const AddGoodsModal = ({ onClose, getCheckedgoodsIds, goods }: IProps) => {
   const [searchValue, setSearchValue] = useState<string>("")
   const [checkedIds, setCheckedIds] = useState<string[]>([])
 
-  const filteredGoods = goods.filter((good: IGood) =>
-    good.title.toLowerCase().includes(searchValue.toLowerCase())
+  const filteredGoods = goods.filter((good: IProduct) =>
+    good.name.toLowerCase().includes(searchValue.toLowerCase())
   )
 
   useEffect(() => {
@@ -93,7 +83,7 @@ const AddGoodsModal = ({ onClose, getCheckedgoodsIds }: IProps) => {
           )}
         >
           <ul className={s.modalWindow__list}>
-            {filteredGoods.map((good: IGood) => (
+            {filteredGoods.map((good: IProduct) => (
               <li
                 className={s.modalWindow__list_item}
                 key={good.id}
@@ -117,9 +107,9 @@ const AddGoodsModal = ({ onClose, getCheckedgoodsIds }: IProps) => {
                     <CheckedIcon />
                   </span>
                 </div>
-                <img src={good.photoUrl} alt="good" className={s.modalWindow__list_itemImg} />
-                <div>
-                  <p className={s.modalWindow__list_itemTitle}>{good.title}</p>
+                <img src={good.images[0].url} alt="good" className={s.modalWindow__list_itemImg} />
+                <div className={s.modalWindow__list_textWrapper}>
+                  <p className={s.modalWindow__list_itemTitle}>{good.name}</p>
                   <div className={s.priceWrapper}>
                     <p className={s.modalWindow__list_itemText}>У наявності</p>
                     <p className={s.modalWindow__list_itemText}>{good.price} ₴</p>
