@@ -135,10 +135,10 @@ const OrderCompositMenu = () => {
                     <p className={s.list__item_textNumbers}>
                       {Number(
                         (
-                          Number(good.price) -
-                          Number(good.price) * (discounts[index] / 100)
+                          (Number(good.price) - Number(good.price) * (discounts[index] / 100)) *
+                          quantities[index]
                         ).toFixed(2)
-                      ) * quantities[index]}
+                      )}
                     </p>
                     <button
                       type="button"
