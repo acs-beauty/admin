@@ -12,8 +12,8 @@ export const columns: GridColDef[] = [
     headerAlign: "center",
   },
   {
-    field: "logo",
-    headerName: "Логотип",
+    field: "banner",
+    headerName: "Банер",
     width: 178,
     type: "string",
     align: "center",
@@ -21,22 +21,22 @@ export const columns: GridColDef[] = [
     renderCell: params => (
       <img
         src={(params.value as string) || noImage}
-        alt="Logo"
+        alt="Banner"
         style={{ width: "138px", height: "97px", objectFit: "contain" }}
       />
     ),
     editable: true,
   },
   {
-    field: "name",
-    headerName: "Назва",
+    field: "title",
+    headerName: "Заголовок",
     width: 122,
     type: "string",
     editable: true,
   },
   {
-    field: "description",
-    headerName: "Опис",
+    field: "text",
+    headerName: "Текст",
     type: "string",
     width: 500,
     editable: true,

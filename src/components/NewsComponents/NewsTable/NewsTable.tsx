@@ -1,41 +1,41 @@
 import React, { useState } from "react"
 import { useSelector } from "react-redux"
 import { GridRowId } from "@mui/x-data-grid"
+import { useAppDispatch } from "src/redux/hooks"
 
 import ModalWindow from "src/components/ModalWindow"
+import NewsManagementForm from "../NewsManagementForm"
 import ActionsColumn from "src/components/ActionsColumn"
-import BrandManagementForm from "../BrandManagementForm"
 import ActionableTable from "src/components/ActionableTable"
 
 import { columns } from "./columns"
-import { deleteBrand } from "src/redux/brands/operations"
-import { selectCount } from "src/redux/brands/selectors"
-import { useAppDispatch } from "src/redux/hooks"
-import { IBrand } from "src/types/brands"
+import { deleteNews } from "src/redux/news/operations"
+import { selectCount } from "src/redux/news/selectors"
+import { INovelty } from "src/types/news"
 
 interface IProps {
-  brands: IBrand[]
+  novelties: INovelty[]
   page: number
   pageSize: number
   setPage: (page: number) => void
   setPageSize: (pageSize: number) => void
 }
 
-const BrandsTable: React.FC<IProps> = ({ brands, page, pageSize, setPage, setPageSize }) => {
+const NewsTable: React.FC<IProps> = ({ novelties, page, pageSize, setPage, setPageSize }) => {
   const dispatch = useAppDispatch()
   const count = useSelector(selectCount)
 
   const [isOpenModal, setIsOpenModal] = useState(false)
-  const [selectedBrand, setSelectedBrand] = useState<GridRowId | 0>(0)
+  const [selectedNews, setSelectedNews] = useState<GridRowId | 0>(0)
 
   const getActions = (id: GridRowId) => [
     <ActionsColumn
       onEditClick={() => {
         setIsOpenModal(true)
-        setSelectedBrand(id)
+        setSelectedNews(id)
       }}
       onDeleteClick={() => {
-        dispatch(deleteBrand(id))
+        dispatch(deleteNews(id))
       }}
     />,
   ]
@@ -44,7 +44,7 @@ const BrandsTable: React.FC<IProps> = ({ brands, page, pageSize, setPage, setPag
     <>
       <ActionableTable
         columns={columns}
-        rows={brands}
+        rows={novelties}
         page={page}
         pageSize={pageSize}
         setPage={setPage}
@@ -54,12 +54,12 @@ const BrandsTable: React.FC<IProps> = ({ brands, page, pageSize, setPage, setPag
       />
 
       <ModalWindow
-        title={"РЕДАГУВАТИ БРЕНД"}
+        title={"РЕДАГУВАТИ НОВИНУ"}
         onClose={() => setIsOpenModal(false)}
         isOpenModal={isOpenModal}
       >
-        <BrandManagementForm
-          brand={brands.find(brand => brand.id === selectedBrand)}
+        <NewsManagementForm
+          novelty={novelties?.find(novelties => novelties.id === selectedNews)}
           onClose={() => setIsOpenModal(false)}
         />
       </ModalWindow>
@@ -67,4 +67,4 @@ const BrandsTable: React.FC<IProps> = ({ brands, page, pageSize, setPage, setPag
   )
 }
 
-export default BrandsTable
+export default NewsTable
