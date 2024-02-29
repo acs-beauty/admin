@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import s from "./AddGoodsModal.module.scss"
 import CloseIcon from "src/images/svg/CloseIcon_"
-import MagnifyIcon from "src/images/svg/MagnifyIcon"
+import MagnifyIcon from "../../images/svg/MagnifyIcon"
 import { Scrollbars } from "react-custom-scrollbars-2"
-import CheckedIcon from "src/images/svg/CheckedIcon"
+import CheckedIcon from "../../images/svg/CheckedIcon"
 import { IProduct } from "../OrderCompositMenu/OrderCompositMenu"
+import Pagination from "@mui/material/Pagination"
+import Stack from "@mui/material/Stack"
 
 const modalRoot = document.querySelector("#modal-root") as HTMLElement
 
@@ -13,15 +15,24 @@ interface IProps {
   onClose: () => void
   getCheckedgoodsIds: (checkedIds: string[]) => void
   goods: IProduct[]
+  setPage: (page: number) => void
 }
 
-const AddGoodsModal = ({ onClose, getCheckedgoodsIds, goods }: IProps) => {
+const AddGoodsModal = ({ onClose, getCheckedgoodsIds, goods, setPage }: IProps) => {
   const [searchValue, setSearchValue] = useState<string>("")
   const [checkedIds, setCheckedIds] = useState<string[]>([])
 
   const filteredGoods = goods.filter((good: IProduct) =>
     good.name.toLowerCase().includes(searchValue.toLowerCase())
   )
+
+  const count = Math.ceil(filteredGoods.length / 25)
+
+  const handleChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
+    setPage(page)
+  }
+
+  // const changePage = (event: React.ChangeEvent, page: number) => {}
 
   useEffect(() => {
     const onEscClick = (e: KeyboardEvent) => {
@@ -120,12 +131,19 @@ const AddGoodsModal = ({ onClose, getCheckedgoodsIds, goods }: IProps) => {
           </ul>
         </Scrollbars>
         <div className={s.modalWindow__buttonsWrapper}>
-          <button className={s.modalWindow__cancelBtn} onClick={onClose}>
-            Скасувати
-          </button>
-          <button className={s.modalWindow__addBtn} onClick={handleSubmit}>
-            ДОДАТИ
-          </button>
+          <div>
+            <Stack spacing={2}>
+              <Pagination count={count} size="small" onChange={handleChangePage} />
+            </Stack>
+          </div>
+          <div>
+            <button className={s.modalWindow__cancelBtn} onClick={onClose}>
+              Скасувати
+            </button>
+            <button className={s.modalWindow__addBtn} onClick={handleSubmit}>
+              ДОДАТИ
+            </button>
+          </div>
         </div>
       </div>
     </div>,

@@ -156,8 +156,10 @@
 
 .modalWindow__buttonsWrapper {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+  align-items: center;
   padding: 16px 32px;
+  padding-left: 0;
   border-top: $default-border;
   width: 100%;
 }

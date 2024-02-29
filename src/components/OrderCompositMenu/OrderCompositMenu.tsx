@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import s from "./OrderCompositMenu.module.scss"
 import AddGoodsModal from "../AddGoodsModal/AddGoodsModal"
-import TrashIcon from "src/images/svg/TrashIcon"
+import TrashIcon from "../../images/svg/TrashIcon"
 import { instance } from "../../api/instance"
 
 export interface IProduct {
@@ -33,18 +33,19 @@ const OrderCompositMenu = () => {
   const [goods, setGoods] = useState<IProduct[]>([])
   const [quantities, setQuantities] = useState<number[]>(Array(goods.length || 50).fill(1))
   const [discounts, setDiscounts] = useState<number[]>(Array(goods.length || 50).fill(0))
+  const [page, setPage] = useState<number>(1)
 
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const { data } = await instance.get<IProductResponse>("product?page=1&pageSize=10")
+        const { data } = await instance.get<IProductResponse>(`product?page=${page}&pageSize=25`)
         setGoods(data.rows)
       } catch (error) {
         console.log(error)
       }
     }
     getProducts()
-  }, [])
+  }, [page])
 
   const handleQuantityChange = (index: number, value: number) => {
     const newQuantities = [...quantities]
@@ -168,6 +169,7 @@ const OrderCompositMenu = () => {
             onClose={handleAddGoodsModalToggle}
             getCheckedgoodsIds={getCheckedgoodsIds}
             goods={goods}
+            setPage={setPage}
           />
         )}
       </div>
