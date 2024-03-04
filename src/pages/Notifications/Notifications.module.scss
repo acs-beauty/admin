@@ -1,0 +1,25 @@
+@import "/src/styles/mixins.scss";
+@import "/src/styles/variables.scss";
+
+.notification {
+  display: flex;
+  width: $page-width - $sidebar-width;
+  padding: 32px 80px 47px 20px;
+  margin-left: $sidebar-width;
+  &__section {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  &__title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    @extend .Roboto500-24-28;
+    color: $main-text-color;
+    &_text {
+      @include text($font-size: 24px, $font-weight: 500);
+    }
+  }
+}

@@ -4,7 +4,8 @@ import CategoriesPage from "./pages/CategoriesPage"
 import Dashboard from "./pages/Dashboard/Dashboard"
 import Brands from "./pages/Brands/Brands"
 import Orders from "./pages/Orders/Orders.tsx"
-import News from "./pages/News/News.tsx"
+import News from "src/pages/News/News"
+import Notifications from "./pages/Notifications/Notifications"
 
 export const router = createBrowserRouter([
   {
@@ -30,5 +31,9 @@ export const router = createBrowserRouter([
   {
     path: "/news",
     element: <News />,
+  },
+  {
+    path: "/notifications",
+    element: <Notifications />,
   },
 ])

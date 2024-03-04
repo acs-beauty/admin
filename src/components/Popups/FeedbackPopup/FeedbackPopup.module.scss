@@ -1,0 +1,51 @@
+@import "/src/styles/variables.scss";
+@import "/src/styles/mixins.scss";
+
+.container {
+  width: 629px;
+  border: $default-border;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  color: $main-text-color;
+  background-color: #fff;
+  padding: 22px 38px 31px 37px;
+  .heading {
+    display: flex;
+    justify-content: center;
+    margin-bottom: $margin-second;
+    h3 {
+      @extend .Roboto500-20-23;
+    }
+  }
+  .title {
+     padding-top: 10px;
+     padding-bottom: 10px;
+     @extend .Roboto600-16-18;
+  }
+  .content {
+    //margin-top: $margin-second;
+    margin-bottom: $margin-second;
+  }
+  .description {
+    //margin-top: $margin-second;
+    margin-bottom: $margin-main;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: end;
+  }
+  .whiteButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 9px;
+    color: $hover-icon-color;
+  }
+  .violetButton {
+    align-self: center;
+  }
+}
+
