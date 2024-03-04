@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import s from "./OrderCompositMenu.module.scss"
 import AddGoodsModal from "../AddGoodsModal/AddGoodsModal"
 import TrashIcon from "../../images/svg/TrashIcon"
-import { instance } from "../../api/instance"
 
 export interface IProduct {
   id: string
@@ -21,31 +20,11 @@ export interface IProduct {
   ]
 }
 
-interface IProductResponse {
-  count: number
-  rows: IProduct[]
-}
-
 const OrderCompositMenu = () => {
   const [isAddGoodsModalOpen, setIsAddGoodsModalOpen] = useState<boolean>(false)
-  const [checkedGoodsIds, setCheckedGoodsIds] = useState<string[]>([])
-  const [goodsArrayToRender, setGoodsArrayToRender] = useState<IProduct[]>([])
   const [goods, setGoods] = useState<IProduct[]>([])
   const [quantities, setQuantities] = useState<number[]>(Array(goods.length || 50).fill(1))
   const [discounts, setDiscounts] = useState<number[]>(Array(goods.length || 50).fill(0))
-  const [page, setPage] = useState<number>(1)
-
-  useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const { data } = await instance.get<IProductResponse>(`product?page=${page}&pageSize=25`)
-        setGoods(data.rows)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getProducts()
-  }, [page])
 
   const handleQuantityChange = (index: number, value: number) => {
     const newQuantities = [...quantities]
@@ -60,11 +39,11 @@ const OrderCompositMenu = () => {
   }
 
   const handleDeleteGood = (id: string) => {
-    const arrayAfterDelete = goodsArrayToRender.filter((good: IProduct) => good.id !== id)
-    setGoodsArrayToRender(arrayAfterDelete)
+    const arrayAfterDelete = goods.filter((good: IProduct) => good.id !== id)
+    setGoods(arrayAfterDelete)
   }
 
-  const totalSum = goodsArrayToRender.reduce(
+  const totalSum = goods.reduce(
     (sum, good, index) =>
       sum +
       (Number(good?.price) - Number(good?.price) * (discounts[index] / 100)) * quantities[index],
@@ -75,19 +54,9 @@ const OrderCompositMenu = () => {
     setIsAddGoodsModalOpen(!isAddGoodsModalOpen)
   }
 
-  const getCheckedgoodsIds = (arrayIds: string[]) => {
-    setCheckedGoodsIds(arrayIds)
+  const getGoods = (arrayToRender: IProduct[]) => {
+    setGoods(arrayToRender)
   }
-
-  useEffect(() => {
-    const foundGoods: (IProduct | undefined)[] = checkedGoodsIds.map((goodId: string) =>
-      goods.find(good => good?.id === goodId)
-    )
-
-    const filteredGoods: IProduct[] = foundGoods.filter(good => good !== undefined) as IProduct[]
-
-    setGoodsArrayToRender(filteredGoods)
-  }, [checkedGoodsIds, goods])
 
   return (
     <div className={s.orderCompositMenu__container}>
@@ -107,9 +76,9 @@ const OrderCompositMenu = () => {
           <p className={s.table__header_textCenter}>Знижка, %</p>
           <p className={s.table__header_textCenter}>Всього, грн</p>
         </div>
-        {goodsArrayToRender.length > 0 ? (
+        {goods.length > 0 ? (
           <ul className={s.list}>
-            {goodsArrayToRender.map(
+            {goods.map(
               (good: IProduct | undefined, index) =>
                 good && (
                   <li key={good.id} className={s.list__item}>
@@ -158,19 +127,14 @@ const OrderCompositMenu = () => {
           </div>
         )}
 
-        {goodsArrayToRender.length > 0 && (
+        {goods.length > 0 && (
           <div className={s.table__total_wrapper}>
-            <p className={s.table__total_text}>Всього товарів: {goodsArrayToRender.length} шт</p>
+            <p className={s.table__total_text}>Всього товарів: {goods.length} шт</p>
             <p className={s.table__total_text}>Загальна сума: {Number(totalSum.toFixed(2))} грн</p>
           </div>
         )}
         {isAddGoodsModalOpen && (
-          <AddGoodsModal
-            onClose={handleAddGoodsModalToggle}
-            getCheckedgoodsIds={getCheckedgoodsIds}
-            goods={goods}
-            setPage={setPage}
-          />
+          <AddGoodsModal onClose={handleAddGoodsModalToggle} getGoods={getGoods} />
         )}
       </div>
     </div>

@@ -77,6 +77,8 @@
   margin-bottom: 14px;
   align-self: flex-start;
   max-height: 438px;
+  overflow: auto;
+  width: 100%;
 }
 
 .modalWindow__list_item {
@@ -156,10 +158,8 @@
 
 .modalWindow__buttonsWrapper {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-end;
   padding: 16px 32px;
-  padding-left: 0;
   border-top: $default-border;
   width: 100%;
 }
@@ -185,4 +185,8 @@
 .scroll__thumb {
   background-color: $main-color;
   border-radius: 4px;
+}
+
+.cover {
+  width: 100%;
 }

@@ -1,38 +1,87 @@
-import React, { useEffect, useState } from "react"
+import React, { useRef, useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import s from "./AddGoodsModal.module.scss"
 import CloseIcon from "src/images/svg/CloseIcon_"
 import MagnifyIcon from "../../images/svg/MagnifyIcon"
-import { Scrollbars } from "react-custom-scrollbars-2"
 import CheckedIcon from "../../images/svg/CheckedIcon"
 import { IProduct } from "../OrderCompositMenu/OrderCompositMenu"
-import Pagination from "@mui/material/Pagination"
-import Stack from "@mui/material/Stack"
+import { instance } from "../../api/instance"
 
 const modalRoot = document.querySelector("#modal-root") as HTMLElement
 
 interface IProps {
   onClose: () => void
-  getCheckedgoodsIds: (checkedIds: string[]) => void
-  goods: IProduct[]
-  setPage: (page: number) => void
+  getGoods: (arrayToRender: IProduct[]) => void
 }
 
-const AddGoodsModal = ({ onClose, getCheckedgoodsIds, goods, setPage }: IProps) => {
+interface IProductResponse {
+  count: number
+  rows: IProduct[]
+}
+
+const AddGoodsModal = ({ onClose, getGoods }: IProps) => {
   const [searchValue, setSearchValue] = useState<string>("")
   const [checkedIds, setCheckedIds] = useState<string[]>([])
+  const [goods, setGoods] = useState<IProduct[]>([])
+  const [foundCheckedGoods, setFoundCheckedGoods] = useState<IProduct[]>([])
+  const [page, setPage] = useState<number>(1)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const filteredGoods = goods.filter((good: IProduct) =>
-    good.name.toLowerCase().includes(searchValue.toLowerCase())
-  )
+  const containerRef = useRef<HTMLUListElement | null>(null)
 
-  const count = Math.ceil(filteredGoods.length / 25)
+  useEffect(() => {
+    getProducts()
+  }, [page])
 
-  const handleChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
-    setPage(page)
+  const getProducts = async () => {
+    setIsLoading(true)
+
+    try {
+      const { data } = await instance.get<IProductResponse>(`product?page=${page}&pageSize=25`)
+
+      setGoods([...goods, ...data.rows])
+    } catch (error: unknown) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  // const changePage = (event: React.ChangeEvent, page: number) => {}
+  const handleScroll = () => {
+    const container = containerRef.current
+
+    if (container) {
+      const isAtBottom = container.scrollTop + container.clientHeight === container.scrollHeight
+
+      if (isAtBottom && !isLoading) {
+        setPage(prevPage => prevPage + 1)
+      }
+    }
+  }
+
+  useEffect(() => {
+    const container = containerRef.current
+
+    if (container) {
+      container.addEventListener("scroll", handleScroll)
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener("scroll", handleScroll)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    const foundGoods: (IProduct | undefined)[] = checkedIds.map((goodId: string) =>
+      goods.find(good => good?.id === goodId)
+    )
+
+    const existGoods: IProduct[] = foundGoods.filter(good => good !== undefined) as IProduct[]
+
+    setFoundCheckedGoods(existGoods)
+  }, [checkedIds, goods])
 
   useEffect(() => {
     const onEscClick = (e: KeyboardEvent) => {
@@ -64,7 +113,7 @@ const AddGoodsModal = ({ onClose, getCheckedgoodsIds, goods, setPage }: IProps) 
   }
 
   const handleSubmit = () => {
-    getCheckedgoodsIds(checkedIds)
+    getGoods(foundCheckedGoods)
     onClose()
   }
 
@@ -87,55 +136,44 @@ const AddGoodsModal = ({ onClose, getCheckedgoodsIds, goods, setPage }: IProps) 
             <MagnifyIcon />
           </div>
         </div>
-        <Scrollbars
-          style={{ width: 564, height: 390 }}
-          renderThumbVertical={props => (
-            <div {...props} className={s.scroll__thumb} style={{ width: 8 }} />
-          )}
-        >
-          <ul className={s.modalWindow__list}>
-            {filteredGoods.map((good: IProduct) => (
-              <li
-                className={s.modalWindow__list_item}
-                key={good.id}
-                onClick={() => changeCheckBox(good.id)}
-              >
-                <div className={s.modalWindow__list_checkWrapper}>
-                  <input
-                    type="checkbox"
-                    id={`cbox_${good.id}`}
-                    className={s.modalWindow__list_itemCheck}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      changeCheckBox(good.id, e)
-                      if (e.target.checked) {
-                        setCheckedIds([...checkedIds, good.id])
-                      } else {
-                        setCheckedIds(checkedIds.filter((id: string) => id !== good.id))
-                      }
-                    }}
-                  />
-                  <span className={s.modalWindow__list_checkMark}>
-                    <CheckedIcon />
-                  </span>
+        <ul className={s.modalWindow__list} ref={containerRef}>
+          {goods.map((good: IProduct, index) => (
+            <li
+              className={s.modalWindow__list_item}
+              key={index}
+              onClick={() => changeCheckBox(good.id)}
+            >
+              <div className={s.modalWindow__list_checkWrapper}>
+                <input
+                  type="checkbox"
+                  id={`cbox_${good.id}`}
+                  className={s.modalWindow__list_itemCheck}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    changeCheckBox(good.id, e)
+                    if (e.target.checked) {
+                      setCheckedIds([...checkedIds, good.id])
+                    } else {
+                      setCheckedIds(checkedIds.filter((id: string) => id !== good.id))
+                    }
+                  }}
+                />
+                <span className={s.modalWindow__list_checkMark}>
+                  <CheckedIcon />
+                </span>
+              </div>
+              <img src={good.images[0].url} alt="good" className={s.modalWindow__list_itemImg} />
+              <div className={s.modalWindow__list_textWrapper}>
+                <p className={s.modalWindow__list_itemTitle}>{good.name}</p>
+                <div className={s.priceWrapper}>
+                  <p className={s.modalWindow__list_itemText}>У наявності</p>
+                  <p className={s.modalWindow__list_itemText}>{good.price} ₴</p>
                 </div>
-                <img src={good.images[0].url} alt="good" className={s.modalWindow__list_itemImg} />
-                <div className={s.modalWindow__list_textWrapper}>
-                  <p className={s.modalWindow__list_itemTitle}>{good.name}</p>
-                  <div className={s.priceWrapper}>
-                    <p className={s.modalWindow__list_itemText}>У наявності</p>
-                    <p className={s.modalWindow__list_itemText}>{good.price} ₴</p>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </Scrollbars>
+              </div>
+            </li>
+          ))}
+        </ul>
+        {isLoading && <p>Loading...</p>}
         <div className={s.modalWindow__buttonsWrapper}>
-          <div>
-            <Stack spacing={2}>
-              <Pagination count={count} size="small" onChange={handleChangePage} />
-            </Stack>
-          </div>
           <div>
             <button className={s.modalWindow__cancelBtn} onClick={onClose}>
               Скасувати
