@@ -1,16 +1,17 @@
 import AuthForm from "src/components/LoginComponents/AuthForm"
 import s from "./Login.module.scss"
-import { FormEventHandler } from "react"
+import { FormEventHandler, useState } from "react"
 import { loginUser } from "src/redux/users/operations"
-import { IUserAuth } from "src/types/users"
+import { IErrorRes, IUserAuth } from "src/types/users"
 import { useAppDispatch } from "src/redux/hooks"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { getErrorObj } from "./helpers"
 
 const loginFields = [
-  { label: "Email", type: "email", placeholder: "Ваша пошта", sx: { mt: "44px" } },
+  { label: "Email", type: "email" as const, placeholder: "Ваша пошта", sx: { mt: "44px" } },
   {
     label: "Пароль",
-    type: "password",
+    type: "password" as const,
     placeholder: "Введіть пароль",
     sx: { mt: "24px" },
   },
@@ -19,6 +20,10 @@ const loginFields = [
 const Login = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const [error, setError] = useState<IErrorRes>({
+    email: null,
+    password: null,
+  })
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
@@ -29,21 +34,13 @@ const Login = () => {
       await dispatch(loginUser(userData)).unwrap()
       navigate("/")
     } catch (error) {
-      console.log(error)
+      setError(getErrorObj(error))
     }
   }
   return (
     <div className={s.LoginPage__container}>
       <div className={s.LoginPage__formWrap}>
-        <AuthForm
-          title="ВХІД ДО АДМІНПАНЕЛІ"
-          btnTitle="УВІЙТИ"
-          fields={loginFields}
-          onSubmit={onSubmit}
-        />
-        <Link to="/register" className={s.LoginPage__link}>
-          Зареєструватись
-        </Link>
+        <AuthForm fields={loginFields} onSubmit={onSubmit} error={error} />
       </div>
     </div>
   )

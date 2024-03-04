@@ -6,7 +6,6 @@ import Brands from "./pages/Brands/Brands.tsx"
 import Orders from "./pages/Orders/Orders.tsx"
 import AdminLayout from "./layouts/AdminLayout.tsx"
 import Login from "./pages/Login"
-import Register from "./components/Register"
 
 export const router = (isAuth: boolean) =>
   createBrowserRouter([
@@ -42,9 +41,5 @@ export const router = (isAuth: boolean) =>
     {
       path: "/login",
       element: <Login />,
-    },
-    {
-      path: "/register",
-      element: <Register />,
     },
   ])

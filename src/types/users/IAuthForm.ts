@@ -1,13 +1,14 @@
 import { SxProps } from "@mui/material"
-import { FormHTMLAttributes } from "react"
+import { FormEventHandler } from "react"
+import { IErrorRes } from "./IErrorRes"
 
-export interface IAuthForm extends FormHTMLAttributes<HTMLFormElement> {
-  title: string
-  btnTitle: string
+export interface IAuthForm {
   fields: Array<{
     label: string
-    type: string
+    type: "email" | "password"
     placeholder: string
     sx?: SxProps
   }>
+  onSubmit: FormEventHandler<HTMLFormElement>
+  error: IErrorRes
 }
