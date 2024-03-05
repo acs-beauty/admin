@@ -2,7 +2,7 @@ import AuthForm from "src/components/LoginComponents/AuthForm"
 import s from "./Login.module.scss"
 import { FormEventHandler, useState } from "react"
 import { loginUser } from "src/redux/users/operations"
-import { IErrorRes, IUserAuth } from "src/types/users"
+import { IErrorRes, IFormValues, IUserAuth } from "src/types/users"
 import { useAppDispatch } from "src/redux/hooks"
 import { useNavigate } from "react-router-dom"
 import { getErrorObj } from "./helpers"
@@ -24,6 +24,7 @@ const Login = () => {
     email: null,
     password: null,
   })
+  const [values, setValues] = useState<IFormValues>({ email: "", password: "" })
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
@@ -40,7 +41,13 @@ const Login = () => {
   return (
     <div className={s.LoginPage__container}>
       <div className={s.LoginPage__formWrap}>
-        <AuthForm fields={loginFields} onSubmit={onSubmit} error={error} />
+        <AuthForm
+          fields={loginFields}
+          onSubmit={onSubmit}
+          error={error}
+          values={values}
+          setValues={setValues}
+        />
       </div>
     </div>
   )

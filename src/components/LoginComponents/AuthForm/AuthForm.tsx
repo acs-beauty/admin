@@ -1,9 +1,21 @@
-import { FC } from "react"
+import { ChangeEvent, FC, useEffect, useState } from "react"
 import { Box, TextField, Typography } from "@mui/material"
 import VioletButton from "src/components/Buttons/VioletButton"
 import { IAuthForm } from "src/types/users"
 
-const AuthForm: FC<IAuthForm> = ({ fields, onSubmit, error }) => {
+const AuthForm: FC<IAuthForm> = ({ fields, onSubmit, error, values, setValues }) => {
+  const [isDisabled, setIsDisabled] = useState(false)
+
+  useEffect(() => {
+    for (const value of Object.values(values)) {
+      if (value === "") {
+        setIsDisabled(true)
+        break
+      }
+      setIsDisabled(false)
+    }
+  }, [values])
+
   return (
     <>
       <Typography variant="h1" fontSize="20px" fontWeight="500" color="#5C5E60" align="center">
@@ -30,6 +42,10 @@ const AuthForm: FC<IAuthForm> = ({ fields, onSubmit, error }) => {
               shrink: true,
             }}
             id={type}
+            value={values[type]}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setValues(prevState => ({ ...prevState, [type]: e.target.value }))
+            }
             name={type}
             label={label}
             type={type}
@@ -43,6 +59,7 @@ const AuthForm: FC<IAuthForm> = ({ fields, onSubmit, error }) => {
         <VioletButton
           type="submit"
           title="УВІЙТИ"
+          disabled={isDisabled}
           style={{ width: "100%", marginTop: "44px", fontSize: "20px", lineHeight: "23.44px" }}
         />
       </Box>
