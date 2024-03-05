@@ -2,10 +2,11 @@ import React, { useRef, useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import s from "./AddGoodsModal.module.scss"
 import CloseIcon from "src/images/svg/CloseIcon_"
-import MagnifyIcon from "../../images/svg/MagnifyIcon"
+// import MagnifyIcon from "../../images/svg/MagnifyIcon"
 import CheckedIcon from "../../images/svg/CheckedIcon"
 import { IProduct } from "../OrderCompositMenu/OrderCompositMenu"
 import { instance } from "../../api/instance"
+import SearchInput from "../ToolsPanel/SearchInput/SearchInput"
 
 const modalRoot = document.querySelector("#modal-root") as HTMLElement
 
@@ -26,19 +27,23 @@ const AddGoodsModal = ({ onClose, getGoods }: IProps) => {
   const [foundCheckedGoods, setFoundCheckedGoods] = useState<IProduct[]>([])
   const [page, setPage] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [length, setLength] = useState<number>(0)
 
   const containerRef = useRef<HTMLUListElement | null>(null)
 
   useEffect(() => {
     getProducts()
-  }, [page])
+  }, [page, searchValue])
 
   const getProducts = async () => {
     setIsLoading(true)
 
     try {
-      const { data } = await instance.get<IProductResponse>(`product?page=${page}&pageSize=25`)
+      const { data } = await instance.get<IProductResponse>(
+        `product?page=${page}&pageSize=25&lookup=${searchValue}`
+      )
 
+      setLength(data.count)
       setGoods([...goods, ...data.rows])
     } catch (error: unknown) {
       console.log(error)
@@ -117,6 +122,14 @@ const AddGoodsModal = ({ onClose, getGoods }: IProps) => {
     onClose()
   }
 
+  const handleSearch = (value: string) => {
+    setGoods([])
+    setPage(1)
+    setSearchValue(value)
+  }
+
+  console.log("LENGTH", length)
+
   return createPortal(
     <div className={s.backdrop} onClick={handleBackdropClick}>
       <div className={s.modalWindow}>
@@ -124,7 +137,8 @@ const AddGoodsModal = ({ onClose, getGoods }: IProps) => {
         <div className={s.modalWindow__closeIconWrapper}>
           <CloseIcon onClick={onClose} />
         </div>
-        <div className={s.modalWindow__searchInput_wrapper}>
+        <SearchInput onChange={handleSearch} />
+        {/* <div className={s.modalWindow__searchInput_wrapper}>
           <input
             className={s.modalWindow__searchInput}
             value={searchValue}
@@ -135,7 +149,7 @@ const AddGoodsModal = ({ onClose, getGoods }: IProps) => {
           <div className={s.modalWindow__searchInput_icon}>
             <MagnifyIcon />
           </div>
-        </div>
+        </div> */}
         <ul className={s.modalWindow__list} ref={containerRef}>
           {goods.map((good: IProduct, index) => (
             <li

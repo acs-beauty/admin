@@ -88,6 +88,7 @@ const OrderCompositMenu = () => {
                     </div>
                     <p className={s.list__item_textNumbers}>{good.id}</p>
                     <input
+                      type="number"
                       value={quantities[index]}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleQuantityChange(index, Number(e.target.value))
@@ -96,6 +97,7 @@ const OrderCompositMenu = () => {
                     />
                     <p className={s.list__item_textNumbers}>{good.price}</p>
                     <input
+                      type="number"
                       value={discounts[index]}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleDiscountChange(index, Number(e.target.value))

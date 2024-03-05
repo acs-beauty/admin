@@ -1,6 +1,17 @@
 @import "/src/styles/variables.scss";
 @import "/src/styles/mixins.scss";
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .orderCompositMenu__container {
   display: flex;
   flex-direction: column;
