@@ -1,13 +1,13 @@
 import { FC } from "react"
 import { IIcon } from "./types"
 
-const DeleteIcon: FC<IIcon> = ({ onClick, className }) => {
+const DeleteIcon: FC<IIcon> = ({ onClick, className, fill }) => {
   return (
     <svg
       width="52"
       height="52"
       viewBox="0 0 52 52"
-      fill="none"
+      fill={fill}
       xmlns="http://www.w3.org/2000/svg"
       onClick={onClick}
       className={className}

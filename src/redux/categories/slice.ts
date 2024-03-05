@@ -87,4 +87,4 @@ export const categoriesSlice = createSlice({
   },
 })
 
-export default categoriesSlice.reducer
+export const categories = categoriesSlice.reducer

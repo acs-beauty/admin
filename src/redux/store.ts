@@ -1,10 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit"
-import categories from "./categories/slice"
-import { brandsReducer } from "./brands/slice"
+import { categories } from "./categories/slice"
+import { brands } from "./brands/slice"
+import { news } from "./news/slice"
 import { user } from "./users/slice"
 
 export const store = configureStore({
-  reducer: { categories, brands: brandsReducer, user },
+  reducer: {
+    categories,
+    brands,
+    news,
+    user,
+  },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: false,
