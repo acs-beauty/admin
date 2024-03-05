@@ -12,6 +12,7 @@ import ProductsIcon from "src/images/svg/ProductsIcon";
 import ReviewsIcon from "src/images/svg/ReviewsIcon";
 import SlidesIcon from "src/images/svg/SlidesIcon";
 import UsersIcon from "src/images/svg/UsersIcon";
+import NoticesIcon from "src/images/svg/NoticesIcon.jsx"
 
 const Sidebar = () => {
   const mainColor = "#5C5E60";
@@ -89,6 +90,12 @@ const Sidebar = () => {
             <ListIcon color={mainColor} />
           </div>{" "}
           Бренди
+        </Link>
+        <Link to="/notifications">
+          <div className={styles.icon}>
+            <NoticesIcon color={mainColor} />
+          </div>{" "}
+          Сповіщення
         </Link>
       </div>
     </div>

@@ -3,7 +3,7 @@
 
 .container {
     width: 325px;
-    height: 365px;
+    height: 300px;
     border: $default-border;
     z-index: 10;
 }
@@ -14,32 +14,43 @@
     background-color: $second-color;
     display: flex;
     justify-content: center;
-    align-items: center; 
-    @extend .Roboto500-16-18;
+    align-items: center;
+    @extend .Roboto500-16-18 !optional;
+}
+.icon {
+    circle {
+        fill: none;
+    }
+    path {
+        fill: $second-icon-color;
+    }
 }
 ul {
     padding: 20px 16px;
+    height: 100%;
     overflow: auto;
     max-height: calc(100% - 60px);
     background-color: white;
     li {
-        padding-bottom:  29px;
+        padding: 15px 0 15px 20px;
         @extend .Roboto400-16-18;
         line-height: 0;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         display: flex;
-    align-items: center;
-    :first-child {
-        margin-right: 10px;
-    }
-    }
-    li:last-child {
-        padding-bottom: 0;
+        align-items: center;
+        :first-child {
+            margin-right: 10px;
+        }
+        svg{
+            width: 24px;
+            height: 24px;
+        }
     }
     li:hover {
-        @extend .Roboto500-16-18;
+        @extend .Roboto500-16-18 !optional;
+        background-color: rgba(0,0,0,0.04);
         line-height: 0;
         cursor: pointer;
     }

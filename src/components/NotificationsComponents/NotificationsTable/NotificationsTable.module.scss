@@ -1,0 +1,29 @@
+@import "/src/styles/variables.scss";
+@import "/src/styles/mixins.scss";
+
+.icon {
+  circle {
+    fill: none;
+  }
+  path {
+    fill: $second-icon-color;
+  }
+}
+
+.delete_icon {
+  cursor: pointer;
+  circle {
+    fill: none;
+  }
+  path {
+    fill: $second-icon-color;
+  }
+  &:hover {
+    background-color: rgba(0,0,0,0.04);
+    border-radius: 50%;
+  }
+}
+
+.row:hover {
+  background-color: rgba(0,0,0,0.04);
+}
