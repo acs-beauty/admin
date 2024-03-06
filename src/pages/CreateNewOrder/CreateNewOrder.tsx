@@ -1,37 +1,83 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import AdminLayout from "src/layouts/AdminLayout"
 import s from "./CreateNewOrder.module.scss"
-// import CreateNewOrderSwitch from "src/components/CreateNewOrderSwitch/CreateNewOrderSwitch"
 import ArrowToLeft from "src/images/svg/ArrowToLeft"
 import ArrowToBottomIcon from "src/images/svg/ArrowToBottomIcon"
 import GeneralInfoMenu from "src/components/GeneralInfoMenu/GeneralInfoMenu"
 import ArrowToTopFlatIcon from "src/images/svg/ArrowToTopFlatIcon"
-import OrderCompositMenu from "src/components/OrderCompositMenu/OrderCompositMenu"
-// import OrderHistoryMenu from "src/components/OrderHistoryMenu/OrderHistoryMenu"
-
-// interface StatusObjType {
-//   new: string
-//   accepted: string
-//   paid: string
-//   done: string
-//   canceled: string
-//   [key: string]: string
-// }
+import OrderCompositMenu, { IProduct } from "src/components/OrderCompositMenu/OrderCompositMenu"
+import { initialStateType } from "../../components/GeneralInfoMenu/GeneralInfoMenu"
+import { useAppDispatch } from "src/redux/hooks"
+import { createNewOrder } from "src/redux/orders/operations"
 
 const CreateNewOrder = () => {
   const [isGeneralInfoMenuOpen, setIsGeneralInfoMenuOpen] = useState<boolean>(true)
   const [isOrderCompositMenuOpen, setIsOrderCompositMenuOpen] = useState<boolean>(true)
-  // const [isOrderHistoryMenuOpen, setIsOrderHistoryMenuOpen] = useState<boolean>(false)
-  const [orderStatus, setOrderStatus] = useState<string>("Не оплачено")
+  const [orderStatus, setOrderStatus] = useState<string>("pending")
   const [ttn, setTtn] = useState<string>("")
+  const [ids, setIds] = useState<string>("")
+  const [counts, setCounts] = useState<string>("")
+
+  const initialValues: initialStateType = {
+    name: "",
+    email: "",
+    phone: "",
+    adress: "",
+    delivery: "",
+    payment: "",
+    comment: "",
+    status: false,
+    ttn: "",
+  }
+
+  const [generalInfoValues, setGeneralInfoValues] = useState<initialStateType>(initialValues)
+  const [compositMenuValues, setCompositMenuValues] = useState<IProduct[]>([])
+
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    setIds(compositMenuValues?.map((value: IProduct) => value.id).toString())
+  }, [compositMenuValues])
+
+  useEffect(() => {
+    setCounts(compositMenuValues?.map((value: IProduct) => value.count).toString())
+  }, [compositMenuValues])
+
+  const getGeneralInfoValues = (values: initialStateType) => {
+    setGeneralInfoValues(values)
+  }
+
+  const getCompositMenuValues = (values: IProduct[]) => {
+    setCompositMenuValues(values)
+  }
 
   const getOrderStatus = (status: boolean): void => {
-    const isPaid = status === false ? "Не оплачено" : "Оплачено"
+    const isPaid = status === false ? "pending" : "paid"
     setOrderStatus(isPaid)
   }
 
   const getTtn = (ttn: string) => {
     setTtn(ttn)
+  }
+
+  const order = {
+    firstName: generalInfoValues.name,
+    lastName: "Smith",
+    email: generalInfoValues.email,
+    phone: generalInfoValues.phone,
+    status: orderStatus,
+    deliveryType: generalInfoValues.delivery,
+    address: generalInfoValues.adress,
+    paymentType: generalInfoValues.payment,
+    tth: generalInfoValues.ttn,
+    comment: generalInfoValues.comment,
+    productIds: ids,
+    productCounts: counts,
+  }
+
+  const handleSaveChanges = () => {
+    console.log("ORDER", order)
+    dispatch(createNewOrder(order))
   }
 
   const date = new Date(Date.now()).toLocaleDateString()
@@ -52,9 +98,6 @@ const CreateNewOrder = () => {
               </p>
               <p className={s.createdNewOrderDetails__info_text}>ТТН: {ttn}</p>
             </div>
-            {/* <div>
-              <CreateNewOrderSwitch />
-            </div> */}
           </div>
           <div className={s.orderBlockToFill}>
             <div className={s.orderBlockToFill__list}>
@@ -70,7 +113,11 @@ const CreateNewOrder = () => {
                 )}
               </div>
               {isGeneralInfoMenuOpen && (
-                <GeneralInfoMenu getOrderStatus={getOrderStatus} getTtn={getTtn} />
+                <GeneralInfoMenu
+                  getOrderStatus={getOrderStatus}
+                  getTtn={getTtn}
+                  getGeneralInfoValues={getGeneralInfoValues}
+                />
               )}
               <div
                 className={s.orderBlockToFill__list_item}
@@ -83,25 +130,19 @@ const CreateNewOrder = () => {
                   <ArrowToBottomIcon size={32} />
                 )}
               </div>
-              {isOrderCompositMenuOpen && <OrderCompositMenu />}
-              {/* <div
-                className={s.orderBlockToFill__list_item}
-                onClick={() => setIsOrderHistoryMenuOpen(!isOrderHistoryMenuOpen)}
-              >
-                <p className={s.list_itemText}>Історія замовлення</p>
-                {isOrderHistoryMenuOpen ? (
-                  <ArrowToTopFlatIcon size={32} />
-                ) : (
-                  <ArrowToBottomIcon size={32} />
-                )}
-              </div>
-              {isOrderHistoryMenuOpen && <OrderHistoryMenu />} */}
+              {isOrderCompositMenuOpen && (
+                <OrderCompositMenu getCompositMenuValues={getCompositMenuValues} />
+              )}
             </div>
             <div className={s.orderBlockToFill__buttons}>
               <button type="button" className={s.orderBlockToFill__buttons_removeBtn}>
                 ВИДАЛИТИ
               </button>
-              <button type="button" className={s.orderBlockToFill__buttons_saveBtn}>
+              <button
+                type="button"
+                className={s.orderBlockToFill__buttons_saveBtn}
+                onClick={handleSaveChanges}
+              >
                 ЗБЕРЕГТИ ЗМІНИ
               </button>
             </div>

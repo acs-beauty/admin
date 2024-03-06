@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import s from "./GeneralInfoMenu.module.scss"
-import { Formik, Form, Field, ErrorMessage, FormikState } from "formik"
+import { Formik, Form, Field, ErrorMessage } from "formik"
 import { orderGeneralInfoSchema } from "../../libs/yup/createNewOrderGeneralInfo.schema"
 import UserIcon from "src/images/svg/UserIcon"
 import EmailIcon from "src/images/svg/EmailIcon"
@@ -11,7 +11,7 @@ import CreditCardIcon from "src/images/svg/CreditCardIcon"
 import CommentIcon from "src/images/svg/CommentIcon"
 import OrderPaidSwitch from "../OrderPaidSwitch/OrderPaidSwitch"
 
-interface initialStateType {
+export interface initialStateType {
   name: string
   email: string
   phone: string
@@ -23,16 +23,21 @@ interface initialStateType {
   ttn: string
 }
 
-interface ResetFormProps {
-  resetForm: (nextState?: Partial<FormikState<initialStateType>>) => void
-}
+// interface ResetFormProps {
+//   resetForm: (nextState?: Partial<FormikState<initialStateType>>) => void
+// }
 
 interface GeneralInfoMenuProps {
   getOrderStatus: (status: boolean) => void
   getTtn: (ttn: string) => void
+  getGeneralInfoValues: (values: initialStateType) => void
 }
 
-const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
+const GeneralInfoMenu = ({
+  getOrderStatus,
+  getTtn,
+  getGeneralInfoValues,
+}: GeneralInfoMenuProps) => {
   const [delivery, setDelivery] = useState<string>("")
   const [payment, setPayment] = useState<string>("")
   const [comment, setComment] = useState<string>("")
@@ -49,13 +54,16 @@ const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
     ttn: "",
   }
 
-  const handleSubmit = (values: initialStateType, { resetForm }: ResetFormProps) => {
-    console.log("VALUES", values)
+  const handleSubmit = (
+    values: initialStateType
+    // , { resetForm }: ResetFormProps
+  ) => {
     getTtn(values.ttn)
-    resetForm()
-    setDelivery("")
-    setPayment("")
-    setComment("")
+    getGeneralInfoValues(values)
+    // resetForm()
+    // setDelivery("")
+    // setPayment("")
+    // setComment("")
   }
 
   return (
@@ -110,19 +118,6 @@ const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
                       <PhoneIcon />
                     </div>
                   </div>
-                  {/* <div className={s.generalInfoMenuForm__input_wrapper}>
-                    <Field
-                      name="adress"
-                      placeholder="Адреси"
-                      className={s.generalInfoMenuForm__input_adress}
-                    />
-                    <div className={s.generalInfoMenuForm__errors}>
-                      <ErrorMessage name="adress" />
-                    </div>
-                    <div className={s.generalInfoMenuForm__icon}>
-                      <MapMarkerIcon />
-                    </div>
-                  </div> */}
                 </div>
                 <div>
                   <p className={s.generalInfoMenuForm__title}>Доставка та оплата</p>
@@ -140,9 +135,9 @@ const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
                       <option value="" hidden>
                         Спосіб доставки
                       </option>
-                      <option value="ukrposhta">Укрпошта</option>
-                      <option value="novaposhta">Нова Пошта</option>
-                      <option value="courier">Кур'єр</option>
+                      <option value="ukrPoshta">Укрпошта</option>
+                      <option value="novaPoshta">Нова Пошта</option>
+                      <option value="selfDelivery">Самовивіз</option>
                     </Field>
                     <div className={s.generalInfoMenuForm__errors}>
                       <ErrorMessage name="delivery" />
@@ -165,9 +160,8 @@ const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
                       <option value="" hidden>
                         Спосіб оплати
                       </option>
-                      <option value="rakhunok">Оплата на розрахунковий рахунок</option>
-                      <option value="kartka">Оплата на картку</option>
-                      <option value="otrymanni">Оплата при отриманні</option>
+                      <option value="cash">Оплата готівкою</option>
+                      <option value="card">Оплата на картку</option>
                     </Field>
                     <div className={s.generalInfoMenuForm__errors}>
                       <ErrorMessage name="payment" />
@@ -189,26 +183,6 @@ const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
                       <MapMarkerIcon />
                     </div>
                   </div>
-
-                  {/* <div className={s.generalInfoMenuForm__input_wrapper}>
-                    <Field
-                      as="textarea"
-                      name="comment"
-                      placeholder="Коментар"
-                      className={s.generalInfoMenuForm__textarea}
-                      value={comment}
-                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-                        setComment(e.target.value)
-                        setFieldValue("comment", e.target.value)
-                      }}
-                    />
-                    <div className={s.generalInfoMenuForm__errors}>
-                      <ErrorMessage name="comment" />
-                    </div>
-                    <div className={s.generalInfoMenuForm__icon}>
-                      <CommentIcon />
-                    </div>
-                  </div> */}
                 </div>
               </div>
               <div className={s.generalInfoMenuForm__input_wrapper}>
@@ -234,30 +208,6 @@ const GeneralInfoMenu = ({ getOrderStatus, getTtn }: GeneralInfoMenuProps) => {
                 <div>
                   <p className={s.generalInfoMenuForm__title_paidStatus}>Статус замовлення</p>
                   <OrderPaidSwitch getOrderStatus={getOrderStatus} setFieldValue={setFieldValue} />
-                  {/* <div className={s.generalInfoMenuForm__select_wrapper}>
-                    <Field
-                      as="select"
-                      name="status"
-                      className={s.generalInfoMenuForm__input_status}
-                      value={delivery}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                        setDelivery(e.target.value)
-                        getOrderStatus(e.target.value)
-                        setFieldValue("status", e.target.value)
-                      }}
-                    >
-                      <option value="" hidden></option>
-                      <option value="new">Нове</option>
-                      <option value="accepted">Прийнято</option>
-                      <option value="paid">Оплачено</option>
-                      <option value="done">Виконано</option>
-                      <option value="canceled">Скасовано</option>
-                    </Field>
-                    <div className={s.generalInfoMenuForm__errors}>
-                      <ErrorMessage name="status" />
-                    </div>
-                    <div className={s.generalInfoMenuForm__input_gray}></div>
-                  </div> */}
                 </div>
                 <div>
                   <p className={s.generalInfoMenuForm__title}>Додати ТТН</p>

@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import s from "./AddGoodsModal.module.scss"
 import CloseIcon from "src/images/svg/CloseIcon_"
-// import MagnifyIcon from "../../images/svg/MagnifyIcon"
 import CheckedIcon from "../../images/svg/CheckedIcon"
 import { IProduct } from "../OrderCompositMenu/OrderCompositMenu"
 import { instance } from "../../api/instance"
@@ -13,6 +12,7 @@ const modalRoot = document.querySelector("#modal-root") as HTMLElement
 interface IProps {
   onClose: () => void
   getGoods: (arrayToRender: IProduct[]) => void
+  getCompositMenuValues: (values: IProduct[]) => void
 }
 
 interface IProductResponse {
@@ -20,14 +20,13 @@ interface IProductResponse {
   rows: IProduct[]
 }
 
-const AddGoodsModal = ({ onClose, getGoods }: IProps) => {
+const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => {
   const [searchValue, setSearchValue] = useState<string>("")
   const [checkedIds, setCheckedIds] = useState<string[]>([])
   const [goods, setGoods] = useState<IProduct[]>([])
   const [foundCheckedGoods, setFoundCheckedGoods] = useState<IProduct[]>([])
   const [page, setPage] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [length, setLength] = useState<number>(0)
 
   const containerRef = useRef<HTMLUListElement | null>(null)
 
@@ -43,7 +42,6 @@ const AddGoodsModal = ({ onClose, getGoods }: IProps) => {
         `product?page=${page}&pageSize=25&lookup=${searchValue}`
       )
 
-      setLength(data.count)
       setGoods([...goods, ...data.rows])
     } catch (error: unknown) {
       console.log(error)
@@ -119,6 +117,7 @@ const AddGoodsModal = ({ onClose, getGoods }: IProps) => {
 
   const handleSubmit = () => {
     getGoods(foundCheckedGoods)
+    getCompositMenuValues(foundCheckedGoods)
     onClose()
   }
 
@@ -127,8 +126,6 @@ const AddGoodsModal = ({ onClose, getGoods }: IProps) => {
     setPage(1)
     setSearchValue(value)
   }
-
-  console.log("LENGTH", length)
 
   return createPortal(
     <div className={s.backdrop} onClick={handleBackdropClick}>

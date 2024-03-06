@@ -20,7 +20,11 @@ export interface IProduct {
   ]
 }
 
-const OrderCompositMenu = () => {
+interface CompositMenuProps {
+  getCompositMenuValues: (values: IProduct[]) => void
+}
+
+const OrderCompositMenu = ({ getCompositMenuValues }: CompositMenuProps) => {
   const [isAddGoodsModalOpen, setIsAddGoodsModalOpen] = useState<boolean>(false)
   const [goods, setGoods] = useState<IProduct[]>([])
   const [quantities, setQuantities] = useState<number[]>(Array(goods.length || 50).fill(1))
@@ -136,7 +140,11 @@ const OrderCompositMenu = () => {
           </div>
         )}
         {isAddGoodsModalOpen && (
-          <AddGoodsModal onClose={handleAddGoodsModalToggle} getGoods={getGoods} />
+          <AddGoodsModal
+            onClose={handleAddGoodsModalToggle}
+            getGoods={getGoods}
+            getCompositMenuValues={getCompositMenuValues}
+          />
         )}
       </div>
     </div>
