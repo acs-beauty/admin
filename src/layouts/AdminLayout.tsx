@@ -1,12 +1,16 @@
-import React from "react"
 import s from "./AdminLayout.module.scss"
 import NoticesIcon from "src/images/svg/NoticesIcon"
 import AccountIcon from "src/images/svg/AccountIcon"
 
 import Sidebar from "src/components/Sidebar/Sidebar"
-import { Outlet } from "react-router-dom"
+import { Navigate, Outlet, useLocation } from "react-router-dom"
+import { useAppSelector } from "src/redux/hooks"
+import { selectUserIsAuth } from "src/redux/users/selectors"
 
 const AdminLayout = () => {
+  const location = useLocation()
+  const isAuth = useAppSelector(selectUserIsAuth)
+
   return (
     <>
       <header className={s.header}>
@@ -27,7 +31,7 @@ const AdminLayout = () => {
           <Sidebar />
         </div>
       </header>
-      <Outlet />
+      {isAuth ? <Outlet /> : <Navigate to="/login" replace state={{ from: location }} />}
     </>
   )
 }

@@ -10,10 +10,10 @@ const AuthForm: FC<IAuthForm> = ({ fields, onSubmit, error, values, setValues })
     for (const value of Object.values(values)) {
       if (value === "") {
         setIsDisabled(true)
-        break
+        return
       }
-      setIsDisabled(false)
     }
+    setIsDisabled(false)
   }, [values])
 
   return (
