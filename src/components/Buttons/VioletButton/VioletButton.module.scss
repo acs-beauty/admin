@@ -4,3 +4,7 @@
 .button {
   @extend .Violet-button-styles;
 }
+.button:disabled {
+  background: grey;
+  cursor: auto;
+}

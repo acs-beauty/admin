@@ -6,7 +6,6 @@ import { selectBrands } from "src/redux/brands/selectors"
 import { columns } from "../../components/BrandsComponents/BrandsTable/columns"
 
 import s from "./Brands.module.scss"
-import AdminLayout from "src/layouts/AdminLayout"
 import PageToolsPanel from "src/components/PageControls"
 import ModalWindow from "src/components/ModalWindow/ModalWindow"
 import BrandsTable from "src/components/BrandsComponents/BrandsTable"
@@ -33,7 +32,7 @@ const Brands: React.FC = () => {
   }, [page, pageSize, searchName])
 
   return (
-    <AdminLayout>
+    <>
       <main className={s.brand}>
         <section className={s.brand__section}>
           <PageToolsPanel
@@ -61,7 +60,7 @@ const Brands: React.FC = () => {
           <BrandManagementForm onClose={() => setIsOpenModal(false)} />
         </ModalWindow>
       </main>
-    </AdminLayout>
+    </>
   )
 }
 
