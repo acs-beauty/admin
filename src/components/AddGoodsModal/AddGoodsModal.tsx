@@ -147,51 +147,53 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
             <MagnifyIcon />
           </div>
         </div> */}
-        <ul className={s.modalWindow__list} ref={containerRef}>
-          {goods.map((good: IProduct, index) => (
-            <li
-              className={s.modalWindow__list_item}
-              key={index}
-              onClick={() => changeCheckBox(good.id)}
-            >
-              <div className={s.modalWindow__list_checkWrapper}>
-                <input
-                  type="checkbox"
-                  id={`cbox_${good.id}`}
-                  className={s.modalWindow__list_itemCheck}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    changeCheckBox(good.id, e)
-                    if (e.target.checked) {
-                      setCheckedIds([...checkedIds, good.id])
-                    } else {
-                      setCheckedIds(checkedIds.filter((id: string) => id !== good.id))
-                    }
-                  }}
-                />
-                <span className={s.modalWindow__list_checkMark}>
-                  <CheckedIcon />
-                </span>
-              </div>
-              <img src={good.images[0].url} alt="good" className={s.modalWindow__list_itemImg} />
-              <div className={s.modalWindow__list_textWrapper}>
-                <p className={s.modalWindow__list_itemTitle}>{good.name}</p>
-                <div className={s.priceWrapper}>
-                  <p className={s.modalWindow__list_itemText}>У наявності</p>
-                  <p className={s.modalWindow__list_itemText}>{good.price} ₴</p>
+        <div className={s.modalWindow__listAndBtnsWrapper}>
+          <ul className={s.modalWindow__list} ref={containerRef}>
+            {goods.map((good: IProduct, index) => (
+              <li
+                className={s.modalWindow__list_item}
+                key={index}
+                onClick={() => changeCheckBox(good.id)}
+              >
+                <div className={s.modalWindow__list_checkWrapper}>
+                  <input
+                    type="checkbox"
+                    id={`cbox_${good.id}`}
+                    className={s.modalWindow__list_itemCheck}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      changeCheckBox(good.id, e)
+                      if (e.target.checked) {
+                        setCheckedIds([...checkedIds, good.id])
+                      } else {
+                        setCheckedIds(checkedIds.filter((id: string) => id !== good.id))
+                      }
+                    }}
+                  />
+                  <span className={s.modalWindow__list_checkMark}>
+                    <CheckedIcon />
+                  </span>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-        {isLoading && <p>Loading...</p>}
-        <div className={s.modalWindow__buttonsWrapper}>
-          <div>
-            <button className={s.modalWindow__cancelBtn} onClick={onClose}>
-              Скасувати
-            </button>
-            <button className={s.modalWindow__addBtn} onClick={handleSubmit}>
-              ДОДАТИ
-            </button>
+                <img src={good.images[0].url} alt="good" className={s.modalWindow__list_itemImg} />
+                <div className={s.modalWindow__list_textWrapper}>
+                  <p className={s.modalWindow__list_itemTitle}>{good.name}</p>
+                  <div className={s.priceWrapper}>
+                    <p className={s.modalWindow__list_itemText}>У наявності</p>
+                    <p className={s.modalWindow__list_itemText}>{good.price} ₴</p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+          {isLoading && <p>Loading...</p>}
+          <div className={s.modalWindow__buttonsWrapper}>
+            <div>
+              <button className={s.modalWindow__cancelBtn} onClick={onClose}>
+                Скасувати
+              </button>
+              <button className={s.modalWindow__addBtn} onClick={handleSubmit}>
+                ДОДАТИ
+              </button>
+            </div>
           </div>
         </div>
       </div>
