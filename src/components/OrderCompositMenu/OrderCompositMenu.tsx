@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import s from "./OrderCompositMenu.module.scss"
 import AddGoodsModal from "../AddGoodsModal/AddGoodsModal"
 import TrashIcon from "../../images/svg/TrashIcon"
@@ -22,13 +22,18 @@ export interface IProduct {
 
 interface CompositMenuProps {
   getCompositMenuValues: (values: IProduct[]) => void
+  isClicked: boolean
 }
 
-const OrderCompositMenu = ({ getCompositMenuValues }: CompositMenuProps) => {
+const OrderCompositMenu = ({ getCompositMenuValues, isClicked }: CompositMenuProps) => {
   const [isAddGoodsModalOpen, setIsAddGoodsModalOpen] = useState<boolean>(false)
   const [goods, setGoods] = useState<IProduct[]>([])
   const [quantities, setQuantities] = useState<number[]>(Array(goods.length || 50).fill(1))
   const [discounts, setDiscounts] = useState<number[]>(Array(goods.length || 50).fill(0))
+
+  useEffect(() => {
+    if (isClicked) setGoods([])
+  }, [isClicked])
 
   const handleQuantityChange = (index: number, value: number) => {
     const newQuantities = [...quantities]

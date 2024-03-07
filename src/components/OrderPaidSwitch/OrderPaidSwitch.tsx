@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Switch from "@mui/material/Switch"
 import FormGroup from "@mui/material/FormGroup"
 import FormControl from "@mui/material/FormControl"
@@ -7,10 +7,15 @@ import s from "./OrderPaidSwitch.module.scss"
 interface OrderPaidSwitchProps {
   getOrderStatus: (status: boolean) => void
   setFieldValue: (field: string, value: boolean) => void
+  isClicked: boolean
 }
 
-const OrderPaidSwitch = ({ getOrderStatus, setFieldValue }: OrderPaidSwitchProps) => {
+const OrderPaidSwitch = ({ getOrderStatus, setFieldValue, isClicked }: OrderPaidSwitchProps) => {
   const [paidChecked, setPaidChecked] = React.useState<boolean>(false)
+
+  useEffect(() => {
+    setPaidChecked(false)
+  }, [isClicked])
 
   const handlePaidChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPaidChecked(event.target.checked)

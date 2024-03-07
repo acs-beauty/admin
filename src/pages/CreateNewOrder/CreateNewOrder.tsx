@@ -17,6 +17,7 @@ const CreateNewOrder = () => {
   const [ttn, setTtn] = useState<string>("")
   const [ids, setIds] = useState<string>("")
   const [counts, setCounts] = useState<string>("")
+  const [isClicked, setIsClicked] = useState<boolean>(false)
 
   const initialValues: initialStateType = {
     name: "",
@@ -77,7 +78,16 @@ const CreateNewOrder = () => {
 
   const handleSaveChanges = () => {
     console.log("ORDER", order)
+    setIsClicked(true)
+    setTtn("")
+    setOrderStatus("pending")
     dispatch(createNewOrder(order))
+  }
+
+  const handleOrderClear = () => {
+    setIsClicked(true)
+    setTtn("")
+    setOrderStatus("pending")
   }
 
   const date = new Date(Date.now()).toLocaleDateString()
@@ -117,6 +127,7 @@ const CreateNewOrder = () => {
                   getOrderStatus={getOrderStatus}
                   getTtn={getTtn}
                   getGeneralInfoValues={getGeneralInfoValues}
+                  isClicked={isClicked}
                 />
               )}
               <div
@@ -131,11 +142,18 @@ const CreateNewOrder = () => {
                 )}
               </div>
               {isOrderCompositMenuOpen && (
-                <OrderCompositMenu getCompositMenuValues={getCompositMenuValues} />
+                <OrderCompositMenu
+                  getCompositMenuValues={getCompositMenuValues}
+                  isClicked={isClicked}
+                />
               )}
             </div>
             <div className={s.orderBlockToFill__buttons}>
-              <button type="button" className={s.orderBlockToFill__buttons_removeBtn}>
+              <button
+                type="button"
+                className={s.orderBlockToFill__buttons_removeBtn}
+                onClick={handleOrderClear}
+              >
                 ВИДАЛИТИ
               </button>
               <button

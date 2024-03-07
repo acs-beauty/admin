@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import s from "./GeneralInfoMenu.module.scss"
-import { Formik, Form, Field, ErrorMessage } from "formik"
+import { Formik, Form, Field, ErrorMessage, FormikProps } from "formik"
 import { orderGeneralInfoSchema } from "../../libs/yup/createNewOrderGeneralInfo.schema"
 import UserIcon from "src/images/svg/UserIcon"
 import EmailIcon from "src/images/svg/EmailIcon"
@@ -31,16 +31,19 @@ interface GeneralInfoMenuProps {
   getOrderStatus: (status: boolean) => void
   getTtn: (ttn: string) => void
   getGeneralInfoValues: (values: initialStateType) => void
+  isClicked: boolean
 }
 
 const GeneralInfoMenu = ({
   getOrderStatus,
   getTtn,
   getGeneralInfoValues,
+  isClicked,
 }: GeneralInfoMenuProps) => {
   const [delivery, setDelivery] = useState<string>("")
   const [payment, setPayment] = useState<string>("")
   const [comment, setComment] = useState<string>("")
+  const formikRef = useRef<FormikProps<initialStateType>>(null)
 
   const initialValues: initialStateType = {
     name: "",
@@ -53,6 +56,15 @@ const GeneralInfoMenu = ({
     status: false,
     ttn: "",
   }
+
+  useEffect(() => {
+    if (isClicked) {
+      formikRef.current?.resetForm()
+      setDelivery("")
+      setPayment("")
+      setComment("")
+    }
+  }, [isClicked])
 
   const handleSubmit = (
     values: initialStateType
@@ -72,6 +84,7 @@ const GeneralInfoMenu = ({
         initialValues={initialValues}
         validationSchema={orderGeneralInfoSchema}
         onSubmit={handleSubmit}
+        innerRef={formikRef}
       >
         {({ setFieldValue }) => (
           <Form>
@@ -207,7 +220,11 @@ const GeneralInfoMenu = ({
               <div className={s.generalInfoMenuForm__wrapper}>
                 <div>
                   <p className={s.generalInfoMenuForm__title_paidStatus}>Статус замовлення</p>
-                  <OrderPaidSwitch getOrderStatus={getOrderStatus} setFieldValue={setFieldValue} />
+                  <OrderPaidSwitch
+                    getOrderStatus={getOrderStatus}
+                    setFieldValue={setFieldValue}
+                    isClicked={isClicked}
+                  />
                 </div>
                 <div>
                   <p className={s.generalInfoMenuForm__title}>Додати ТТН</p>
