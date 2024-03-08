@@ -56,36 +56,10 @@
   margin-bottom: 20px;
 }
 
-// .modalWindow__searchInput_wrapper {
-//   position: relative;
-//   width: 100%;
-// }
-
-// .modalWindow__searchInput {
-//   @include border($radius: 0);
-
-//   padding: 10px 8px;
-//   padding-left: 40px;
-//   width: 100%;
-//   height: 44px;
-//   margin-bottom: 46px;
-
-//   &:focus {
-//     border: 2px solid $main-color;
-//   }
-// }
-
-// .modalWindow__searchInput_icon {
-//   position: absolute;
-//   top: 10px;
-//   left: 8px;
-// }
-
 .modalWindow__list {
   margin-bottom: 14px;
   align-self: flex-start;
-  max-height: 406px;
-  overflow: auto;
+  max-height: 435px;
   width: 100%;
 }
 

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
 import s from "./AddGoodsModal.module.scss"
 import CloseIcon from "src/images/svg/CloseIcon_"
@@ -6,6 +6,7 @@ import CheckedIcon from "../../images/svg/CheckedIcon"
 import { IProduct } from "../OrderCompositMenu/OrderCompositMenu"
 import { instance } from "../../api/instance"
 import SearchInput from "../ToolsPanel/SearchInput/SearchInput"
+import InfiniteScroll from "react-infinite-scroll-component"
 
 const modalRoot = document.querySelector("#modal-root") as HTMLElement
 
@@ -27,8 +28,7 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
   const [foundCheckedGoods, setFoundCheckedGoods] = useState<IProduct[]>([])
   const [page, setPage] = useState<number>(1)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  const containerRef = useRef<HTMLUListElement | null>(null)
+  const [hasMore, setHasMore] = useState<boolean>(true)
 
   useEffect(() => {
     getProducts()
@@ -42,6 +42,12 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
         `product?page=${page}&pageSize=25&lookup=${searchValue}`
       )
 
+      console.log("COUNT", Math.ceil(data.count / 25))
+
+      if (page === Math.ceil(data.count / 25)) {
+        setHasMore(false)
+      }
+
       setGoods([...goods, ...data.rows])
     } catch (error: unknown) {
       console.log(error)
@@ -50,31 +56,39 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
     }
   }
 
-  const handleScroll = () => {
-    const container = containerRef.current
-
-    if (container) {
-      const isAtBottom = container.scrollTop + container.clientHeight === container.scrollHeight
-
-      if (isAtBottom && !isLoading) {
-        setPage(prevPage => prevPage + 1)
-      }
-    }
+  const handleNextPage = () => {
+    setPage(page + 1)
   }
 
-  useEffect(() => {
-    const container = containerRef.current
+  // const handleScroll = () => {
+  //   const container = containerRef.current
 
-    if (container) {
-      container.addEventListener("scroll", handleScroll)
-    }
+  //   console.log("scrollTop", container?.scrollTop)
+  //   console.log("clientHeight", container?.clientHeight)
+  //   console.log("scrollHeight", container?.scrollHeight)
 
-    return () => {
-      if (container) {
-        container.removeEventListener("scroll", handleScroll)
-      }
-    }
-  }, [])
+  //   if (container) {
+  //     const isAtBottom = container.scrollTop + container.clientHeight === container.scrollHeight
+
+  //     if (isAtBottom && !isLoading) {
+  //       setPage(prevPage => prevPage + 1)
+  //     }
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   const container = containerRef.current
+
+  //   if (container) {
+  //     container.addEventListener("scroll", handleScroll)
+  //   }
+
+  //   return () => {
+  //     if (container) {
+  //       container.removeEventListener("scroll", handleScroll)
+  //     }
+  //   }
+  // }, [])
 
   useEffect(() => {
     const foundGoods: (IProduct | undefined)[] = checkedIds.map((goodId: string) =>
@@ -127,6 +141,10 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
     setSearchValue(value)
   }
 
+  console.log("PAGE", page)
+  console.log("GOODS", goods.length)
+  console.log("HASMORE", hasMore)
+
   return createPortal(
     <div className={s.backdrop} onClick={handleBackdropClick}>
       <div className={s.modalWindow}>
@@ -135,55 +153,64 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
           <CloseIcon onClick={onClose} />
         </div>
         <SearchInput onChange={handleSearch} />
-        {/* <div className={s.modalWindow__searchInput_wrapper}>
-          <input
-            className={s.modalWindow__searchInput}
-            value={searchValue}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setSearchValue(e.target.value)
-            }}
-          />
-          <div className={s.modalWindow__searchInput_icon}>
-            <MagnifyIcon />
-          </div>
-        </div> */}
         <div className={s.modalWindow__listAndBtnsWrapper}>
-          <ul className={s.modalWindow__list} ref={containerRef}>
-            {goods.map((good: IProduct, index) => (
-              <li
-                className={s.modalWindow__list_item}
-                key={index}
-                onClick={() => changeCheckBox(good.id)}
-              >
-                <div className={s.modalWindow__list_checkWrapper}>
-                  <input
-                    type="checkbox"
-                    id={`cbox_${good.id}`}
-                    className={s.modalWindow__list_itemCheck}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      changeCheckBox(good.id, e)
-                      if (e.target.checked) {
-                        setCheckedIds([...checkedIds, good.id])
-                      } else {
-                        setCheckedIds(checkedIds.filter((id: string) => id !== good.id))
-                      }
-                    }}
-                  />
-                  <span className={s.modalWindow__list_checkMark}>
-                    <CheckedIcon />
-                  </span>
-                </div>
-                <img src={good.images[0].url} alt="good" className={s.modalWindow__list_itemImg} />
-                <div className={s.modalWindow__list_textWrapper}>
-                  <p className={s.modalWindow__list_itemTitle}>{good.name}</p>
-                  <div className={s.priceWrapper}>
-                    <p className={s.modalWindow__list_itemText}>У наявності</p>
-                    <p className={s.modalWindow__list_itemText}>{good.price} ₴</p>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <div
+            id="scrollableDiv"
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <InfiniteScroll
+              dataLength={goods.length}
+              next={handleNextPage}
+              hasMore={hasMore}
+              loader={<span></span>}
+              height={400}
+            >
+              <ul className={s.modalWindow__list}>
+                {goods.map((good: IProduct, index) => (
+                  <li
+                    className={s.modalWindow__list_item}
+                    key={index}
+                    onClick={() => changeCheckBox(good.id)}
+                  >
+                    <div className={s.modalWindow__list_checkWrapper}>
+                      <input
+                        type="checkbox"
+                        id={`cbox_${good.id}`}
+                        className={s.modalWindow__list_itemCheck}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          changeCheckBox(good.id, e)
+                          if (e.target.checked) {
+                            setCheckedIds([...checkedIds, good.id])
+                          } else {
+                            setCheckedIds(checkedIds.filter((id: string) => id !== good.id))
+                          }
+                        }}
+                      />
+                      <span className={s.modalWindow__list_checkMark}>
+                        <CheckedIcon />
+                      </span>
+                    </div>
+                    <img
+                      src={good.images[0].url}
+                      alt="good"
+                      className={s.modalWindow__list_itemImg}
+                    />
+                    <div className={s.modalWindow__list_textWrapper}>
+                      <p className={s.modalWindow__list_itemTitle}>{good.name}</p>
+                      <div className={s.priceWrapper}>
+                        <p className={s.modalWindow__list_itemText}>У наявності</p>
+                        <p className={s.modalWindow__list_itemText}>{good.price} ₴</p>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </InfiniteScroll>
+          </div>
           {isLoading && <p>Loading...</p>}
           <div className={s.modalWindow__buttonsWrapper}>
             <div>
