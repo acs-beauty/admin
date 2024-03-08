@@ -1,0 +1,153 @@
+@import "/src/styles/variables.scss";
+@import "/src/styles/mixins.scss";
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.orderCompositMenu__container {
+  display: flex;
+  flex-direction: column;
+  margin-top: -8px;
+  margin-bottom: 50px;
+}
+
+.orderCompositMenu__buttons_addGoods {
+  margin-right: 20px;
+  margin-bottom: 24px;
+  padding: 12px 0;
+  width: 197px;
+  height: 43px;
+  border-radius: 8px;
+  background-color: $main-color;
+  align-self: flex-end;
+
+  @include text($color: $second-text-color, $font-size: 16px, $font-weight: 600);
+  line-height: 18.75px;
+
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover,
+  &:focus {
+    background-color: #7b6dcf;
+  }
+}
+
+.table__container {
+  display: flex;
+  flex-direction: column;
+  width: 1015px;
+  min-height: 360px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 54px;
+}
+
+.table__header {
+  display: grid;
+  grid-template-columns: 7fr 1.5fr 1fr 1fr 1.5fr 1.5fr;
+  gap: 10px;
+
+  padding: 12px 24px;
+
+  width: 1015px;
+  height: 44px;
+
+  background-color: $second-color;
+}
+
+.table__header_text {
+  @include text();
+  line-height: 18.75px;
+}
+
+.table__header_textCenter {
+  @include text();
+  line-height: 18.75px;
+
+  text-align: center;
+}
+
+.list__item_group {
+  display: flex;
+}
+
+.list {
+  margin-bottom: 32px;
+}
+
+.list__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 7fr 1.5fr 1fr 1fr 1.5fr 1.5fr;
+  gap: 10px;
+  align-items: flex-start;
+
+  padding: 12px 24px;
+
+  border-bottom: $default-border;
+}
+
+.list__item_deleteBtn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  padding: 5px;
+}
+
+.list__item_img {
+  margin-right: 22px;
+  width: 60px;
+  height: 60px;
+}
+
+.list__item_text {
+  @include text();
+  line-height: 18.75px;
+}
+
+.list__item_textNumbers {
+  @include text();
+  line-height: 18.75px;
+
+  text-align: center;
+}
+
+.list__item_qty {
+  @include text();
+  line-height: 18.75px;
+  text-align: center;
+  width: 100%;
+
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.list__notification {
+  align-self: center;
+  margin-top: 150px;
+}
+
+.table {
+  margin-bottom: 25px;
+}
+
+.table__total_wrapper {
+  align-self: flex-end;
+  margin-right: 12px;
+}
+
+.table__total_text {
+  @include text($font-size: 20px, $font-weight: 500);
+  line-height: 23.44px;
+
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+}

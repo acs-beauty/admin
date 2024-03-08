@@ -1,0 +1,174 @@
+@import "/src/styles/variables.scss";
+@import "/src/styles/mixins.scss";
+
+.backdrop {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(5px);
+  overflow: scroll;
+  z-index: 100;
+}
+
+.modalWindow {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  overflow: auto;
+  transform: translate(-50%, -50%);
+  max-height: 95%;
+  background-color: white;
+  border-radius: 4px;
+  padding: 24px 32px;
+  width: 628px;
+  height: 690px;
+}
+
+.modalWindow__closeIconWrapper {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  cursor: pointer;
+}
+
+.modalWindow__listAndBtnsWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.modalWindow__title {
+  @include text($font-size: 16px, $font-weight: 700);
+  line-height: 18.75px;
+
+  margin-bottom: 20px;
+}
+
+.modalWindow__list {
+  margin-bottom: 14px;
+  align-self: flex-start;
+  max-height: 435px;
+  width: 100%;
+}
+
+.modalWindow__list_item {
+  display: flex;
+
+  padding-right: 30px;
+  cursor: pointer;
+
+  &:not(:last-child) {
+    margin-bottom: 32px;
+  }
+}
+
+.modalWindow__list_checkWrapper {
+  position: relative;
+  margin-right: 16px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.modalWindow__list_itemCheck {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.modalWindow__list_checkMark {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  width: 20px;
+  border: 1px solid #5c5e60;
+  border-radius: 2px;
+}
+
+.modalWindow__list_checkWrapper input:checked ~ .modalWindow__list_checkMark {
+  background-color: $main-color;
+  border: none;
+}
+
+.modalWindow__list_itemImg {
+  margin-right: 24px;
+  width: 60px;
+  height: 60px;
+}
+
+.modalWindow__list_textWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.modalWindow__list_itemTitle {
+  margin-bottom: 8px;
+
+  @include text($font-size: 16px, $font-weight: 500);
+  line-height: 18.75px;
+}
+
+.modalWindow__list_itemText {
+  @include text();
+}
+
+.priceWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalWindow__buttonsWrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 32px;
+  border-top: $default-border;
+  width: 100%;
+}
+
+.modalWindow__cancelBtn {
+  margin-right: 24px;
+
+  @include text($color: $blue-text-color);
+  line-height: 18.75px;
+}
+
+.modalWindow__addBtn {
+  padding: 12px 37px;
+  width: 140px;
+  border-radius: 8px;
+
+  @include text($color: white, $font-size: 16px, $font-weight: 600);
+  line-height: 18.75px;
+
+  background-color: $main-color;
+}
+
+.scroll__thumb {
+  background-color: $main-color;
+  border-radius: 4px;
+}
+
+.cover {
+  width: 100%;
+}

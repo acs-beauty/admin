@@ -17,7 +17,7 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid"
 
-interface IColumn {
+export interface IColumn {
   field: string
   headerName: string
   width?: number

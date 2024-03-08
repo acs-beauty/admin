@@ -1,0 +1,19 @@
+@import "/src/styles/variables.scss";
+@import "/src/styles/mixins.scss";
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.textNotPaid {
+  @include text($font-size: 14px);
+  line-height: 16.41px;
+  margin-right: 16px;
+}
+
+.textPaid {
+  @include text($font-size: 14px);
+  line-height: 16.41px;
+  margin-left: 16px;
+}
