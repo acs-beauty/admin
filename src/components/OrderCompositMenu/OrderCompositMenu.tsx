@@ -22,18 +22,32 @@ export interface IProduct {
 
 interface CompositMenuProps {
   getCompositMenuValues: (values: IProduct[]) => void
+  getQuantities: (quantities: number[]) => void
   isClicked: boolean
 }
 
-const OrderCompositMenu = ({ getCompositMenuValues, isClicked }: CompositMenuProps) => {
+const OrderCompositMenu = ({
+  getCompositMenuValues,
+  getQuantities,
+  isClicked,
+}: CompositMenuProps) => {
   const [isAddGoodsModalOpen, setIsAddGoodsModalOpen] = useState<boolean>(false)
   const [goods, setGoods] = useState<IProduct[]>([])
-  const [quantities, setQuantities] = useState<number[]>(Array(goods.length || 50).fill(1))
-  const [discounts, setDiscounts] = useState<number[]>(Array(goods.length || 50).fill(0))
+  const [quantities, setQuantities] = useState<number[]>(Array(goods.length).fill(1))
+  // const [discounts, setDiscounts] = useState<number[]>(Array(goods.length).fill(0))
 
   useEffect(() => {
     if (isClicked) setGoods([])
   }, [isClicked])
+
+  useEffect(() => {
+    getQuantities(quantities)
+  }, [getQuantities, quantities])
+
+  useEffect(() => {
+    // Update quantities based on the length of goods
+    setQuantities(Array(goods.length).fill(1))
+  }, [goods])
 
   const handleQuantityChange = (index: number, value: number) => {
     const newQuantities = [...quantities]
@@ -41,11 +55,11 @@ const OrderCompositMenu = ({ getCompositMenuValues, isClicked }: CompositMenuPro
     setQuantities(newQuantities)
   }
 
-  const handleDiscountChange = (index: number, value: number) => {
-    const newDiscounts = [...discounts]
-    newDiscounts[index] = value
-    setDiscounts(newDiscounts)
-  }
+  // const handleDiscountChange = (index: number, value: number) => {
+  //   const newDiscounts = [...discounts]
+  //   newDiscounts[index] = value
+  //   setDiscounts(newDiscounts)
+  // }
 
   const handleDeleteGood = (id: string) => {
     const arrayAfterDelete = goods.filter((good: IProduct) => good.id !== id)
@@ -54,8 +68,7 @@ const OrderCompositMenu = ({ getCompositMenuValues, isClicked }: CompositMenuPro
 
   const totalSum = goods.reduce(
     (sum, good, index) =>
-      sum +
-      (Number(good?.price) - Number(good?.price) * (discounts[index] / 100)) * quantities[index],
+      sum + (Number(good?.price) - Number(good?.price) * (good.discount / 100) * quantities[index]),
     0
   )
 
@@ -98,28 +111,30 @@ const OrderCompositMenu = ({ getCompositMenuValues, isClicked }: CompositMenuPro
                     <p className={s.list__item_textNumbers}>{good.id}</p>
                     <input
                       type="number"
-                      value={quantities[index]}
+                      value={quantities[index] || 1}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleQuantityChange(index, Number(e.target.value))
                       }
                       className={s.list__item_qty}
                     />
                     <p className={s.list__item_textNumbers}>{good.price}</p>
-                    <input
+                    <p className={s.list__item_textNumbers}>{Number(good.discount)}</p>
+                    {/* <input
                       type="number"
-                      value={discounts[index]}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleDiscountChange(index, Number(e.target.value))
-                      }
+                      defaultValue={good.discount}
+                      // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      //   handleDiscountChange(index, Number(e.target.value))
+                      // }
                       className={s.list__item_qty}
-                    />
+                    /> */}
                     <p className={s.list__item_textNumbers}>
-                      {Number(
-                        (
-                          (Number(good.price) - Number(good.price) * (discounts[index] / 100)) *
-                          quantities[index]
-                        ).toFixed(2)
-                      )}
+                      {quantities[index] &&
+                        Number(
+                          (
+                            (Number(good.price) - Number(good.price) * (good.discount / 100)) *
+                            quantities[index]
+                          ).toFixed(2)
+                        )}
                     </p>
                     <button
                       type="button"

@@ -17,6 +17,7 @@ const CreateNewOrder = () => {
   const [ttn, setTtn] = useState<string>("")
   const [ids, setIds] = useState<string>("")
   const [counts, setCounts] = useState<string>("")
+  const [quantities, setQuantities] = useState<string>("")
   const [isClicked, setIsClicked] = useState<boolean>(false)
 
   const initialValues: initialStateType = {
@@ -52,6 +53,10 @@ const CreateNewOrder = () => {
     setCompositMenuValues(values)
   }
 
+  const getQuantities = (quantities: number[]) => {
+    setQuantities(quantities.toString())
+  }
+
   const getOrderStatus = (status: boolean): void => {
     const isPaid = status === false ? "pending" : "paid"
     setOrderStatus(isPaid)
@@ -73,15 +78,15 @@ const CreateNewOrder = () => {
     tth: generalInfoValues.ttn,
     comment: generalInfoValues.comment,
     productIds: ids,
-    productCounts: counts,
+    productCounts: quantities,
   }
 
   const handleSaveChanges = () => {
     console.log("ORDER", order)
+    // dispatch(createNewOrder(order))
     setIsClicked(true)
     setTtn("")
     setOrderStatus("pending")
-    dispatch(createNewOrder(order))
   }
 
   const handleOrderClear = () => {
@@ -144,6 +149,7 @@ const CreateNewOrder = () => {
               {isOrderCompositMenuOpen && (
                 <OrderCompositMenu
                   getCompositMenuValues={getCompositMenuValues}
+                  getQuantities={getQuantities}
                   isClicked={isClicked}
                 />
               )}

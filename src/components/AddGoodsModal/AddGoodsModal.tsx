@@ -141,10 +141,6 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
     setSearchValue(value)
   }
 
-  console.log("PAGE", page)
-  console.log("GOODS", goods.length)
-  console.log("HASMORE", hasMore)
-
   return createPortal(
     <div className={s.backdrop} onClick={handleBackdropClick}>
       <div className={s.modalWindow}>
@@ -155,7 +151,6 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
         <SearchInput onChange={handleSearch} />
         <div className={s.modalWindow__listAndBtnsWrapper}>
           <div
-            id="scrollableDiv"
             style={{
               width: "100%",
               display: "flex",
