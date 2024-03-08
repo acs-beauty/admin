@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ordersApi } from "src/api/orders/ordersApi"
 import { IOrder, IResponse, IGetOrdersParams } from "src/types/orders"
+import { toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 export const getOrders = createAsyncThunk<IResponse, IGetOrdersParams>(
   "orders/getOrders",
@@ -21,6 +23,7 @@ export const createNewOrder = createAsyncThunk<IOrder, IOrder>(
     try {
       const { data } = await ordersApi.postOrder(values)
 
+      toast.success("Замовлення успішно створено")
       return data
     } catch (error: unknown) {
       return rejectWithValue(error)

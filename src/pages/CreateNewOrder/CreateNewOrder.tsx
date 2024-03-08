@@ -16,9 +16,9 @@ const CreateNewOrder = () => {
   const [orderStatus, setOrderStatus] = useState<string>("pending")
   const [ttn, setTtn] = useState<string>("")
   const [ids, setIds] = useState<string>("")
-  const [counts, setCounts] = useState<string>("")
   const [quantities, setQuantities] = useState<string>("")
   const [isClicked, setIsClicked] = useState<boolean>(false)
+  const [total, setTotal] = useState<number>(0)
 
   const initialValues: initialStateType = {
     name: "",
@@ -39,10 +39,6 @@ const CreateNewOrder = () => {
 
   useEffect(() => {
     setIds(compositMenuValues?.map((value: IProduct) => value.id).toString())
-  }, [compositMenuValues])
-
-  useEffect(() => {
-    setCounts(compositMenuValues?.map((value: IProduct) => value.count).toString())
   }, [compositMenuValues])
 
   const getGeneralInfoValues = (values: initialStateType) => {
@@ -66,6 +62,10 @@ const CreateNewOrder = () => {
     setTtn(ttn)
   }
 
+  const getTotal = (total: number) => {
+    setTotal(total)
+  }
+
   const [lastName, firstName] = generalInfoValues.name.split(" ")
 
   const order = {
@@ -81,11 +81,12 @@ const CreateNewOrder = () => {
     comment: generalInfoValues.comment,
     productIds: ids,
     productCounts: quantities,
+    total,
   }
 
   const handleSaveChanges = () => {
     console.log("ORDER", order)
-    // dispatch(createNewOrder(order))
+    dispatch(createNewOrder(order))
     setIsClicked(true)
     setTtn("")
     setOrderStatus("pending")
@@ -155,6 +156,7 @@ const CreateNewOrder = () => {
                   getQuantities={getQuantities}
                   isClicked={isClicked}
                   setIsClicked={setIsClicked}
+                  getTotal={getTotal}
                 />
               )}
             </div>

@@ -25,6 +25,7 @@ interface CompositMenuProps {
   getQuantities: (quantities: number[]) => void
   isClicked: boolean
   setIsClicked: (value: boolean) => void
+  getTotal: (total: number) => void
 }
 
 const OrderCompositMenu = ({
@@ -32,11 +33,11 @@ const OrderCompositMenu = ({
   getQuantities,
   isClicked,
   setIsClicked,
+  getTotal,
 }: CompositMenuProps) => {
   const [isAddGoodsModalOpen, setIsAddGoodsModalOpen] = useState<boolean>(false)
   const [goods, setGoods] = useState<IProduct[]>([])
   const [quantities, setQuantities] = useState<number[]>(Array(goods.length).fill(1))
-  // const [discounts, setDiscounts] = useState<number[]>(Array(goods.length).fill(0))
 
   useEffect(() => {
     if (isClicked) setGoods([])
@@ -48,7 +49,6 @@ const OrderCompositMenu = ({
   }, [getQuantities, quantities])
 
   useEffect(() => {
-    // Update quantities based on the length of goods
     setQuantities(Array(goods.length).fill(1))
   }, [goods])
 
@@ -57,12 +57,6 @@ const OrderCompositMenu = ({
     newQuantities[index] = value
     setQuantities(newQuantities)
   }
-
-  // const handleDiscountChange = (index: number, value: number) => {
-  //   const newDiscounts = [...discounts]
-  //   newDiscounts[index] = value
-  //   setDiscounts(newDiscounts)
-  // }
 
   const handleDeleteGood = (id: string) => {
     const arrayAfterDelete = goods.filter((good: IProduct) => good.id !== id)
@@ -74,6 +68,10 @@ const OrderCompositMenu = ({
       sum + (Number(good.price) - Number(good.price) * (good.discount / 100)) * quantities[index],
     0
   )
+
+  useEffect(() => {
+    getTotal(totalSum)
+  }, [getTotal, totalSum])
 
   const handleAddGoodsModalToggle = () => {
     setIsAddGoodsModalOpen(!isAddGoodsModalOpen)
@@ -122,14 +120,6 @@ const OrderCompositMenu = ({
                     />
                     <p className={s.list__item_textNumbers}>{good.price}</p>
                     <p className={s.list__item_textNumbers}>{Number(good.discount)}</p>
-                    {/* <input
-                      type="number"
-                      defaultValue={good.discount}
-                      // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      //   handleDiscountChange(index, Number(e.target.value))
-                      // }
-                      className={s.list__item_qty}
-                    /> */}
                     <p className={s.list__item_textNumbers}>
                       {quantities[index] &&
                         Number(
