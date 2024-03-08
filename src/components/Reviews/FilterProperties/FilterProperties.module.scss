@@ -1,0 +1,61 @@
+@import "/src/styles/variables.scss";
+@import "/src/styles/mixins.scss";
+
+.sub_menu_list {
+  @include customPosition(45px, 0, 197px);
+  padding: 0px 18px 18px;
+  color: $main-text-color;
+  @extend .Roboto400-16-18;
+  border: $default-border;
+  background-color: $first-icon-color;
+}
+.sub_menu_list > li {
+  position: relative;
+  padding-top: 10px;
+  text-align: start;
+  width: 100%;
+}
+
+.sub_menu_link {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  color: $main-text-color;
+  justify-content: space-between;
+  @extend .Roboto400-16-18;
+  cursor: pointer;
+}
+.sub_sub_menu_list {
+  margin-left: 14px;
+}
+.sub_sub_menu_list li {
+  padding-top: 14px;
+}
+.sub_sub_menu_link {
+  color: $main-text-color;
+  @extend .Roboto400-16-18;
+  gap: 14px;
+  cursor: pointer;
+}
+.menu_arrow {
+  display: flex;
+  padding: 10px;
+  background-color: $gray-dropdown-color;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.menu_filter {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+  color: $main-text-color;
+  @extend .Roboto400-16-18;
+  padding-left: 8px;
+  border: $default-border;
+}
+.active {
+  color:$main-color;
+}
