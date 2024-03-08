@@ -34,6 +34,19 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
     getProducts()
   }, [page, searchValue])
 
+  useEffect(() => {
+    const storedCheckedData = localStorage.getItem("checked")
+
+    if (storedCheckedData) {
+      try {
+        const checkedData = JSON.parse(storedCheckedData)
+        setCheckedIds(checkedData)
+      } catch (error) {
+        console.error("Error parsing JSON from localStorage:", error)
+      }
+    }
+  }, [])
+
   const getProducts = async () => {
     setIsLoading(true)
 
@@ -41,8 +54,6 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
       const { data } = await instance.get<IProductResponse>(
         `product?page=${page}&pageSize=25&lookup=${searchValue}`
       )
-
-      console.log("COUNT", Math.ceil(data.count / 25))
 
       if (page === Math.ceil(data.count / 25)) {
         setHasMore(false)
@@ -123,8 +134,16 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
     checkBox.checked = !checkBox.checked
 
     if (checkBox.checked) {
-      setCheckedIds([...checkedIds, _id])
+      const isAlreadyChecked = checkedIds.includes(_id)
+
+      if (isAlreadyChecked) {
+        return
+      } else {
+        localStorage.setItem("checked", JSON.stringify([...checkedIds, _id]))
+        setCheckedIds([...checkedIds, _id])
+      }
     } else {
+      localStorage.setItem("checked", JSON.stringify(checkedIds.filter((id: string) => id !== _id)))
       setCheckedIds(checkedIds.filter((id: string) => id !== _id))
     }
   }
@@ -132,6 +151,7 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
   const handleSubmit = () => {
     getGoods(foundCheckedGoods)
     getCompositMenuValues(foundCheckedGoods)
+    localStorage.removeItem("checked")
     onClose()
   }
 
@@ -175,6 +195,7 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
                       <input
                         type="checkbox"
                         id={`cbox_${good.id}`}
+                        checked={checkedIds.includes(good.id)}
                         className={s.modalWindow__list_itemCheck}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           changeCheckBox(good.id, e)
