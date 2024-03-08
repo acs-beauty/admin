@@ -100,6 +100,13 @@
 
   @include text($font-size: 16px, $font-weight: 600);
   line-height: 18.75px;
+
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover,
+  &:focus {
+    background-color: rgb(233, 233, 233);
+  }
 }
 
 .orderBlockToFill__buttons_saveBtn {
@@ -111,4 +118,11 @@
 
   @include text($color: $second-text-color, $font-size: 16px, $font-weight: 600);
   line-height: 18.75px;
+
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover,
+  &:focus {
+    background-color: #7b6dcf;
+  }
 }

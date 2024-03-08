@@ -10,6 +10,8 @@ import DeliveryIcon from "src/images/svg/DeliveryIcon"
 import CreditCardIcon from "src/images/svg/CreditCardIcon"
 import CommentIcon from "src/images/svg/CommentIcon"
 import OrderPaidSwitch from "../OrderPaidSwitch/OrderPaidSwitch"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 export interface initialStateType {
   name: string
@@ -75,6 +77,7 @@ const GeneralInfoMenu = ({
   ) => {
     getTtn(values.ttn)
     getGeneralInfoValues(values)
+    toast.success("Дані успішно збережено")
     // resetForm()
     // setDelivery("")
     // setPayment("")
@@ -240,6 +243,7 @@ const GeneralInfoMenu = ({
                     <button type="submit" className={s.generalInfoMenuForm__submitBtn}>
                       ЗБЕРЕГТИ
                     </button>
+                    <ToastContainer />
                   </div>
                 </div>
               </div>

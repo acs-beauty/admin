@@ -71,7 +71,7 @@ const OrderCompositMenu = ({
 
   const totalSum = goods.reduce(
     (sum, good, index) =>
-      sum + (Number(good?.price) - Number(good?.price) * (good.discount / 100) * quantities[index]),
+      sum + (Number(good.price) - Number(good.price) * (good.discount / 100)) * quantities[index],
     0
   )
 
