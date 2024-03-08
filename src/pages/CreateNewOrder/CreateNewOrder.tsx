@@ -66,9 +66,11 @@ const CreateNewOrder = () => {
     setTtn(ttn)
   }
 
+  const [lastName, firstName] = generalInfoValues.name.split(" ")
+
   const order = {
-    firstName: generalInfoValues.name,
-    lastName: "Smith",
+    firstName,
+    lastName,
     email: generalInfoValues.email,
     phone: generalInfoValues.phone,
     status: orderStatus,
@@ -133,6 +135,7 @@ const CreateNewOrder = () => {
                   getTtn={getTtn}
                   getGeneralInfoValues={getGeneralInfoValues}
                   isClicked={isClicked}
+                  setIsClicked={setIsClicked}
                 />
               )}
               <div
@@ -151,6 +154,7 @@ const CreateNewOrder = () => {
                   getCompositMenuValues={getCompositMenuValues}
                   getQuantities={getQuantities}
                   isClicked={isClicked}
+                  setIsClicked={setIsClicked}
                 />
               )}
             </div>

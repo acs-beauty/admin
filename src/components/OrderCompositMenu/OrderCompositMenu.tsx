@@ -24,12 +24,14 @@ interface CompositMenuProps {
   getCompositMenuValues: (values: IProduct[]) => void
   getQuantities: (quantities: number[]) => void
   isClicked: boolean
+  setIsClicked: (value: boolean) => void
 }
 
 const OrderCompositMenu = ({
   getCompositMenuValues,
   getQuantities,
   isClicked,
+  setIsClicked,
 }: CompositMenuProps) => {
   const [isAddGoodsModalOpen, setIsAddGoodsModalOpen] = useState<boolean>(false)
   const [goods, setGoods] = useState<IProduct[]>([])
@@ -38,7 +40,8 @@ const OrderCompositMenu = ({
 
   useEffect(() => {
     if (isClicked) setGoods([])
-  }, [isClicked])
+    setIsClicked(false)
+  }, [isClicked, setIsClicked])
 
   useEffect(() => {
     getQuantities(quantities)

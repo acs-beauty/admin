@@ -8,14 +8,21 @@ interface OrderPaidSwitchProps {
   getOrderStatus: (status: boolean) => void
   setFieldValue: (field: string, value: boolean) => void
   isClicked: boolean
+  setIsClicked: (value: boolean) => void
 }
 
-const OrderPaidSwitch = ({ getOrderStatus, setFieldValue, isClicked }: OrderPaidSwitchProps) => {
+const OrderPaidSwitch = ({
+  getOrderStatus,
+  setFieldValue,
+  isClicked,
+  setIsClicked,
+}: OrderPaidSwitchProps) => {
   const [paidChecked, setPaidChecked] = React.useState<boolean>(false)
 
   useEffect(() => {
     setPaidChecked(false)
-  }, [isClicked])
+    setIsClicked(false)
+  }, [isClicked, setIsClicked])
 
   const handlePaidChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPaidChecked(event.target.checked)

@@ -32,6 +32,7 @@ interface GeneralInfoMenuProps {
   getTtn: (ttn: string) => void
   getGeneralInfoValues: (values: initialStateType) => void
   isClicked: boolean
+  setIsClicked: (value: boolean) => void
 }
 
 const GeneralInfoMenu = ({
@@ -39,6 +40,7 @@ const GeneralInfoMenu = ({
   getTtn,
   getGeneralInfoValues,
   isClicked,
+  setIsClicked,
 }: GeneralInfoMenuProps) => {
   const [delivery, setDelivery] = useState<string>("")
   const [payment, setPayment] = useState<string>("")
@@ -63,8 +65,9 @@ const GeneralInfoMenu = ({
       setDelivery("")
       setPayment("")
       setComment("")
+      setIsClicked(false)
     }
-  }, [isClicked])
+  }, [isClicked, setIsClicked])
 
   const handleSubmit = (
     values: initialStateType
@@ -224,6 +227,7 @@ const GeneralInfoMenu = ({
                     getOrderStatus={getOrderStatus}
                     setFieldValue={setFieldValue}
                     isClicked={isClicked}
+                    setIsClicked={setIsClicked}
                   />
                 </div>
                 <div>
