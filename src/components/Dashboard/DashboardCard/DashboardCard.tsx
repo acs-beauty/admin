@@ -1,4 +1,3 @@
-// import ArrowToTopIcon from "src/images/svg/ArrowToTopIcon";
 import { Grid, Card, Typography } from "@mui/material"
 import s from "./DashboardCard.module.scss"
 import { itemOptions, dataOptions, allOptions, iconOptions } from "./menuOptions"

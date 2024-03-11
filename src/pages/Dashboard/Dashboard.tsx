@@ -6,7 +6,7 @@ import SearchInput from "src/components/ToolsPanel/SearchInput/SearchInput"
 import AdminLayout from "src/layouts/AdminLayout"
 import ExportButton from "src/components/Reviews/Export"
 import DashboardTable from "src/components/Dashboard/DashboardTable"
-import { useAppDispatch } from "src/redux/store"
+import { useAppDispatch } from "src/redux/hooks"
 import { getDashboards } from "src/redux/dashboards/operations"
 
 const Dashboard = () => {

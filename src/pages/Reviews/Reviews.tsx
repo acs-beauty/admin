@@ -4,7 +4,7 @@ import SearchInput from "src/components/ToolsPanel/SearchInput/SearchInput"
 import AdminLayout from "src/layouts/AdminLayout"
 import FilterProperties from "../../components/Reviews/FilterProperties"
 import { getReviews } from "src/redux/reviews/operations"
-import { useAppDispatch } from "src/redux/store"
+import { useAppDispatch } from "src/redux/hooks"
 import ReviewsTable from "src/components/Reviews/ReviewsItems"
 import ExportButton from "src/components/Reviews/Export"
 

@@ -1,6 +1,6 @@
 import React from "react"
 import { useSelector } from "react-redux"
-import { useAppDispatch } from "src/redux/store"
+import { useAppDispatch } from "src/redux/hooks"
 import { selectDashboards } from "src/redux/dashboards/selectors"
 import { DataGrid, GridColDef, GridActionsCellItem } from "@mui/x-data-grid"
 import { Switch, Typography } from "@mui/material"

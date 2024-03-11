@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react"
 import s from "./FilterProperties.module.scss"
 import NavigateIcon from "src/images/svg/NavigateIcon"
 import FilterIcon from "src/images/svg/FilterIcon"
-import ArrowIcon from "src/images/svg/ArrowIcon"
+import ArrowsIcon from "src/images/svg/ArrowsIcon"
 import useOnClickOutside from "src/hooks/useOnClickOutside"
 import classNames from "classnames"
 import { statusOptions, ratingOptions } from "./menuPotions"
@@ -40,7 +40,7 @@ const FilterProperties: React.FC<IProps> = ({ setStatus, setRating, status, rati
         <FilterIcon />
         Фільтрувати
         <span ref={filterButtonRef} className={s.menu_arrow}>
-          <ArrowIcon rotated={filterOpen} />
+          <ArrowsIcon rotated={filterOpen} />
         </span>
       </div>
       <div>

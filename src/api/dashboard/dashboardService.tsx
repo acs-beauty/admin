@@ -1,5 +1,5 @@
 import { IResponse, IGetDashboardParams } from "src/types/dashboards";
-import { instance } from "../brands/instance"
+import { instance } from "../instance"
 import { GridRowId } from "@mui/x-data-grid";
 
 export const fetchDashboardsFromBackend = async ({page = 1, pageSize = 10, lookup = ""}: IGetDashboardParams): Promise<IResponse> => {
