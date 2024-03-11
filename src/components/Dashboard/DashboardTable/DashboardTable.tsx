@@ -11,7 +11,7 @@ import Box from "@mui/material/Box"
 import s from "./DashboardTable.module.scss"
 import EditTableIcon from "src/images/svg/EditTableIcon"
 import { deleteDashboard } from "src/redux/dashboards/operations"
-import { updateDashboard } from "src/redux/dashboards/dashboardSlice"
+import { updateDashboard } from "src/redux/dashboards/slice"
 
 interface IProps {
   page: number

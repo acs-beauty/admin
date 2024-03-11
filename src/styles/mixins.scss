@@ -11,6 +11,14 @@
   border-radius: $radius;
 }
 
+@mixin customPosition($top, $left, $width) {
+  position: absolute;
+  top: $top;
+  left: $left;
+  z-index: 1;
+  width: $width;
+}
+
 .Roboto400-14 {
   font-size: 14px;
   line-height: normal;

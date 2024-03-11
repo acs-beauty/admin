@@ -71,4 +71,4 @@ const reviewsSlice = createSlice({
   },
 })
 export const { setColumns, updateReview } = reviewsSlice.actions
-export const reviewsReducer = reviewsSlice.reducer
+export const reviews = reviewsSlice.reducer

@@ -56,4 +56,4 @@ const dashboardSlice = createSlice({
   },
 })
 export const { updateDashboard } = dashboardSlice.actions
-export const dashboardReducer = dashboardSlice.reducer
+export const dashboards = dashboardSlice.reducer
