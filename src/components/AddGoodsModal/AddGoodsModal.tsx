@@ -168,7 +168,7 @@ const AddGoodsModal = ({ onClose, getGoods, getCompositMenuValues }: IProps) => 
         <div className={s.modalWindow__closeIconWrapper}>
           <CloseIcon onClick={onClose} />
         </div>
-        <SearchInput onChange={handleSearch} />
+        <SearchInput onChange={handleSearch} width="100%" />
         <div className={s.modalWindow__listAndBtnsWrapper}>
           <div
             style={{

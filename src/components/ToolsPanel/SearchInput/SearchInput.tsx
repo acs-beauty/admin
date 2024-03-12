@@ -6,11 +6,12 @@ import { DebounceInput } from "react-debounce-input"
 
 interface IProps {
   onChange: (value: string) => void
+  width?: string
 }
 
-const SearchInput: React.FC<IProps> = ({ onChange }) => {
+const SearchInput: React.FC<IProps> = ({ onChange, width }) => {
   return (
-    <div className={s.searchInputContainer}>
+    <div className={s.searchInputContainer} style={{ width: `${width}` }}>
       <DebounceInput
         minLength={2}
         debounceTimeout={300}

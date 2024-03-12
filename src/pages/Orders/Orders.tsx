@@ -2,10 +2,15 @@ import s from "./Orders.module.scss"
 import AdminLayout from "../../layouts/AdminLayout"
 import SearchInput from "../../components/ToolsPanel/SearchInput/SearchInput"
 import { Table } from "../../components/Table/Table"
-import ExportButton from "../../components/ToolsPanel/ExportButton/ExportButton"
+// import ExportButton from "../../components/ToolsPanel/ExportButton/ExportButton"
 import ChangeOrderStatusPopup from "../../components/Popups/ChangeOrderStatusPopup/ChangeOrderStatusPopup.tsx"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Filter from "../../components/Filter/Filter.tsx"
+import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { useAppDispatch } from "src/redux/hooks"
+import { getOrders } from "src/redux/orders/operations.ts"
+import { selectOrders } from "src/redux/orders/selectors.ts"
 
 const OrdersFilterData = [
   {
@@ -21,9 +26,16 @@ const OrdersFilterData = [
     suboptions: ["На карту", "При отриманні"],
   },
 ]
+
 const Orders = () => {
   const [showModal, setShowModal] = useState(false)
   const [chosenOrderId, setChosenOrderId] = useState(0)
+  const dispatch = useAppDispatch()
+  const orders = useSelector(selectOrders)
+
+  useEffect(() => {
+    dispatch(getOrders({}))
+  }, [dispatch])
 
   const columns = [
     { field: "id", headerName: "№", width: 60 },
@@ -48,38 +60,40 @@ const Orders = () => {
     { field: "additionDate", headerName: "Додано", width: 130 },
   ]
 
-  const rows = [
-    {
-      id: 34561,
-      customer: "Кузьменко М.",
-      total: "1256грн",
-      status: "Оплачено",
-      deliveryMethod: "Нова пошта",
-      waybill: "2045678567890",
-      comments: "Будь-ласка відправте",
-      additionDate: "12.06.2023",
-    },
-    {
-      id: 34562,
-      customer: "Кузьменко М.",
-      total: "1256грн",
-      status: "Виконано",
-      deliveryMethod: "Нова пошта",
-      waybill: "2045678567890",
-      comments: "Будь-ласка відправте",
-      additionDate: "12.06.2023",
-    },
-    {
-      id: 34563,
-      customer: "Кузьменко М.",
-      total: "1256грн",
-      status: "Скасовано",
-      deliveryMethod: "Нова пошта",
-      waybill: "2045678567890",
-      comments: "Будь-ласка відправте",
-      additionDate: "12.06.2023",
-    },
-  ]
+  // const rows = [
+  //   {
+  //     id: 34561,
+  //     customer: "Кузьменко М.",
+  //     total: "1256грн",
+  //     status: "Оплачено",
+  //     deliveryMethod: "Нова пошта",
+  //     waybill: "2045678567890",
+  //     comments: "Будь-ласка відправте",
+  //     additionDate: "12.06.2023",
+  //   },
+  //   {
+  //     id: 34562,
+  //     customer: "Кузьменко М.",
+  //     total: "1256грн",
+  //     status: "Виконано",
+  //     deliveryMethod: "Нова пошта",
+  //     waybill: "2045678567890",
+  //     comments: "Будь-ласка відправте",
+  //     additionDate: "12.06.2023",
+  //   },
+  //   {
+  //     id: 34563,
+  //     customer: "Кузьменко М.",
+  //     total: "1256грн",
+  //     status: "Скасовано",
+  //     deliveryMethod: "Нова пошта",
+  //     waybill: "2045678567890",
+  //     comments: "Будь-ласка відправте",
+  //     additionDate: "12.06.2023",
+  //   },
+  // ]
+
+  const rows = orders
 
   const getStatusColor = (status: string) => {
     const statusToColor: Record<string, string> = {
@@ -121,7 +135,10 @@ const Orders = () => {
             <SearchInput onChange={handleSearchInputChange} />
             <div className={s.tools}>
               <Filter options={OrdersFilterData} />
-              <ExportButton columns={columns} rows={rows} />
+              {/* <ExportButton columns={columns} rows={rows} /> */}
+              <Link to="/new-order" className={s.addOrderBtn}>
+                Створити замовлення
+              </Link>
             </div>
           </div>
 

@@ -90,12 +90,14 @@ const CreateNewOrder = () => {
     setIsClicked(true)
     setTtn("")
     setOrderStatus("pending")
+    setGeneralInfoValues(initialValues)
   }
 
   const handleOrderClear = () => {
     setIsClicked(true)
     setTtn("")
     setOrderStatus("pending")
+    setGeneralInfoValues(initialValues)
   }
 
   const date = new Date(Date.now()).toLocaleDateString()

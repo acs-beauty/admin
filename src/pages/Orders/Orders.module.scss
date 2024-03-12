@@ -8,7 +8,6 @@
   display: flex;
 
   margin-left: 260px;
-
 }
 
 .main__section {
@@ -29,4 +28,17 @@
 .tools {
   display: flex;
   gap: 20px;
+}
+
+.addOrderBtn {
+  @include border;
+
+  display: flex;
+  align-items: center;
+  padding: 5px 8px;
+  color: inherit;
+
+  &:visited {
+    color: inherit;
+  }
 }
