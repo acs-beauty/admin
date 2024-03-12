@@ -6,6 +6,7 @@ import Brands from "./pages/Brands/Brands"
 import Orders from "./pages/Orders/Orders.tsx"
 import CreateNewOrder from "./pages/CreateNewOrder/CreateNewOrder.tsx"
 import News from "./pages/News/News.tsx"
+import UpdateOrder from "./pages/UpdateOrder/UpdateOrder.tsx"
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
   {
     path: "/new-order",
     element: <CreateNewOrder />,
+  },
+  {
+    path: "/order/:id",
+    element: <UpdateOrder />,
   },
   {
     path: "/news",

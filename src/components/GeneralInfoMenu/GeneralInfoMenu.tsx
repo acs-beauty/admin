@@ -25,10 +25,6 @@ export interface initialStateType {
   ttn: string
 }
 
-// interface ResetFormProps {
-//   resetForm: (nextState?: Partial<FormikState<initialStateType>>) => void
-// }
-
 interface GeneralInfoMenuProps {
   getOrderStatus: (status: boolean) => void
   getTtn: (ttn: string) => void
@@ -71,17 +67,10 @@ const GeneralInfoMenu = ({
     }
   }, [isClicked, setIsClicked])
 
-  const handleSubmit = (
-    values: initialStateType
-    // , { resetForm }: ResetFormProps
-  ) => {
+  const handleSubmit = (values: initialStateType) => {
     getTtn(values.ttn)
     getGeneralInfoValues(values)
     toast.success("Дані успішно збережено")
-    // resetForm()
-    // setDelivery("")
-    // setPayment("")
-    // setComment("")
   }
 
   return (

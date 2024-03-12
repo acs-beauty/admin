@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ordersApi } from "../../api/orders/ordersApi"
-import { IOrder, IResponse, IGetOrdersParams } from "src/types/orders"
+import { IOrder, IResponse, IGetOrdersParams, IOrderById } from "src/types/orders"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
@@ -9,6 +9,19 @@ export const getOrders = createAsyncThunk<IResponse, IGetOrdersParams>(
   async (params, { rejectWithValue }) => {
     try {
       const { data } = await ordersApi.getOrders(params)
+
+      return data
+    } catch (error: unknown) {
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const getOrderById = createAsyncThunk<IOrderById, string>(
+  "orders/getOrderById",
+  async (id, { rejectWithValue }) => {
+    try {
+      const { data } = await ordersApi.getOrderById(id)
 
       return data
     } catch (error: unknown) {

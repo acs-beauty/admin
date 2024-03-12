@@ -1,10 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { IOrder } from "src/types/orders"
-import { getOrders, createNewOrder, deleteOrder, patchOrder } from "./operations"
+import { IOrder, IOrderById } from "src/types/orders"
+import { getOrders, getOrderById, createNewOrder, deleteOrder, patchOrder } from "./operations"
 
 export interface OrdersState {
   count: number
   orders: IOrder[]
+  order: IOrderById
   isLoading: boolean
   error: unknown | null
 }
@@ -12,6 +13,33 @@ export interface OrdersState {
 const initialState: OrdersState = {
   count: 0,
   orders: [],
+  order: {
+    id: 0,
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    status: "",
+    deliveryType: "",
+    address: "",
+    paymentType: "",
+    tth: "",
+    comment: "",
+    createdAt: "",
+    products: [
+      {
+        name: "",
+        price: 0,
+        discount: 0,
+        count: 0,
+        images: [
+          {
+            url: "",
+          },
+        ],
+      },
+    ],
+  },
   isLoading: false,
   error: null,
 }
@@ -50,6 +78,14 @@ const ordersSlice = createSlice({
         state.error = null
       })
       .addCase(getOrders.rejected, handleRejected)
+
+      .addCase(getOrderById.pending, handlePending)
+      .addCase(getOrderById.fulfilled, (state, action) => {
+        state.order = action.payload
+        state.isLoading = false
+        state.error = null
+      })
+      .addCase(getOrderById.rejected, handleRejected)
 
       .addCase(createNewOrder.pending, handlePending)
       .addCase(createNewOrder.fulfilled, (state, action) => {

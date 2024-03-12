@@ -1,5 +1,5 @@
 import { instance } from "../instance"
-import { IOrder, IResponse } from "src/types/orders"
+import { IOrder, IOrderById, IResponse } from "src/types/orders"
 
 export const ordersApi = {
   // <---------- get ---------->
@@ -8,12 +8,15 @@ export const ordersApi = {
       `order?page=${page}&pageSize=${pageSize}${lookup ? `&lookup=${lookup}` : ""}`
     ),
 
+  // <---------- get by ID ----->
+  getOrderById: (id: string) => instance.get<IOrderById>(`order/${id}`),
+
   // <---------- post ---------->
   postOrder: (values: IOrder) => instance.post<IOrder>("order/", values),
 
-  // <---------- patch ---------->
+  // <---------- patch --------->
   patchOrder: (id: number, values: IOrder) => instance.patch<IOrder>(`order/${id}`, values),
 
-  // <---------- delete ---------->
+  // <---------- delete -------->
   deleteOrder: (id: number) => instance.delete(`order/${id}`),
 }
