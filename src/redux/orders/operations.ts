@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
-import { ordersApi } from "src/api/orders/ordersApi"
+import { ordersApi } from "../../api/orders/ordersApi"
 import { IOrder, IResponse, IGetOrdersParams } from "src/types/orders"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -31,28 +31,28 @@ export const createNewOrder = createAsyncThunk<IOrder, IOrder>(
   }
 )
 
-// export const patchBrand = createAsyncThunk<IBrand, { id: GridRowId; formData: FormData }>(
-//   "brands/patchBrand",
-//   async ({ id, formData }, { rejectWithValue }) => {
-//     try {
-//       const { data } = await brandsApi.patchBrand(id, formData)
+export const patchOrder = createAsyncThunk<IOrder, { id: number; values: IOrder }>(
+  "orders/patchOrder",
+  async ({ id, values }, { rejectWithValue }) => {
+    try {
+      const { data } = await ordersApi.patchOrder(id, values)
 
-//       return data
-//     } catch (error: unknown) {
-//       return rejectWithValue(error)
-//     }
-//   }
-// )
+      return data
+    } catch (error: unknown) {
+      return rejectWithValue(error)
+    }
+  }
+)
 
-// export const deleteBrand = createAsyncThunk<{ id: GridRowId }, GridRowId>(
-//   "brands/deleteBrand",
-//   async (id, { rejectWithValue }) => {
-//     try {
-//       await brandsApi.deleteBrand(id)
+export const deleteOrder = createAsyncThunk<{ id: number }, number>(
+  "orders/deleteOrder",
+  async (id, { rejectWithValue }) => {
+    try {
+      await ordersApi.deleteOrder(id)
 
-//       return { id }
-//     } catch (error: unknown) {
-//       return rejectWithValue(error)
-//     }
-//   }
-// )
+      return { id }
+    } catch (error: unknown) {
+      return rejectWithValue(error)
+    }
+  }
+)

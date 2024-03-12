@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { IOrder } from "src/types/orders"
-import { getOrders, createNewOrder } from "./operations"
+import { getOrders, createNewOrder, deleteOrder, patchOrder } from "./operations"
 
 export interface OrdersState {
   count: number
@@ -26,18 +26,18 @@ const ordersSlice = createSlice({
       state.count += 1
     },
 
-    // updateBrand: (state, action: PayloadAction<IBrand>) => {
-    //   const updatedBrand = action.payload
-    //   const index = state.brands.findIndex(brand => brand.id === updatedBrand.id)
+    updateOrder: (state, action: PayloadAction<IOrder>) => {
+      const updatedOrder = action.payload
+      const index = state.orders.findIndex(order => order.id === updatedOrder.id)
 
-    //   if (index === -1) return
-    //   state.brands[index] = updatedBrand
-    // },
+      if (index === -1) return
+      state.orders[index] = updatedOrder
+    },
 
-    // deleteBrand: (state, action) => {
-    //   state.brands = state.brands.filter(brand => brand.id !== action.payload.id)
-    //   state.count -= 1
-    // },
+    deleteOrder: (state, action) => {
+      state.orders = state.orders.filter(order => order.id !== action.payload.id)
+      state.count -= 1
+    },
   },
 
   extraReducers: builder => {
@@ -59,21 +59,21 @@ const ordersSlice = createSlice({
       })
       .addCase(createNewOrder.rejected, handleRejected)
 
-    //   .addCase(patchBrand.pending, handlePending)
-    //   .addCase(patchBrand.fulfilled, (state, action) => {
-    //     brandsSlice.caseReducers.updateBrand(state, action)
-    //     state.isLoading = false
-    //     state.error = null
-    //   })
-    //   .addCase(patchBrand.rejected, handleRejected)
+      .addCase(patchOrder.pending, handlePending)
+      .addCase(patchOrder.fulfilled, (state, action) => {
+        ordersSlice.caseReducers.updateOrder(state, action)
+        state.isLoading = false
+        state.error = null
+      })
+      .addCase(patchOrder.rejected, handleRejected)
 
-    //   .addCase(deleteBrand.pending, handlePending)
-    //   .addCase(deleteBrand.fulfilled, (state, action) => {
-    //     brandsSlice.caseReducers.deleteBrand(state, action)
-    //     state.isLoading = false
-    //     state.error = null
-    //   })
-    //   .addCase(deleteBrand.rejected, handleRejected)
+      .addCase(deleteOrder.pending, handlePending)
+      .addCase(deleteOrder.fulfilled, (state, action) => {
+        ordersSlice.caseReducers.deleteOrder(state, action)
+        state.isLoading = false
+        state.error = null
+      })
+      .addCase(deleteOrder.rejected, handleRejected)
   },
 })
 

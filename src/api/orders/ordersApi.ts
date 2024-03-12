@@ -11,10 +11,9 @@ export const ordersApi = {
   // <---------- post ---------->
   postOrder: (values: IOrder) => instance.post<IOrder>("order/", values),
 
-  //   // <---------- patch ---------->
-  //   patchBrand: (id: GridRowId, formData: FormData) =>
-  //     instance.patch<IBrand>(`brand/${id}`, formData),
+  // <---------- patch ---------->
+  patchOrder: (id: number, values: IOrder) => instance.patch<IOrder>(`order/${id}`, values),
 
-  //   // <---------- delete ---------->
-  //   deleteBrand: (id: GridRowId) => instance.delete(`brand/${id}`),
+  // <---------- delete ---------->
+  deleteOrder: (id: number) => instance.delete(`order/${id}`),
 }
