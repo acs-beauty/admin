@@ -77,7 +77,7 @@ const CreateNewOrder = () => {
     deliveryType: generalInfoValues.delivery,
     address: generalInfoValues.adress,
     paymentType: generalInfoValues.payment,
-    tth: generalInfoValues.ttn,
+    tth: ttn,
     comment: generalInfoValues.comment,
     productIds: ids,
     productCounts: quantities,
@@ -85,7 +85,6 @@ const CreateNewOrder = () => {
   }
 
   const handleSaveChanges = () => {
-    console.log("ORDER", order)
     dispatch(createNewOrder(order))
     setIsClicked(true)
     setTtn("")

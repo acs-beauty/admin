@@ -13,6 +13,7 @@ export interface IOrderById {
   createdAt: string
   products: [
     {
+      id: number
       name: string
       price: number
       discount: number

@@ -44,12 +44,13 @@ export const createNewOrder = createAsyncThunk<IOrder, IOrder>(
   }
 )
 
-export const patchOrder = createAsyncThunk<IOrder, { id: number; values: IOrder }>(
+export const patchOrder = createAsyncThunk<IOrder, { id: string; values: IOrder }>(
   "orders/patchOrder",
   async ({ id, values }, { rejectWithValue }) => {
     try {
       const { data } = await ordersApi.patchOrder(id, values)
 
+      toast.success("Замовлення успішно змінено")
       return data
     } catch (error: unknown) {
       return rejectWithValue(error)

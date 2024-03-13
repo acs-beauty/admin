@@ -31,19 +31,14 @@ interface GeneralInfoMenuProps {
   getOrderStatus: (status: boolean) => void
   getTtn: (ttn: string) => void
   getEditGeneralInfoValues: (values: initialStateType) => void
-  isClicked: boolean
-  setIsClicked: (value: boolean) => void
 }
 
 const EditGeneralInfoMenu = ({
   getOrderStatus,
   getTtn,
   getEditGeneralInfoValues,
-  isClicked,
-  setIsClicked,
 }: GeneralInfoMenuProps) => {
   const order = useSelector(selectOrder)
-  console.log("ORDER", order)
 
   const [delivery, setDelivery] = useState<string>("")
   const [payment, setPayment] = useState<string>("")
@@ -69,18 +64,7 @@ const EditGeneralInfoMenu = ({
     setComment(order.comment)
   }, [order])
 
-  useEffect(() => {
-    if (isClicked) {
-      formikRef.current?.resetForm()
-      setDelivery("")
-      setPayment("")
-      setComment("")
-      setIsClicked(false)
-    }
-  }, [isClicked, setIsClicked])
-
   const handleSubmit = (values: initialStateType) => {
-    console.log("VALUES", values)
     getTtn(values.ttn)
     getEditGeneralInfoValues(values)
     toast.success("Дані успішно збережено")
@@ -232,8 +216,6 @@ const EditGeneralInfoMenu = ({
                     <EditOrderPaidSwitch
                       getOrderStatus={getOrderStatus}
                       setFieldValue={setFieldValue}
-                      isClicked={isClicked}
-                      setIsClicked={setIsClicked}
                       order={order}
                     />
                   </div>

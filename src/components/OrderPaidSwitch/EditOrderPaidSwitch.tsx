@@ -8,26 +8,17 @@ import { IOrderById } from "src/types/orders"
 interface OrderPaidSwitchProps {
   getOrderStatus: (status: boolean) => void
   setFieldValue: (field: string, value: boolean) => void
-  isClicked: boolean
-  setIsClicked: (value: boolean) => void
   order: IOrderById
 }
 
-const EditOrderPaidSwitch = ({
-  getOrderStatus,
-  setFieldValue,
-  isClicked,
-  setIsClicked,
-  order,
-}: OrderPaidSwitchProps) => {
+const EditOrderPaidSwitch = ({ getOrderStatus, setFieldValue, order }: OrderPaidSwitchProps) => {
   const [paidChecked, setPaidChecked] = React.useState<boolean>(
     order.status === "pending" ? false : true
   )
 
   useEffect(() => {
     setPaidChecked(order.status === "pending" ? false : true)
-    setIsClicked(false)
-  }, [order.status, isClicked, setIsClicked])
+  }, [order.status])
 
   const handlePaidChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPaidChecked(event.target.checked)

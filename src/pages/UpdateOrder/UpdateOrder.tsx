@@ -5,15 +5,16 @@ import s from "./UpdateOrder.module.scss"
 import ArrowToLeft from "src/images/svg/ArrowToLeft"
 import ArrowToBottomIcon from "src/images/svg/ArrowToBottomIcon"
 import ArrowToTopFlatIcon from "src/images/svg/ArrowToTopFlatIcon"
-import OrderCompositMenu, { IProduct } from "src/components/OrderCompositMenu/OrderCompositMenu"
 import { initialStateType } from "../../components/GeneralInfoMenu/GeneralInfoMenu"
-import { IOrder } from "src/types/orders"
 import EditGeneralInfoMenu from "src/components/EditGeneralInfoMenu/EditGeneralInfoMenu"
 import { useSelector } from "react-redux"
 import { useAppDispatch } from "src/redux/hooks"
-import { getOrderById } from "src/redux/orders/operations.ts"
+import { getOrderById, patchOrder } from "src/redux/orders/operations.ts"
 import { selectOrder } from "src/redux/orders/selectors.ts"
-import EditOrderCompositMenu from "src/components/OrderCompositMenu/EditOrderCompositMenu"
+import EditOrderCompositMenu, {
+  IProductInOrder,
+} from "src/components/OrderCompositMenu/EditOrderCompositMenu"
+import { IOrder } from "src/types/orders"
 
 const UpdateOrder = () => {
   const [isEditGeneralInfoMenuOpen, setIsEditGeneralInfoMenuOpen] = useState<boolean>(true)
@@ -21,16 +22,21 @@ const UpdateOrder = () => {
   const [ttn, setTtn] = useState<string>("")
   const [ids, setIds] = useState<string>("")
   const [quantities, setQuantities] = useState<string>("")
-  const [isClicked, setIsClicked] = useState<boolean>(false)
   const [total, setTotal] = useState<number>(0)
   const { id } = useParams()
 
   const dispatch = useAppDispatch()
   const order = useSelector(selectOrder)
 
+  const [products, setProducts] = useState<IProductInOrder[]>([])
+
   useEffect(() => {
     if (id) dispatch(getOrderById(id))
   }, [dispatch, id])
+
+  useEffect(() => {
+    setProducts(order.products)
+  }, [order])
 
   const initialValues: initialStateType = {
     name: "",
@@ -48,39 +54,22 @@ const UpdateOrder = () => {
 
   const [editGeneralInfoValues, setEditGeneralInfoValues] =
     useState<initialStateType>(initialValues)
-  //   const [editCompositMenuValues, setEditCompositMenuValues] = useState<IProduct[]>([])
-
-  //   const dispatch = useAppDispatch()
-
-  //   useEffect(() => {
-  //     const getOrderById = async () => {
-  //       if (id) {
-  //         try {
-  //           const { data } = await ordersApi.getOrderById(id)
-  //           setOrder(data)
-  //         } catch (error) {
-  //           console.log(error)
-  //         }
-  //       }
-  //     }
-  //     getOrderById()
-  //   }, [id])
 
   useEffect(() => {
     setOrderStatus(order.status)
   }, [order])
 
-  // useEffect(() => {
-  //   setIds(editCompositMenuValues?.map((value: IProduct) => value.id).toString())
-  // }, [compositMenuValues])
+  useEffect(() => {
+    setIds(products.map((value: IProductInOrder) => value.id).toString())
+  }, [products])
 
   const getEditGeneralInfoValues = (values: initialStateType) => {
     setEditGeneralInfoValues(values)
   }
 
-  //   const getEditCompositMenuValues = (values: IProduct[]) => {
-  //     setEditCompositMenuValues(values)
-  //   }
+  const getProducts = (newProducts: IProductInOrder[]) => {
+    setProducts(newProducts)
+  }
 
   const getQuantities = (quantities: number[]) => {
     setQuantities(quantities.toString())
@@ -99,43 +88,30 @@ const UpdateOrder = () => {
     setTotal(total)
   }
 
-  //   const [lastName, firstName] = generalInfoValues.name.split(" ")
+  const [lastName, firstName] = editGeneralInfoValues.name.split(" ")
 
-  //   const order = {
-  //     firstName,
-  //     lastName,
-  //     email: generalInfoValues.email,
-  //     phone: generalInfoValues.phone,
-  //     status: orderStatus,
-  //     deliveryType: generalInfoValues.delivery,
-  //     address: generalInfoValues.adress,
-  //     paymentType: generalInfoValues.payment,
-  //     tth: generalInfoValues.ttn,
-  //     comment: generalInfoValues.comment,
-  //     productIds: ids,
-  //     productCounts: quantities,
-  //     total,
-  //   }
+  const editedOrder: IOrder = {
+    firstName: firstName || "",
+    lastName: lastName || "",
+    email: editGeneralInfoValues.email,
+    phone: editGeneralInfoValues.phone,
+    status: orderStatus,
+    deliveryType: editGeneralInfoValues.delivery,
+    address: editGeneralInfoValues.adress,
+    paymentType: editGeneralInfoValues.payment,
+    tth: ttn,
+    comment: editGeneralInfoValues.comment,
+    productIds: ids,
+    productCounts: quantities,
+    total,
+  }
 
   const handleSaveChanges = () => {
-    console.log("ORDER", order)
-    // dispatch(createNewOrder(order))
-    setIsClicked(true)
-    setTtn("")
-    setOrderStatus("pending")
-    setEditGeneralInfoValues(initialValues)
+    console.log("EDITED", editedOrder)
+    if (id) dispatch(patchOrder({ id, values: editedOrder }))
   }
 
-  const handleOrderClear = () => {
-    setIsClicked(true)
-    setTtn("")
-    setOrderStatus("pending")
-    setEditGeneralInfoValues(initialValues)
-  }
-
-  //   console.log("ORDER", order)
-  //   console.log("STATUS", orderStatus)
-  //   console.log("EDIT", editGeneralInfoValues)
+  const handleOrderClear = () => {}
 
   return (
     <AdminLayout>
@@ -175,8 +151,6 @@ const UpdateOrder = () => {
                   getOrderStatus={getOrderStatus}
                   getTtn={getTtn}
                   getEditGeneralInfoValues={getEditGeneralInfoValues}
-                  isClicked={isClicked}
-                  setIsClicked={setIsClicked}
                 />
               )}
               <div
@@ -192,11 +166,9 @@ const UpdateOrder = () => {
               </div>
               {isOrderCompositMenuOpen && (
                 <EditOrderCompositMenu
-                  //   getEditCompositMenuValues={getEditCompositMenuValues}
                   getQuantities={getQuantities}
-                  isClicked={isClicked}
-                  setIsClicked={setIsClicked}
                   getTotal={getTotal}
+                  getProducts={getProducts}
                 />
               )}
             </div>
@@ -206,7 +178,7 @@ const UpdateOrder = () => {
                 className={s.orderBlockToFill__buttons_removeBtn}
                 onClick={handleOrderClear}
               >
-                ВИДАЛИТИ
+                ВІДМІНИТИ
               </button>
               <button
                 type="button"

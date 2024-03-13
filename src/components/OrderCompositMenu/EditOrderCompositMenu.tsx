@@ -4,7 +4,8 @@ import TrashIcon from "../../images/svg/TrashIcon"
 import { useSelector } from "react-redux"
 import { selectOrder } from "src/redux/orders/selectors"
 
-interface IProductInOrder {
+export interface IProductInOrder {
+  id: number
   name: string
   price: number
   discount: number
@@ -17,22 +18,14 @@ interface IProductInOrder {
 }
 
 interface EditCompositMenuProps {
-  //   getEditCompositMenuValues: (values: IProduct[]) => void
   getQuantities: (quantities: number[]) => void
-  isClicked: boolean
-  setIsClicked: (value: boolean) => void
   getTotal: (total: number) => void
+  getProducts: (newProducts: IProductInOrder[]) => void
 }
 
-const EditOrderCompositMenu = ({
-  //   getEditCompositMenuValues,
-  //   getQuantities,
-  //   isClicked,
-  //   setIsClicked,
-  getTotal,
-}: EditCompositMenuProps) => {
+const EditOrderCompositMenu = ({ getQuantities, getTotal, getProducts }: EditCompositMenuProps) => {
   const order = useSelector(selectOrder)
-  const [products, setProducts] = useState<IProductInOrder[]>(order.products)
+  const [products, setProducts] = useState<IProductInOrder[]>([])
   const [quantities, setQuantities] = useState<number[]>([])
 
   useEffect(() => {
@@ -44,9 +37,13 @@ const EditOrderCompositMenu = ({
     setQuantities(counts)
   }, [products])
 
-  //   useEffect(() => {
-  //     getQuantities(quantities)
-  //   }, [getQuantities, quantities])
+  useEffect(() => {
+    getQuantities(quantities)
+  }, [getQuantities, quantities])
+
+  useEffect(() => {
+    getProducts(products)
+  }, [getProducts, products])
 
   const handleQuantityChange = (index: number, value: number) => {
     const newQuantities = [...quantities]
@@ -54,10 +51,10 @@ const EditOrderCompositMenu = ({
     setQuantities(newQuantities)
   }
 
-  //   const handleDeleteGood = (id: string) => {
-  //     const arrayAfterDelete = goods.filter((good: IProduct) => good.id !== id)
-  //     setGoods(arrayAfterDelete)
-  //   }
+  const handleDeleteGood = (id: number) => {
+    const arrayAfterDelete = products.filter((product: IProductInOrder) => product.id !== id)
+    setProducts(arrayAfterDelete)
+  }
 
   const totalSum = products.reduce(
     (sum, product, index) =>
@@ -83,41 +80,46 @@ const EditOrderCompositMenu = ({
           <p className={s.table__header_textCenter}>Всього, грн</p>
         </div>
         <ul className={s.list}>
-          {products.map(
-            (product: IProductInOrder | undefined, index) =>
-              product && (
-                <li key={Math.random()} className={s.list__item}>
-                  <div className={s.list__item_group}>
-                    <img src={product.images[0].url} alt="good" className={s.list__item_img} />
-                    <p className={s.list__item_text}>{product.name}</p>
-                  </div>
-                  <p className={s.list__item_textNumbers}>{order.id}</p>
-                  <input
-                    type="number"
-                    value={quantities[index] || 1}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleQuantityChange(index, Number(e.target.value))
-                    }
-                    className={s.list__item_qty}
-                  />
-                  <p className={s.list__item_textNumbers}>{product.price}</p>
-                  <p className={s.list__item_textNumbers}>{product.discount}</p>
-                  <p className={s.list__item_textNumbers}>
-                    {quantities[index] &&
-                      Number(
-                        (
-                          (Number(product.price) -
-                            Number(product.price) * (Number(product.discount) / 100)) *
-                          Number(quantities[index])
-                        ).toFixed(2)
-                      )}
-                  </p>
-                  <button type="button" className={s.list__item_deleteBtn} onClick={() => {}}>
-                    <TrashIcon />
-                  </button>
-                </li>
-              )
-          )}
+          {products.length !== 0 &&
+            products.map(
+              (product: IProductInOrder | undefined, index) =>
+                product && (
+                  <li key={Math.random()} className={s.list__item}>
+                    <div className={s.list__item_group}>
+                      <img src={product.images[0].url} alt="good" className={s.list__item_img} />
+                      <p className={s.list__item_text}>{product.name}</p>
+                    </div>
+                    <p className={s.list__item_textNumbers}>{product.id}</p>
+                    <input
+                      type="number"
+                      value={quantities[index] || 0}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleQuantityChange(index, Number(e.target.value))
+                      }
+                      className={s.list__item_qty}
+                    />
+                    <p className={s.list__item_textNumbers}>{product.price}</p>
+                    <p className={s.list__item_textNumbers}>{product.discount}</p>
+                    <p className={s.list__item_textNumbers}>
+                      {quantities[index] &&
+                        Number(
+                          (
+                            (Number(product.price) -
+                              Number(product.price) * (Number(product.discount) / 100)) *
+                            Number(quantities[index])
+                          ).toFixed(2)
+                        )}
+                    </p>
+                    <button
+                      type="button"
+                      className={s.list__item_deleteBtn}
+                      onClick={() => handleDeleteGood(product.id)}
+                    >
+                      <TrashIcon />
+                    </button>
+                  </li>
+                )
+            )}
         </ul>
         <div className={s.table__total_wrapper}>
           <p className={s.table__total_text}>Всього товарів: {products.length} шт</p>
