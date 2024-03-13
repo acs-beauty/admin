@@ -5,10 +5,6 @@ export const orderGeneralInfoSchema = Yup.object().shape({
     .required("Обов`язковий")
     .min(3, "Ім'я має складатися не менше ніж з 3 символів")
     .max(30, "Ім'я не може перевищувати 30 символів"),
-  // .matches(
-  //   /^[a-zа-щьюяіїєґ'-]+$/i,
-  //   "Можна використовувати лише українські та латинські літери, знаки пунктуації, цифри та пробіли"
-  // ),
 
   email: Yup.string()
     .matches(
@@ -37,5 +33,5 @@ export const orderGeneralInfoSchema = Yup.object().shape({
 
   status: Yup.string().required("Обов`язковий"),
 
-  ttn: Yup.string().required("Обов`язковий"),
+  ttn: Yup.string(),
 })
