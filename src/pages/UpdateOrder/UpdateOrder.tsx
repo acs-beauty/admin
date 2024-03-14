@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import AdminLayout from "src/layouts/AdminLayout"
 import s from "./UpdateOrder.module.scss"
 import ArrowToLeft from "src/images/svg/ArrowToLeft"
@@ -27,6 +27,7 @@ const UpdateOrder = () => {
 
   const dispatch = useAppDispatch()
   const order = useSelector(selectOrder)
+  const navigate = useNavigate()
 
   const [products, setProducts] = useState<IProductInOrder[]>([])
 
@@ -109,9 +110,12 @@ const UpdateOrder = () => {
   const handleSaveChanges = () => {
     console.log("EDITED", editedOrder)
     if (id) dispatch(patchOrder({ id, values: editedOrder }))
+    navigate("/orders")
   }
 
-  const handleOrderClear = () => {}
+  const handleOrderClear = () => {
+    navigate("/orders")
+  }
 
   return (
     <AdminLayout>

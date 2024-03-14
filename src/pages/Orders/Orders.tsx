@@ -2,7 +2,7 @@ import s from "./Orders.module.scss"
 import AdminLayout from "../../layouts/AdminLayout"
 import SearchInput from "../../components/ToolsPanel/SearchInput/SearchInput"
 import { Table } from "../../components/Table/Table"
-// import ExportButton from "../../components/ToolsPanel/ExportButton/ExportButton"
+import ExportButton from "../../components/ToolsPanel/ExportButton/ExportButton"
 import ChangeOrderStatusPopup from "../../components/Popups/ChangeOrderStatusPopup/ChangeOrderStatusPopup.tsx"
 import { useEffect, useState } from "react"
 import Filter from "../../components/Filter/Filter.tsx"
@@ -135,7 +135,7 @@ const Orders = () => {
             <SearchInput onChange={handleSearchInputChange} />
             <div className={s.tools}>
               <Filter options={OrdersFilterData} />
-              {/* <ExportButton columns={columns} rows={rows} /> */}
+              <ExportButton columns={columns} rows={rows} />
               <Link to="/new-order" className={s.addOrderBtn}>
                 Створити замовлення
               </Link>
