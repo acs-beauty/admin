@@ -5,10 +5,11 @@ import { OrdersColumn, OrdersRow } from "../../../types/IOrders.ts"
 import { IBrand } from "src/types/brands/IBrand.ts"
 import { GridColDef } from "@mui/x-data-grid"
 import { INovelty } from "src/types/news/INovelty.ts"
+import { ISlide } from "src/types/slides/ISlide.ts"
 
 interface Props {
   columns: OrdersColumn[] | GridColDef[]
-  rows: OrdersRow[] | IBrand[] | INovelty[]
+  rows: OrdersRow[] | IBrand[] | INovelty[] | ISlide[]
 }
 
 const ExportButton: React.FC<Props> = ({ columns, rows }) => {

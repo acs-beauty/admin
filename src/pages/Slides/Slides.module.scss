@@ -1,39 +1,36 @@
 @import "/src/styles/mixins.scss";
 @import "/src/styles/variables.scss";
 
-.page_tools {
+.slide {
+  width: 1063px;
+  display: flex;
+  padding: 32px 80px 26px 20px;
+  margin-left: 276px;
+}
+
+.slide__section {
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-.page_tools__title {
+.slide__button {
+  @extend .Violet-button-styles;
+}
+
+.slide__title {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   margin-bottom: 28px;
 }
 
-.page_tools__title_slides {
-  margin-bottom: 12px;
-}
-
-.page_tools__title_text {
+.slide__title_text {
   @include text($font-size: 24px, $font-weight: 500);
 }
 
-.page_tools__button {
-  @extend .Violet-button-styles;
-}
-
-.page_tools__tools_group {
+.tools {
   display: flex;
   justify-content: space-between;
   margin-bottom: 8px;
-}
-
-.page_tools__nosearch {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 24px;
 }
