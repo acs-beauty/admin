@@ -4,10 +4,11 @@ import { GridRowId, DataGrid, GridColDef } from "@mui/x-data-grid"
 
 import { INovelty } from "src/types/news"
 import { IBrand } from "src/types/brands"
+import { ISlide } from "src/types/slides"
 
 interface IProps {
   columns: GridColDef[]
-  rows: INovelty[] | IBrand[]
+  rows: INovelty[] | IBrand[] | ISlide[]
   page: number
   pageSize: number
   setPage: (page: number) => void
